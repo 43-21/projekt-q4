@@ -9,18 +9,18 @@
 | grafik bibliothek mit der man gut klarkommt | grafik bibliotheken existieren und funktionieren aber nicht unbedingt das beste | pygame ist bestimmt toll |
 
 # Aufteilung Simulation
-## ...?
-## Idee
-1-2 aber eigentlich alle
+- ...?
+- Idee\
+1-2 aber eigentlich alle\
 Wie die Umgebung und die Organismen aufgebaut sein sollen. Spielprinzip, quasi.
-## KI
-1-2
+- KI\
+1-2\
 Netzwerk, Gene, Fortpflanzung
-## Leben?
-Fortpflanzung? Wachstum? etc etc
+- Leben?\
+Fortpflanzung? Wachstum? etc etc\
 von Umgebung oder Organismen. z.B. könnten ja irgendwelche Pflanzen wachsen oder so.
-## Grafik
+- Grafik\
 1-2
-## Main
-1
+- Main\
+1\
 alles zusammen
