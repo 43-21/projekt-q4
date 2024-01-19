@@ -3,8 +3,8 @@
 | --- | --- | --- |
 | naja | geht | hässlich |
 | weniger bugs | kaum bugs weil der compiler dich fickt | wahrscheinlich mehr bugs weil dynamic types und so (irgendwie nicht hab halt ein gehirn lol) |
-| kp | schnell | langsam |
-| kennt jeder | evtl schwerer weil ownership | einfacher? |
+| ok | schnell | langsam |
+| kennt jeder | evtl schwerer weil ownership (unbekannt und nicht so easy zu lernen) | einfacher? (und vorallem auch einfach zu lernen und verstehen) |
 | lässt sich bestimmt irgendwie zu ner exe machen | exe einfach as fuck | wahrscheinlich über umwege? |
 | grafik bibliothek mit der man gut klarkommt | grafik bibliotheken existieren und funktionieren aber nicht unbedingt das beste. für uns sollte es aber ausreichen und nicht schlimm sein | pygame ist bestimmt toll |
 
