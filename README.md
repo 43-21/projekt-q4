@@ -15,6 +15,6 @@ von Umgebung oder Organismen. z.B. könnten ja irgendwelche Pflanzen wachsen ode
 1\
 alles zusammen
 
-# Ideen für Integrierung
-- Simple Grafiken (Kreise) erstmal
+# Ideen für Integrierung (22.1.)
+- Simple Grafiken (Kreise/Punkte) erstmal
 - 
