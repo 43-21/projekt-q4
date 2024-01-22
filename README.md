@@ -14,3 +14,7 @@ von Umgebung oder Organismen. z.B. könnten ja irgendwelche Pflanzen wachsen ode
 - Main\
 1\
 alles zusammen
+
+# Ideen für Integrierung
+- Simple Grafiken (Kreise) erstmal
+- 
