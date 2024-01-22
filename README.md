@@ -17,4 +17,7 @@ alles zusammen
 
 # Ideen für Integrierung (22.1.)
 - Simple Grafiken (Kreise/Punkte) erstmal
-- 
+- Realtime
+- Alter und Essen als Hauptfaktoren\
+Ab bestimmten ALter sterben die\
+Für Fortpflanzung bruacht man gewisse Grundwerte\
