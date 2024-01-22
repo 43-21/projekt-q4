@@ -17,4 +17,4 @@ alles zusammen
 
 # Ideen für Integrierung
 - Simple Grafiken (Kreise) erstmal
-- 
+- anton ist dumm
