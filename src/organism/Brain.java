@@ -10,6 +10,8 @@ public class Brain {
     //e^(-dt / tau)
     //mit tau sollten wir noch rumspielen
     final float decay = (float) Math.exp(-1.0 / 50.0);
+    //dieses tau auch wahllos gewählt
+    final float decaySpikeTrace = (float) Math.exp(-1.0 / 100.0);
 
     int t = 0;
 
@@ -36,14 +38,18 @@ public class Brain {
 
                 //stdp presynaptic spike
                 from.preChange += 0.1f;
-                s.weight += from.postChange;
+                s.weight += to.postChange;
             }
+
+            else from.preChange *= decaySpikeTrace;
 
             //stdp postsynaptic spike
             if(to.spike) {
                 to.postChange -= 0.1f;
-                s.weight += to.preChange;
+                s.weight += from.preChange;
             }
+
+            else to.postChange *= decaySpikeTrace;
 
             if(s.weight > 1.0) {
                 s.weight = 1.0f;
