@@ -9,7 +9,9 @@ public class Brain {
     //wär besser wenn die in der main loop berechnet würde, damit man nur einmal rechnet
     //e^(-dt / tau)
     //mit tau sollten wir noch rumspielen
-    final float decay = (float) Math.exp(-1.0 / 150.0);
+    final float decay = (float) Math.exp(-1.0 / 50.0);
+
+    int t = 0;
 
     public Brain(HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
         neurons = n;
@@ -17,6 +19,7 @@ public class Brain {
     }
 
 
+    //sollte eigtl array oÄ mit binären outputs zurückgeben
     public void update() {
         //output: 1 wenn schwelle überschritten, sonst 0
             //idee: auch outputs mit "muskeln" verbinden,
@@ -26,8 +29,28 @@ public class Brain {
         //feuerzeiten müssten ggf gespeichert werden für die synaptische plastizität
 
         for(Synapse s : synapses) {
-            if(neurons.get(s.from).spike) {
-                neurons.get(s.to).potential += s.weight;
+            Neuron from = neurons.get(s.from);
+            Neuron to = neurons.get(s.to);
+            if(from.spike) {
+                to.potential += s.weight;
+
+                //stdp presynaptic spike
+                from.preChange += 0.1f;
+                s.weight += from.postChange;
+            }
+
+            //stdp postsynaptic spike
+            if(to.spike) {
+                to.postChange -= 0.1f;
+                s.weight += to.preChange;
+            }
+
+            if(s.weight > 1.0) {
+                s.weight = 1.0f;
+            }
+
+            else if(s.weight < 0.0) {
+                s.weight = 0.0f;
             }
         }
 
@@ -45,10 +68,13 @@ public class Brain {
 }
 
 class Neuron {
-    public boolean spike = false;
-    public float potential = .0f;
     public float threshold;
     public int index;
+
+    public boolean spike = false;
+    public float potential = .0f;
+    public float preChange = .0f;
+    public float postChange = .0f;
 
     public Neuron(float t, int i) {
         threshold = t;
