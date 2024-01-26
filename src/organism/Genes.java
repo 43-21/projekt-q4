@@ -66,13 +66,13 @@ public class Genes {
         //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
     }
 
-    private void mutateNeuronThresholds() {
+    // private void mutateNeuronThresholds() {
 
-    }
+    // }
 
-    private void mutateSynapseWeightBounds() {
+    // private void mutateSynapseWeightBounds() {
 
-    }
+    // }
 
     public int getColorA() {
         return colorA;
