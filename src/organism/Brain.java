@@ -13,7 +13,8 @@ public class Brain {
     //dieses tau auch wahllos gewählt
     final float decaySpikeTrace = (float) Math.exp(-1.0 / 100.0);
 
-    int t = 0;
+    int inputSize;
+    int outputSize;
 
     public Brain(HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
         neurons = n;
@@ -22,14 +23,13 @@ public class Brain {
 
 
     //sollte eigtl array oÄ mit binären outputs zurückgeben
-    public void update() {
-        //output: 1 wenn schwelle überschritten, sonst 0
-            //idee: auch outputs mit "muskeln" verbinden,
-                //d.h. die stärke der aktion könnte durch lernen verändert werden,
-                //wär aber immernoch konstant
+    public boolean[] update(boolean[] inputs) {
+        //inputs
+        for(int i = 0; i < inputSize; i++) {
+            neurons.get(i).spike = inputs[i];
+        }
 
-        //feuerzeiten müssten ggf gespeichert werden für die synaptische plastizität
-
+        //spiking
         for(Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
@@ -60,6 +60,10 @@ public class Brain {
             }
         }
 
+
+        //outputs & spiking
+        boolean[] outputs = new boolean[outputSize];
+
         for(Neuron n : neurons.values()) {
             n.spike = false;
 
@@ -69,7 +73,13 @@ public class Brain {
             }
             
             n.potential = n.potential * decay;
+
+            if(n.index >= inputSize && n.index < inputSize + outputSize) {
+                outputs[n.index - inputSize] = n.spike;
+            }
         }
+
+        return outputs;
     }
 }
 
