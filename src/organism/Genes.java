@@ -46,10 +46,6 @@ public class Genes {
         if(ran < 0.9) {
             mutateChangeWeights();
         }
-
-        if(ran < 0.5) {
-            mutateNeuronThresholds();
-        }
     }
 
     private void addNeuron() {
