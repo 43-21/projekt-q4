@@ -7,9 +7,9 @@ public class Egg {
     int time = 0;
     boolean fertilised = false;
 
-    public Egg(Genes g, int t) {
-        genes = g;
-        timeToHatch = t;
+    public Egg(Genes genes, int timeToHatch) {
+        this.genes = genes;
+        this.timeToHatch = timeToHatch;
     }
 
     public void fertilise(Genes partner) {
