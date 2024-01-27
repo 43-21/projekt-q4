@@ -6,20 +6,19 @@ public class Organism {
     private Brain brain;
     private Genes genes;
 
-    private int colorA;
-    private int colorB;
+    private boolean colorA = true;
+    private boolean colorB = false;
+    private boolean colorC = false;
 
     private Float position;
     private float rotation;
 
     private float energy;
 
-    public Organism(Float position, Brain brain, Genes genes, int colorA, int colorB) {
+    public Organism(Float position, Brain brain, Genes genes) {
         this.brain = brain;
         this.position = position;
         this.genes = genes;
-        this.colorA = colorA;
-        this.colorB = colorB;
 
         energy = 0.0f;
         rotation = 0.0f;
@@ -30,13 +29,13 @@ public class Organism {
     public void update() {
         //notwendige informationen ermitteln
 
-        // 3 strahle (lang - mittel - kurz) mit 3 neuronen;
+        // 3 strahlen (lang - mittel - kurz) mit 3 neuronen für "farbe";
         // 3 Pheromone
         // = 12 input Neuronen
 
-        
-        //input spikes setzen: 5 * 20 für sicht + 3 für kommunikation
         boolean[] inputs = new boolean[12];
+
+        
         brain.update(inputs);
         //output spikes entnehmen
         //bewegung umsetzen
@@ -47,10 +46,8 @@ public class Organism {
     public Organism reproduce(Organism partner) {
         Genes offspringGenes = genes.recombine(partner.genes);
         Brain offspringBrain = offspringGenes.brain();
-        int offspringColorA = offspringGenes.getColorA();
-        int offspringColorB = offspringGenes.getColorB();
 
-        return new Organism(position, offspringBrain, offspringGenes, offspringColorA, offspringColorB);
+        return new Organism(position, offspringBrain, offspringGenes);
     }
 
     public void setPosition(float x, float y) {
@@ -61,12 +58,16 @@ public class Organism {
         return position;
     }
 
-    public int getColorA() {
+    public boolean getColorA() {
         return colorA;
     }
 
-    public int getColorB() {
+    public boolean getColorB() {
         return colorB;
+    }
+
+    public boolean getColorC() {
+        return colorC;
     }
 
     public float getEnergy() {
