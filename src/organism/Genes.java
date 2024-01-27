@@ -3,11 +3,10 @@ package organism;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import options.Options;
+
 //Gene fürs Gehirn und den Körper des Organismus
 public class Genes {
-    private int colorA;
-    private int colorB;
-
     private HashMap<Integer, NeuronGene> neuronGenes;
     private HashSet<Synapse> synapseGenes;
 
@@ -33,18 +32,18 @@ public class Genes {
     }
 
     public void mutate() {
-        //zufall muss noch reingebracht werden
+        //sollte zu nem switch case gemacht werden
         double ran = Math.random();
-        if(ran < 0.03) {
+        if(ran < Options.addNeuronRate) {
             addNeuron();
         }
 
-        if(ran < 0.05) {
+        if(ran < Options.addSynapseRate) {
             addSynapse();
         }
 
-        if(ran < 0.9) {
-            mutateChangeWeights();
+        if(ran < Options.mutateWeightsRate) {
+            mutateWeights();
         }
     }
 
@@ -58,7 +57,7 @@ public class Genes {
         //zwei unverbundene Neuronen aussuchen und Synapse mit zufälliger Gewichtung hinzufügen
     }
 
-    private void mutateChangeWeights() {
+    private void mutateWeights() {
         //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
     }
 
@@ -69,14 +68,6 @@ public class Genes {
     // private void mutateSynapseWeightBounds() {
 
     // }
-
-    public int getColorA() {
-        return colorA;
-    }
-
-    public int getColorB() {
-        return colorB;
-    }
 }
 
 class NeuronGene {

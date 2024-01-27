@@ -3,13 +3,15 @@ package organism;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import options.Options;
+
 public class Brain {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
     //wär besser wenn die in der main loop berechnet würde, damit man nur einmal rechnet
     //e^(-dt / tau)
     //mit tau sollten wir noch rumspielen
-    final float decay = (float) Math.exp(-1.0 / 50.0);
+    final float decay = Options.decay;
     //dieses tau auch wahllos gewählt
     final float decaySpikeTrace = (float) Math.exp(-1.0 / 100.0);
 
