@@ -7,4 +7,11 @@ public class Options {
     public static float decay = (float) Math.exp(-1.0 / tau);
 
     public static double speed = 1.0;
+
+    public static float initialEnergy = 0.1f;
+    public static float requiredEnergy = 0.0f;
+    public static float desiredEnergy = 1.0f;
+    //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
+    public static float organismEnergy = 0.2f;
+    public static float reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
 }

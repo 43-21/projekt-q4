@@ -17,7 +17,7 @@ public class Organism {
     private Float position;
     private float rotation;
 
-    private float energy;
+    private float energy = Options.initialEnergy;
 
     private int age = 0;
 
@@ -67,11 +67,8 @@ public class Organism {
         energy = energy - (float) (0.75 / (1 + Math.exp(-0.00003 * age)));
     }
 
-    public Organism reproduce(Organism partner) {
-        Genes offspringGenes = genes.recombine(partner.genes);
-        Brain offspringBrain = offspringGenes.brain();
-
-        return new Organism(position, offspringBrain, offspringGenes);
+    public Egg layEgg() {
+        return new Egg(genes, 50);
     }
 
     public void setPosition(float x, float y) {
