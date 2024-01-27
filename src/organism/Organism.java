@@ -2,6 +2,8 @@ package organism;
 
 import java.awt.geom.Point2D.Float;
 
+import options.Options;
+
 public class Organism {
     private Brain brain;
     private Genes genes;
@@ -10,10 +12,14 @@ public class Organism {
     private boolean colorB = false;
     private boolean colorC = false;
 
+    private boolean[] pheromones = new boolean[3];
+
     private Float position;
     private float rotation;
 
     private float energy;
+
+    private int age = 0;
 
     public Organism(Float position, Brain brain, Genes genes) {
         this.brain = brain;
@@ -24,9 +30,9 @@ public class Organism {
         rotation = 0.0f;
     }
 
-    //sollte wohl am besten mal die World als parameter bekommen
-    //dann kann er sich die relevanten informationen selber rausziehen
     public void update() {
+        age++;
+
         //notwendige informationen ermitteln
 
         // 3 strahlen (lang - mittel - kurz) mit 3 neuronen für "farbe";
@@ -36,11 +42,29 @@ public class Organism {
         boolean[] inputs = new boolean[12];
 
         
-        brain.update(inputs);
-        //output spikes entnehmen
-        //bewegung umsetzen
+        boolean[] outputs = brain.update(inputs);
 
+        for(int i = 0; i < 3; i++) {
+            pheromones[i] = outputs[i + 3];
+        }
+
+        // nach vorne - drehen - drehen - 3 pheromone
+        // = 6 output Neuronen
+        
+        if(outputs[0]) {
+            position.x += Math.cos(rotation) * Options.speed;
+            position.y += Math.sin(rotation) * Options.speed;
+        }
+        if(outputs[1]) {
+            rotation += Math.PI / 90.0;
+        }
+        if(outputs[2]) {
+            rotation -= Math.PI / 90.0;
+        }
         rotation = (float) Math.min(2.0 * Math.PI, Math.max(0.0, rotation));
+
+        //energieverbrauch
+        energy = energy - (float) (0.75 / (1 + Math.exp(-0.00003 * age)));
     }
 
     public Organism reproduce(Organism partner) {
