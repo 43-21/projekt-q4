@@ -3,8 +3,9 @@ package organism;
 import java.awt.geom.Point2D.Float;
 
 import options.Options;
+import world.Thing;
 
-public class Organism {
+public class Organism implements Thing {
     private Brain brain;
     private Genes genes;
 
@@ -30,6 +31,7 @@ public class Organism {
         rotation = 0.0f;
     }
 
+    @Override
     public void update() {
         age++;
 
@@ -40,9 +42,9 @@ public class Organism {
         // = 12 input Neuronen
 
         boolean[] inputs = new boolean[12];
-
-        
-        boolean[] outputs = brain.update(inputs);
+        brain.setInputs(inputs);
+        brain.update();
+        boolean[] outputs = brain.getOutputs();
 
         for(int i = 0; i < 3; i++) {
             pheromones[i] = outputs[i + 3];
@@ -63,8 +65,7 @@ public class Organism {
         }
         rotation = (float) Math.min(2.0 * Math.PI, Math.max(0.0, rotation));
 
-        //energieverbrauch
-        energy = energy - (float) (0.75 / (1 + Math.exp(-0.00003 * age)));
+        energy = energy - Options.energyConsumptionAtDeathAge/(float) Options.deathAge * (float) age;
     }
 
     public Egg layEgg() {

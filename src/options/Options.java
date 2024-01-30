@@ -14,4 +14,6 @@ public class Options {
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     public static float organismEnergy = 0.2f;
     public static float reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
+    public static int deathAge = 20000;
+    public static float energyConsumptionAtDeathAge = 0.2f;
 }
