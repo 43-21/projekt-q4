@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import options.Options;
+import world.Thing;
 
-public class Brain {
+public class Brain implements Thing {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
     final float decay = Options.decay;
@@ -13,15 +14,16 @@ public class Brain {
 
     int inputSize;
     int outputSize;
+    boolean[] inputs;
+    boolean[] outputs;
 
     public Brain(HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
         neurons = n;
         synapses = s;
     }
 
-
-    //sollte eigtl array oÄ mit binären outputs zurückgeben
-    public boolean[] update(boolean[] inputs) {
+    @Override
+    public void update() {
         //inputs
         for(int i = 0; i < inputSize; i++) {
             neurons.get(i).spike = inputs[i];
@@ -60,7 +62,7 @@ public class Brain {
 
 
         //outputs & spiking
-        boolean[] outputs = new boolean[outputSize];
+        outputs = new boolean[outputSize];
 
         for(Neuron n : neurons.values()) {
             n.spike = false;
@@ -76,7 +78,13 @@ public class Brain {
                 outputs[n.index - inputSize] = n.spike;
             }
         }
+    }
 
+    public void setInputs(boolean[] inputs) {
+        this.inputs = inputs;
+    }
+
+    public boolean[] getOutputs() {
         return outputs;
     }
 }

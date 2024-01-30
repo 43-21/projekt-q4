@@ -1,6 +1,8 @@
 package organism;
 
-public class Egg {
+import world.Thing;
+
+public class Egg implements Thing {
     Genes genes;
     int timeToHatch;
 
@@ -12,6 +14,11 @@ public class Egg {
         this.timeToHatch = timeToHatch;
     }
 
+    @Override
+    public void update() {
+        if(fertilised) time++;
+    }
+
     public void fertilise(Genes partner) {
         genes = genes.recombine(partner);
         fertilised = true;
@@ -19,9 +26,5 @@ public class Egg {
 
     public boolean canHatch() {
         return time > timeToHatch;
-    }
-
-    public void update() {
-        if(fertilised) time++;
     }
 }
