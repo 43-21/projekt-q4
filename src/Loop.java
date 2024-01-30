@@ -38,11 +38,17 @@ public class Loop implements Runnable {
             rAccumulator += lastRenderTimeInSeconds;
             lastRender = currentTime;
             lastUpdate = currentTime;
+            boolean updated = false;
 
-            while(accumulator >= updateRate || rAccumulator >= frameRate) {
+            while(accumulator >= updateRate || (rAccumulator >= frameRate && updated)) {
                 if(accumulator >= updateRate) {
                     update();
                     accumulator -= updateRate;
+                    updated = true;
+                }
+
+                else {
+                    updated = false;
                 }
 
                 if(rAccumulator >= frameRate) {
