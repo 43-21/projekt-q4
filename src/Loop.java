@@ -1,12 +1,13 @@
 import graphics.Display;
+import options.Options;
 import world.World;
 
 public class Loop implements Runnable {
     private World world;
     private Display display;
 
-    private final double frameRate = 1.0 / 60.0;
-    private final double updateRate = 1.0 / 120.0;
+    private final double frameRate = 1.0 / Options.fps;
+    private final double updateRate = 1.0 / Options.ups;
     private int fps, ups;
 
     private long nextStatTime;
