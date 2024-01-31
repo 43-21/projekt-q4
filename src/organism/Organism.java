@@ -1,6 +1,6 @@
 package organism;
 
-import java.awt.geom.Point2D.Float;
+import java.awt.Point;
 
 import options.Options;
 import world.Thing;
@@ -15,17 +15,17 @@ public class Organism implements Thing {
 
     private boolean[] pheromones = new boolean[3];
 
-    private Float position;
+    private Point position;
     private float rotation;
 
     private float energy = Options.initialEnergy;
 
     private int age = 0;
 
-    public Organism(Float position, Brain brain, Genes genes) {
-        this.brain = brain;
+    public Organism(Point position, Genes genes) {
         this.position = position;
         this.genes = genes;
+        brain = genes.brain();
 
         energy = 0.0f;
         rotation = 0.0f;
@@ -76,7 +76,7 @@ public class Organism implements Thing {
         position.setLocation(x, y);
     }
 
-    public Float getPosition() {
+    public Point getPosition() {
         return position;
     }
 
@@ -94,5 +94,9 @@ public class Organism implements Thing {
 
     public float getEnergy() {
         return energy;
+    }
+
+    public void eat(float energy) {
+        this.energy += energy;
     }
 }
