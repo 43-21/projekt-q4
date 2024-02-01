@@ -55,12 +55,16 @@ abstract class Cords {
 }
 
 class Organism extends Coords {
-
+    public Organism (){
+        generateCords();
+    }
 
 } 
 
 class Egg extends Coords {
-
+    public Egg (){
+        generateCords();
+    }
 }
 
 class Bush extends Coords {
