@@ -45,12 +45,12 @@ abstract class Cords {
         cords.setLocation(xCoordinate, yCoordinate);
     }
 
-    public Pair getCords() {
-        return this.Cords;
+    public Point getCords() {
+        return this.cords;
     }
 
-    public void setCords(float x, float y) {
-        this.Cords = (x, y);
+    public void setCords(int x, int y) {
+        this.cords.setLocation(x, y);
     }
 }
 
