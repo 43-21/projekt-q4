@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Positioned {
-    protected Point position;
+    protected Point position = new Point();
 
     public Point getPosition() {
         return position;

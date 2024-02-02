@@ -2,14 +2,29 @@ package world;
 
 import java.util.ArrayList;
 
+import organism.Egg;
+import organism.Genes;
 import organism.Organism;
 import support.*;
 
 public class World {
     Matrix objects;
     int width, height;
+    public int time = 0;
+
+    public World(int width, int height) {
+        this.width = width;
+        this.height = height;
+
+        Egg egg = new Egg(new Genes(), 9000);
+        egg.setRandomPosition(width, height);
+
+        objects = new Matrix(16, 10, width, height);
+        objects.add(egg);
+    }
 
     public void update() {
+        time++;
         //abfolge:
         //1. inputs ermitteln
         //2. alle updaten, essen, koordinaten etc
@@ -27,6 +42,15 @@ public class World {
             if(o instanceof Dynamic) {
                 ((Dynamic) o).update();
             }
+
+            if(o instanceof Egg) {
+                if(((Egg) o).canHatch()) {
+                    //vorher schlüpfen mit hatch()
+                    objects.remove(o);
+                }
+                o.position.translate(1, 1);
+            }
+
             //spiegelt das vernünftig?
             boolean changedX = true, changedY = true;
             if(o.position.x >= width) {

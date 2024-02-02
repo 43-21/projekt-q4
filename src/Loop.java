@@ -75,7 +75,7 @@ public class Loop implements Runnable {
     }
 
     private void render() {
-        display.render(world.getDrawables());
+        display.render(world);
         fps++;
     }
 }
