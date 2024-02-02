@@ -2,7 +2,6 @@ package world;
 
 import java.util.ArrayList;
 
-import organism.Egg;
 import organism.Organism;
 import support.*;
 
@@ -19,6 +18,8 @@ public class World {
             if(o instanceof Organism) {
                 ArrayList<Positioned> candidates = objects.searchRay(((Organism) o).position, ((Organism) o).getRotation(), 50f);
                 Positioned visible;
+                boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
+                ((Organism) o).setInputs(inputs);
             }   
         }
 

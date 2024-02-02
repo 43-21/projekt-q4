@@ -82,7 +82,7 @@ public class Matrix implements Iterable<Positioned> {
     public ArrayList<Positioned> searchRay(Point position, float angle, float distance) {
         ArrayList<Positioned> list = new ArrayList<>();
 
-        float distanceWalked = 0;
+        //float distanceWalked = 0;
         list.addAll(contents.get(getHorizontalCell(position.x)).get(getVerticalCell(position.y)));
 
         //alle felder, wo der strahl durchgeht, werden zurückgegeben (beachte das der strahl nur distance lang ist)

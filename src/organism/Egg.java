@@ -1,6 +1,5 @@
 package organism;
 
-import java.awt.Point;
 import world.Positioned;
 import world.Dynamic;
 
