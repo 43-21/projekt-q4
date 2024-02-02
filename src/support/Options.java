@@ -17,6 +17,6 @@ public class Options {
     public static int deathAge = 20000;
     public static float energyConsumptionAtDeathAge = 0.2f;
 
-    public static int fps = 30;
+    public static int fps = 60;
     public static int ups = 90;
 }
