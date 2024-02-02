@@ -1,10 +1,5 @@
 package world;
 
-import java.util.*;
-import java.lang.Math;
-import java.awt.Point;
-
-
 import java.util.ArrayList;
 
 import organism.Egg;
@@ -24,7 +19,7 @@ public class World {
             if(o instanceof Organism) {
                 ArrayList<Positioned> candidates = objects.searchRay(((Organism) o).position, ((Organism) o).getRotation(), 50f);
                 Positioned visible;
-            }
+            }   
         }
 
         for(Positioned o : objects) {
