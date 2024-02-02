@@ -1,4 +1,4 @@
-package options;
+package support;
 public class Options {
     public static double addNeuronRate = 0.03;
     public static double addSynapseRate = 0.05;

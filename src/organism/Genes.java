@@ -3,7 +3,7 @@ package organism;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import options.Options;
+import support.Options;
 
 //Gene fürs Gehirn und den Körper des Organismus
 public class Genes {

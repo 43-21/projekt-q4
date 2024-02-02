@@ -1,5 +1,5 @@
 package world;
 
-public interface Thing {
+public interface Dynamic {
     public void update();
 }

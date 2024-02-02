@@ -3,10 +3,9 @@ package organism;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import options.Options;
-import world.Thing;
+import support.Options;
 
-public class Brain implements Thing {
+public class Brain {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
     final float decay = Options.decay;
@@ -22,7 +21,6 @@ public class Brain implements Thing {
         synapses = s;
     }
 
-    @Override
     public void update() {
         //inputs
         for(int i = 0; i < inputSize; i++) {

@@ -2,24 +2,20 @@ package organism;
 
 import java.awt.Point;
 
-import options.Options;
-import world.Thing;
+import support.Options;
+import world.Positioned;
+import world.Dynamic;
 
-public class Organism implements Thing {
+public class Organism extends Positioned implements Dynamic {
     private Brain brain;
     private Genes genes;
 
-    private boolean colorA = true;
-    private boolean colorB = false;
-    private boolean colorC = false;
-
+    private boolean[] colors = {true, false, false};
     private boolean[] pheromones = new boolean[3];
 
-    private Point position;
     private float rotation;
 
     private float energy = Options.initialEnergy;
-
     private int age = 0;
 
     public Organism(Point position, Genes genes) {
@@ -31,7 +27,10 @@ public class Organism implements Thing {
         rotation = 0.0f;
     }
 
-    @Override
+    public void setInputs(boolean[] inputs) {
+        brain.setInputs(inputs);
+    }
+
     public void update() {
         age++;
 
@@ -41,8 +40,6 @@ public class Organism implements Thing {
         // 3 Pheromone
         // = 12 input Neuronen
 
-        boolean[] inputs = new boolean[12];
-        brain.setInputs(inputs);
         brain.update();
         boolean[] outputs = brain.getOutputs();
 
@@ -69,6 +66,7 @@ public class Organism implements Thing {
     }
 
     public Egg layEgg() {
+        energy -= Options.reproductionEnergy;
         return new Egg(genes, 50);
     }
 
@@ -80,16 +78,12 @@ public class Organism implements Thing {
         return position;
     }
 
-    public boolean getColorA() {
-        return colorA;
+    public float getRotation() {
+        return rotation;
     }
 
-    public boolean getColorB() {
-        return colorB;
-    }
-
-    public boolean getColorC() {
-        return colorC;
+    public boolean[] getColors() {
+        return colors;
     }
 
     public float getEnergy() {

@@ -1,5 +1,5 @@
 import graphics.Display;
-import options.Options;
+import support.Options;
 import world.World;
 
 public class Loop implements Runnable {
@@ -75,7 +75,7 @@ public class Loop implements Runnable {
     }
 
     private void render() {
-        display.render(world.getObjects());
+        display.render(world.getDrawables());
         fps++;
     }
 }

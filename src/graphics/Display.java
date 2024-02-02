@@ -1,9 +1,11 @@
 package graphics;
 
-import world.Thing;
+import java.util.ArrayList;
+
+import world.Drawable;
 
 public class Display {
-    public void render(Thing[] objects) {
+    public void render(ArrayList<Drawable> objects) {
         
     }
 }

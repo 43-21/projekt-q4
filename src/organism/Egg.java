@@ -1,14 +1,14 @@
 package organism;
 
-import world.Thing;
 import java.awt.Point;
+import world.Positioned;
+import world.Dynamic;
 
-public class Egg implements Thing {
+public class Egg extends Positioned implements Dynamic {
     Genes genes;
     int timeToHatch;
 
     int time = 0;
-    Point position;
     boolean fertilised = false;
 
     public Egg(Genes genes, int timeToHatch) {
@@ -16,7 +16,6 @@ public class Egg implements Thing {
         this.timeToHatch = timeToHatch;
     }
 
-    @Override
     public void update() {
         if(fertilised) time++;
     }
