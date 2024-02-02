@@ -127,8 +127,8 @@ class MatrixIterator implements Iterator<Positioned> {
     @Override
     public boolean hasNext() {
         if(i >= contents.size()) return false;
-        // if(j >= contents.get(i).size()) return false;
-        // if(k >= contents.get(i).get(j).size()) return false;
+        if(j >= contents.get(i).size()) return false;
+        if(k >= contents.get(i).get(j).size()) return false;
         return true;
     }
 
