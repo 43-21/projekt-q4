@@ -1,5 +1,6 @@
 package world;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import organism.Egg;
@@ -51,35 +52,51 @@ public class World {
                 o.position.translate(1, 1);
             }
 
-            //spiegelt das vernünftig?
-            boolean changedX = true, changedY = true;
-            if(o.position.x >= width) {
-                o.position.x = o.position.x - width;
+            if(o.position.x >= 0 && o.position.x < width && o.position.y >= 0 && o.position.y < height) continue;
+            if(!(o instanceof Organism)) continue;
+
+            Point endOfLine = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation() + Math.PI, width + height);
+            int xA, xB, yA, yB;
+            if(((Organism) o).getRotation() < Math.PI) {
+                xA = 0;
+                xB = width - 1;
+                yA = height - 1;
+                yB = height - 1;
             }
 
-            else if(o.position.x < 0) {
-                o.position.x = width + o.position.x;
+            else {
+                xA = 0;
+                xB = width - 1;
+                yA = 0;
+                yB = 0;
+            }
+            Point a = new Point(xA, yA);
+            Point b = new Point(xB, yB);
+            Point intersectionPoint = Functionality.getIntersectionPoint(a, b, o.position, endOfLine);
+            System.out.println(intersectionPoint);
+            if(intersectionPoint != null) {
+                o.position = intersectionPoint;
+                continue;
+            }
+            
+            if(((Organism) o).getRotation() < Math.PI / 2.0 || ((Organism) o).getRotation() > Math.PI * (3.0 / 2.0)) {
+                xA = width - 1;
+                xB = width - 1;
+                yA = 0;
+                yB = height - 1;
             }
 
-            else changedX = false;
-
-            if(o.position.y >= height) {
-                o.position.y = o.position.y - height;
+            else {
+                xA = 0;
+                xB = 0;
+                yA = 0;
+                yB = height - 1;
             }
-
-            else if(o.position.y < 0) {
-                o.position.y = height + o.position.y;
-            }
-
-            else changedY = false;
-
-            if(changedX && !changedY) {
-                o.position.y = height - o.position.y;
-            }
-
-            else if(changedY && !changedX) {
-                o.position.x = width - o.position.x;
-            }
+            a = new Point(xA, yA);
+            b = new Point(xB, yB);
+            intersectionPoint = Functionality.getIntersectionPoint(a, b, o.position, endOfLine);
+            o.position = intersectionPoint;
+            System.out.println(intersectionPoint);
         }
     }
 
