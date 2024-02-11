@@ -1,14 +1,15 @@
 package organism;
 
+import java.awt.Image;
 import java.awt.Point;
 
 import support.Options;
-import world.Positioned;
-import world.Dynamic;
+import world.*;
 
-public class Organism extends Positioned implements Dynamic {
+public class Organism extends Positioned implements Dynamic, Drawable {
     private Brain brain;
     private Genes genes;
+    private Shape shape;
 
     private boolean[] colors = {true, false, false};
     private boolean[] pheromones = new boolean[3];
@@ -34,21 +35,12 @@ public class Organism extends Positioned implements Dynamic {
     public void update() {
         age++;
 
-        //notwendige informationen ermitteln
-
-        // 3 strahlen (lang - mittel - kurz) mit 3 neuronen für "farbe";
-        // 3 Pheromone
-        // = 12 input Neuronen
-
         brain.update();
         boolean[] outputs = brain.getOutputs();
 
         for(int i = 0; i < 3; i++) {
             pheromones[i] = outputs[i + 3];
         }
-
-        // nach vorne - drehen - drehen - 3 pheromone
-        // = 6 output Neuronen
         
         if(outputs[0]) {
             position.x += Math.cos(rotation) * Options.speed;
@@ -92,5 +84,10 @@ public class Organism extends Positioned implements Dynamic {
 
     public void eat(float energy) {
         this.energy += energy;
+    }
+
+    @Override
+    public Image getSprite() {
+        return shape.getSprite();
     }
 }
