@@ -20,6 +20,8 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private float energy = Options.initialEnergy;
     private int age = 0;
 
+
+    //bessere form und farben
     public Organism(Genes genes) {
         this.position = new Point();
         this.genes = genes;

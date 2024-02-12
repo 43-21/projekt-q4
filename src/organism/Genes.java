@@ -11,12 +11,18 @@ public class Genes {
     private HashSet<Synapse> synapseGenes;
 
     public Genes() {
+        //unverbundenes neuronales netz machen (also nur inputs und outputs)
         neuronGenes = new HashMap<>();
         synapseGenes = new HashSet<>();
     }
 
-    public Genes recombine(Genes partner) {
-        return new Genes();
+    // public Genes recombine(Genes partner) {
+    //     return new Genes();
+    // }
+
+    //neue Gene aus diesem durch Mutation
+    public Genes(Genes oldGenes) {
+
     }
 
     public Brain brain() {
