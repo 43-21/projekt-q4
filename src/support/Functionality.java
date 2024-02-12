@@ -1,5 +1,6 @@
 package support;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 
@@ -27,5 +28,37 @@ public class Functionality {
             startingPoint.x + (length * Math.cos(angle)),
             startingPoint.y + (length * -Math.sin(angle))
         );
+    }
+
+    public static Color getDisplayColorFromEncoding(boolean[] color) {
+        int switchValue = 0;
+        for(int i = 0; i < color.length; i++) {
+            switchValue += color[i] ? 1 << 2 - i : 0;
+        }
+        //1 0 0 = 4 + 0 + 0
+        switch(switchValue) {
+            //000
+            case 0:
+                return Color.WHITE;
+            //001
+            case 1:
+                return Color.GRAY;
+            //010
+            case 2:
+                return Color.RED;
+            //011
+            case 3:
+                return Color.ORANGE;
+            //100
+            case 4:
+                return Color.BLACK;
+            //110
+            case 6:
+                return Color.GREEN;
+
+            //?
+            default:
+                return Color.LIGHT_GRAY;
+        }
     }
 }

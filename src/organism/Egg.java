@@ -21,10 +21,11 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         this.timeToHatch = timeToHatch;
 
         shape = new Shape(10);
-        shape.addSquare(1, 0, Color.BLACK);
-        shape.addSquare(0, 1, Color.CYAN);
-        shape.addSquare(2, 1, Color.CYAN);
-        shape.addSquare(1, 2, Color.BLACK);
+        boolean[] color = {true, true, false};
+        shape.addSquare(1, 0, color);
+        shape.addSquare(0, 1, color);
+        shape.addSquare(2, 1, color);
+        shape.addSquare(1, 2, color);
     }
 
     public void update() {

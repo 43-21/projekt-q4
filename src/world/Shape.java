@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import support.Functionality;
+
 public class Shape implements Drawable {
     // Point centerSquare;
     int scale;
@@ -27,7 +29,7 @@ public class Shape implements Drawable {
         graphics.fillRect(0, 0, width * scale, height * scale);
 
         for(Square square : squares) {
-            graphics.setColor(square.color);
+            graphics.setColor(Functionality.getDisplayColorFromEncoding(square.color));
             graphics.fillRect(square.x * scale, square.y * scale, scale, scale);
         }
 
@@ -36,7 +38,7 @@ public class Shape implements Drawable {
 
     }
 
-    public void addSquare(int x, int y, Color color) {
+    public void addSquare(int x, int y, boolean[] color) {
         squares.add(new Square(x, y, color));
         if(x + 1 > width) width = x + 1;
         if(y + 1 > height) height = y + 1;
@@ -45,9 +47,9 @@ public class Shape implements Drawable {
 
 class Square {
     int x, y;
-    Color color;
+    boolean[] color;
 
-    public Square(int x, int y, Color color) {
+    public Square(int x, int y, boolean[] color) {
         this.x = x;
         this.y = y;
         this.color = color;

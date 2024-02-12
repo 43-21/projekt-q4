@@ -12,7 +12,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private Genes genes;
     private Shape shape;
 
-    private boolean[] colors = {true, false, false};
+    private boolean[] color = {true, false, false};
     private boolean[] pheromones = new boolean[3];
 
     private double rotation;
@@ -27,10 +27,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         brain = genes.brain();
 
         shape = new Shape(15);
-        shape.addSquare(0, 0, Color.MAGENTA);
-        shape.addSquare(0, 1, Color.MAGENTA);
-        shape.addSquare(1, 0, Color.MAGENTA);
-        shape.addSquare(1, 1, Color.MAGENTA);
+        shape.addSquare(0, 0, color);
+        shape.addSquare(0, 1, color);
+        shape.addSquare(1, 0, color);
+        shape.addSquare(1, 1, color);
 
         energy = 0.0f;
         rotation = Math.PI / (4.0) * 3.0;
@@ -77,8 +77,8 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         return rotation;
     }
 
-    public boolean[] getColors() {
-        return colors;
+    public boolean[] getColor() {
+        return color;
     }
 
     public double getEnergy() {
