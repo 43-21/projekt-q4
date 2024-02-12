@@ -21,20 +21,19 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private int age = 0;
 
 
-    //bessere form und farben
     public Organism(Genes genes) {
         this.position = new Point();
         this.genes = genes;
         brain = genes.brain();
 
-        shape = new Shape(30);
-        shape.addSquare(1, 0, Color.BLACK);
-        shape.addSquare(0, 1, Color.RED);
-        shape.addSquare(2, 1, Color.RED);
-        shape.addSquare(1, 2, Color.BLACK);
+        shape = new Shape(15);
+        shape.addSquare(0, 0, Color.MAGENTA);
+        shape.addSquare(0, 1, Color.MAGENTA);
+        shape.addSquare(1, 0, Color.MAGENTA);
+        shape.addSquare(1, 1, Color.MAGENTA);
 
         energy = 0.0f;
-        rotation = (float) (Math.PI / (4.0));
+        rotation = (float) (Math.PI / (4.0) * 3.0);
     }
 
     public void setInputs(boolean[] inputs) {

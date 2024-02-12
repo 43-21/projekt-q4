@@ -16,15 +16,14 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     int time = 0;
     boolean fertilised = true; //false
 
-    //form besser, farben besser
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
         this.timeToHatch = timeToHatch;
 
-        shape = new Shape(50);
+        shape = new Shape(10);
         shape.addSquare(1, 0, Color.BLACK);
-        shape.addSquare(0, 1, Color.RED);
-        shape.addSquare(2, 1, Color.RED);
+        shape.addSquare(0, 1, Color.CYAN);
+        shape.addSquare(2, 1, Color.CYAN);
         shape.addSquare(1, 2, Color.BLACK);
     }
 
