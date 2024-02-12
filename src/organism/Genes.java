@@ -11,7 +11,8 @@ public class Genes {
     private HashSet<Synapse> synapseGenes;
 
     public Genes() {
-        
+        neuronGenes = new HashMap<>();
+        synapseGenes = new HashSet<>();
     }
 
     public Genes recombine(Genes partner) {
@@ -28,7 +29,7 @@ public class Genes {
         }
 
         //sind die synapsen eine kopie (gut) oder eine referenz (schlecht)?
-        return new Brain(neurons, synapses);
+        return new Brain(6, neurons, synapses);
     }
 
     public void mutate() {

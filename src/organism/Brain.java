@@ -16,7 +16,8 @@ public class Brain {
     boolean[] inputs;
     boolean[] outputs;
 
-    public Brain(HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
+    public Brain(int outputSize, HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
+        this.outputSize = outputSize;
         neurons = n;
         synapses = s;
     }

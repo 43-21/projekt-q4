@@ -1,5 +1,6 @@
 package organism;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Point;
 
@@ -19,13 +20,19 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private float energy = Options.initialEnergy;
     private int age = 0;
 
-    public Organism(Point position, Genes genes) {
-        this.position = position;
+    public Organism(Genes genes) {
+        this.position = new Point();
         this.genes = genes;
         brain = genes.brain();
 
+        shape = new Shape(30);
+        shape.addSquare(1, 0, Color.BLACK);
+        shape.addSquare(0, 1, Color.RED);
+        shape.addSquare(2, 1, Color.RED);
+        shape.addSquare(1, 2, Color.BLACK);
+
         energy = 0.0f;
-        rotation = 0.0f;
+        rotation = (float) (Math.PI / (4.0));
     }
 
     public void setInputs(boolean[] inputs) {
@@ -42,9 +49,12 @@ public class Organism extends Positioned implements Dynamic, Drawable {
             pheromones[i] = outputs[i + 3];
         }
         
+        //MÖGLICHST BALD WEGMACHEN
+        outputs[0] = true;
+
         if(outputs[0]) {
             position.x += Math.cos(rotation) * Options.speed;
-            position.y += Math.sin(rotation) * Options.speed;
+            position.y += -Math.sin(rotation) * Options.speed;
         }
         if(outputs[1]) {
             rotation += Math.PI / 90.0;
@@ -60,14 +70,6 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     public Egg layEgg() {
         energy -= Options.reproductionEnergy;
         return new Egg(genes, 50);
-    }
-
-    public void setPosition(float x, float y) {
-        position.setLocation(x, y);
-    }
-
-    public Point getPosition() {
-        return position;
     }
 
     public float getRotation() {

@@ -24,7 +24,7 @@ public class Functionality {
     public static Point getDestinationPoint(Point startingPoint, double angle, double length) {
         return new Point(
             startingPoint.x + (int) (length * Math.cos(angle)),
-            startingPoint.y + (int) (length * Math.sin(angle))
+            startingPoint.y + (int) (length * -Math.sin(angle))
         );
     }
 }

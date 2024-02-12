@@ -3,40 +3,53 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Shape implements Drawable {
-    //oder so...
-    Point[] vertices;
-    Edge[] edges;
-    //mittelpunkt sollte auch mal definiert werden damit man das schön rotieren kann
+    // Point centerSquare;
+    int scale;
+    int width = 0;
+    int height = 0;
+    ArrayList<Square> squares;
 
-    public Shape(int amountOfVertices) {
-
+    public Shape(int scale) {
+        this.scale = scale;
+        squares = new ArrayList<>();
     }
 
     @Override
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(20, 30, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
+        
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, width * scale, height * scale);
 
-        //magie
+        for(Square square : squares) {
+            graphics.setColor(square.color);
+            graphics.fillRect(square.x * scale, square.y * scale, scale, scale);
+        }
 
         graphics.dispose();
         return image;
 
     }
+
+    public void addSquare(int x, int y, Color color) {
+        squares.add(new Square(x, y, color));
+        if(x + 1 > width) width = x + 1;
+        if(y + 1 > height) height = y + 1;
+    }
 }
 
-class Edge {
-    int fromVertex;
-    int toVertex;
+class Square {
+    int x, y;
     Color color;
 
-    public Edge(int from, int to, Color color) {
-        fromVertex = from;
-        toVertex = to;
+    public Square(int x, int y, Color color) {
+        this.x = x;
+        this.y = y;
         this.color = color;
     }
 }

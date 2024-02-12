@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 import world.Drawable;
 import world.Dynamic;
 import world.Positioned;
+import world.Shape;
 
 public class Egg extends Positioned implements Dynamic, Drawable {
+    Shape shape;
     Genes genes;
     int timeToHatch;
 
@@ -19,6 +21,12 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
         this.timeToHatch = timeToHatch;
+
+        shape = new Shape(50);
+        shape.addSquare(1, 0, Color.BLACK);
+        shape.addSquare(0, 1, Color.RED);
+        shape.addSquare(2, 1, Color.RED);
+        shape.addSquare(1, 2, Color.BLACK);
     }
 
     public void update() {
@@ -35,18 +43,19 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     }
 
     public Organism hatch() {
-        return new Organism(position, genes);
+        return new Organism(genes);
     }
 
     @Override
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(20, 30, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = image.createGraphics();
+        // BufferedImage image = new BufferedImage(20, 30, BufferedImage.TYPE_INT_RGB);
+        // Graphics2D graphics = image.createGraphics();
 
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, 20, 30);
+        // graphics.setColor(Color.BLACK);
+        // graphics.fillRect(0, 0, 20, 30);
 
-        graphics.dispose();
-        return image;
+        // graphics.dispose();
+        // return image;
+        return shape.getSprite();
     }
 }
