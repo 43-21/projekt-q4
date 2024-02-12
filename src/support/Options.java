@@ -6,7 +6,7 @@ public class Options {
     public static double tau = 10.0;
     public static float decay = (float) Math.exp(-1.0 / tau);
 
-    public static double speed = 1.0;
+    public static double speed = 2.0;
 
     public static float initialEnergy = 0.1f;
     public static float requiredEnergy = 0.0f;
