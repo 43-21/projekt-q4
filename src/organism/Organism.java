@@ -2,7 +2,7 @@ package organism;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Point;
+import java.awt.geom.Point2D.Double;
 
 import support.Options;
 import world.*;
@@ -15,14 +15,14 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private boolean[] colors = {true, false, false};
     private boolean[] pheromones = new boolean[3];
 
-    private float rotation;
+    private double rotation;
 
-    private float energy = Options.initialEnergy;
+    private double energy = Options.initialEnergy;
     private int age = 0;
 
 
     public Organism(Genes genes) {
-        this.position = new Point();
+        this.position = new Double();
         this.genes = genes;
         brain = genes.brain();
 
@@ -33,7 +33,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.addSquare(1, 1, Color.MAGENTA);
 
         energy = 0.0f;
-        rotation = (float) (Math.PI / (4.0) * 3.0);
+        rotation = Math.PI / (4.0) * 3.0;
     }
 
     public void setInputs(boolean[] inputs) {
@@ -63,9 +63,9 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         if(outputs[2]) {
             rotation -= Math.PI / 90.0;
         }
-        rotation = (float) Math.min(2.0 * Math.PI, Math.max(0.0, rotation));
+        rotation = Math.min(2.0 * Math.PI, Math.max(0.0, rotation));
 
-        energy = energy - Options.energyConsumptionAtDeathAge/(float) Options.deathAge * (float) age;
+        energy = energy - Options.energyConsumptionAtDeathAge/Options.deathAge * (double) age;
     }
 
     public Egg layEgg() {
@@ -73,7 +73,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         return new Egg(genes, 50);
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return rotation;
     }
 
@@ -81,11 +81,11 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         return colors;
     }
 
-    public float getEnergy() {
+    public double getEnergy() {
         return energy;
     }
 
-    public void eat(float energy) {
+    public void eat(double energy) {
         this.energy += energy;
     }
 

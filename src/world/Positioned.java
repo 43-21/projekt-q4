@@ -1,22 +1,22 @@
 package world;
 
-import java.awt.Point;
+import java.awt.geom.Point2D.Double;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Positioned {
-    protected Point position = new Point();
+    protected Double position = new Double();
 
-    public Point getPosition() {
+    public Double getPosition() {
         return position;
     }
 
-    public void setPosition(int x, int y) {
+    public void setPosition(double x, double y) {
         position.setLocation(x, y);
     }
 
     public void setRandomPosition(int width, int height) {
-        int x = ThreadLocalRandom.current().nextInt(width);
-        int y = ThreadLocalRandom.current().nextInt(height);
+        double x = ThreadLocalRandom.current().nextDouble(width);
+        double y = ThreadLocalRandom.current().nextDouble(height);
 
         position.setLocation(x, y);
     }

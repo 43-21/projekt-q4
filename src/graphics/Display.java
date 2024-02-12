@@ -58,8 +58,8 @@ public class Display extends JFrame {
             int posX = 0;
             int posY = 0;
             if(object instanceof Positioned) {
-                posX = ((Positioned) object).getPosition().x;
-                posY = ((Positioned) object).getPosition().y;
+                posX = (int) ((Positioned) object).getPosition().x;
+                posY = (int) ((Positioned) object).getPosition().y;
             }
             graphics.drawImage(
                 object.getSprite(),

@@ -4,18 +4,18 @@ public class Options {
     public static double addSynapseRate = 0.05;
     public static double mutateWeightsRate = 0.9;
     public static double tau = 10.0;
-    public static float decay = (float) Math.exp(-1.0 / tau);
+    public static double decay = Math.exp(-1.0 / tau);
 
-    public static double speed = 2.0;
+    public static double speed = 1.0;
 
-    public static float initialEnergy = 0.1f;
-    public static float requiredEnergy = 0.0f;
-    public static float desiredEnergy = 1.0f;
+    public static double initialEnergy = 0.1;
+    public static double requiredEnergy = 0.0;
+    public static double desiredEnergy = 1.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
-    public static float organismEnergy = 0.2f;
-    public static float reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
+    public static double organismEnergy = 0.2;
+    public static double reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
     public static int deathAge = 20000;
-    public static float energyConsumptionAtDeathAge = 0.2f;
+    public static double energyConsumptionAtDeathAge = 0.2;
 
     public static int fps = 60;
     public static int ups = 90;

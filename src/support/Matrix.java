@@ -1,6 +1,6 @@
 package support;
 
-import java.awt.Point;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -36,8 +36,8 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     public void add(Positioned content) {
-        int x = content.getPosition().x;
-        int y = content.getPosition().y;
+        double x = content.getPosition().x;
+        double y = content.getPosition().y;
         if(x < 0 || x >= width) return;
         if(y < 0 || y >= height) return;
 
@@ -48,8 +48,8 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     public boolean remove(Positioned content) {
-        int x = content.getPosition().x;
-        int y = content.getPosition().y;
+        double x = content.getPosition().x;
+        double y = content.getPosition().y;
         if(x < 0 || x >= width) return false;
         if(y < 0 || y >= height) return false;
 
@@ -59,9 +59,9 @@ public class Matrix implements Iterable<Positioned> {
         return contents.get(horizontalCell).get(verticalCell).remove(content);
     }
 
-    public void update(Point oldPosition, Positioned content) {
-        int x = content.getPosition().x;
-        int y = content.getPosition().y;
+    public void update(Double oldPosition, Positioned content) {
+        double x = content.getPosition().x;
+        double y = content.getPosition().y;
         if(x < 0 || x >= width) return;
         if(y < 0 || y >= height) return;
         if(oldPosition.x < 0 || oldPosition.x >= width) return;
@@ -79,7 +79,7 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     //für sicht erstmal
-    public ArrayList<Positioned> searchRay(Point position, float angle, float distance) {
+    public ArrayList<Positioned> searchRay(Double position, float angle, float distance) {
         ArrayList<Positioned> list = new ArrayList<>();
 
         //float distanceWalked = 0;
@@ -91,12 +91,12 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     //für kollision oÄ
-    public ArrayList<Positioned> searchRect(Point position, int x, int y) {
+    public ArrayList<Positioned> searchRect(Double position, int x, int y) {
         ArrayList<Positioned> list = new ArrayList<>();
 
-        for(int i = position.x - x; x < position.x + x; i += (int) ((float) width / (float) amountOfHorizontalCells)) {
+        for(int i = (int) position.x - x; x < position.x + x; i += (int) ((double) width / (double) amountOfHorizontalCells)) {
             int horizontalCell = getHorizontalCell(i);
-            for(int j = position.y - y; y < position.y + y; j += (int) ((float) width / (float) amountOfVerticalCells)) {
+            for(int j = (int) position.y - y; y < position.y + y; j += (int) ((double) width / (double) amountOfVerticalCells)) {
                 int verticalCell = getVerticalCell(j);
                 list.addAll(contents.get(horizontalCell).get(verticalCell));
             }
@@ -105,12 +105,12 @@ public class Matrix implements Iterable<Positioned> {
         return list;
     }
 
-    private int getHorizontalCell(int x) {
-        return (int) ((double) x / (double) width) * amountOfHorizontalCells;
+    private int getHorizontalCell(double x) {
+        return (int) (x / (double) width) * amountOfHorizontalCells;
     }
 
-    private int getVerticalCell(int y) {
-        return (int) ((double) y / (double) height) * amountOfVerticalCells;
+    private int getVerticalCell(double y) {
+        return (int) (y / (double) height) * amountOfVerticalCells;
     }
 }
 

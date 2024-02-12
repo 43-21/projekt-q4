@@ -78,10 +78,10 @@ public class Genes {
 }
 
 class NeuronGene {
-    public float threshold;
+    public double threshold;
     public int index;
 
-    public NeuronGene(float threshold, int index) {
+    public NeuronGene(double threshold, int index) {
         this.threshold = threshold;
         this.index = index;
     }
