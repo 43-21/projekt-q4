@@ -20,7 +20,7 @@ public class Organism implements Thing {
 
     private float energy = Options.initialEnergy;
 
-    private int age = 0;
+    private int age = 1; // Damit ab dem ersten Moment Energie verbraucht wird
 
     public Organism(Float position, Brain brain, Genes genes) {
         this.brain = brain;

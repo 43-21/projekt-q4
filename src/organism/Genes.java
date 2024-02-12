@@ -45,6 +45,10 @@ public class Genes {
         if(ran < Options.mutateWeightsRate) {
             mutateWeights();
         }
+
+        if(ran < Options.additionalMutationsRate) {
+            mutate();
+        }
     }
 
     private void addNeuron() {

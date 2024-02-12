@@ -3,10 +3,13 @@ public class Options {
     public static double addNeuronRate = 0.03;
     public static double addSynapseRate = 0.05;
     public static double mutateWeightsRate = 0.9;
+    public static double additionalMutationsRate = 0.01;
     public static double tau = 10.0;
     public static float decay = (float) Math.exp(-1.0 / tau);
 
     public static double speed = 1.0;
+
+    public static boolean singleOrganismReproduction = false;
 
     public static float initialEnergy = 0.1f;
     public static float requiredEnergy = 0.0f;

@@ -1,13 +1,14 @@
 package organism;
 
 import world.Thing;
+import options.Options;
 
 public class Egg implements Thing {
     Genes genes;
     int timeToHatch;
 
     int time = 0;
-    boolean fertilised = false;
+    boolean fertilised = Options.singleOrganismReproduction;
 
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
