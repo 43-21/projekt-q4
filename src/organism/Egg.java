@@ -1,6 +1,5 @@
 package organism;
 
-import java.awt.Color;
 import java.awt.Image;
 
 import world.Drawable;

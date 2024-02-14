@@ -17,7 +17,7 @@ public class Genes {
         neuronGenes = new HashMap<>();
         synapseGenes = new HashSet<>();
         for(int i = 0; i < 14; i++){
-            neuronGenes.put(new Integer(i), new NeuronGene(1, i));
+            neuronGenes.put(i, new NeuronGene(1, i));
         }
     }
 
@@ -80,7 +80,7 @@ public class Genes {
             synapseGenes.remove(tempS);
             tempS.to = size;
             synapseGenes.add(tempS);
-            neuronGenes.put(new Integer(neuronGenes.size()), n);
+            neuronGenes.put(neuronGenes.size(), n);
             synapseGenes.add(new Synapse(size, temp, 1));
         }
     }
@@ -99,12 +99,12 @@ public class Genes {
         //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
         double sigma = 0.2;
         Random random = new Random();
-        float mutation = (float) (sigma * random.nextGaussian());
+        double mutation = (sigma * random.nextGaussian());
         mutation = Math.min(Math.max(mutation, -1), 1);
         int rand = (int) Math.floor(random.nextDouble()*synapseGenes.size());
         ArrayList<Synapse> list = new ArrayList<Synapse>(synapseGenes);
         Synapse tempS = list.get(rand);
-        float temp = tempS.weight + mutation;
+        double temp = tempS.weight + mutation;
         synapseGenes.remove(tempS);
         tempS.weight = temp;
         synapseGenes.add(tempS);
@@ -120,10 +120,10 @@ public class Genes {
 }
 
 class NeuronGene {
-    public float threshold;
+    public double threshold;
     public int index;
 
-    public NeuronGene(float threshold, int index) {
+    public NeuronGene(double threshold, int index) {
         this.threshold = threshold;
         this.index = index;
     }
