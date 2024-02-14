@@ -16,13 +16,13 @@ public class World {
         this.width = width;
         this.height = height;
 
-        Egg egg = new Egg(new Genes(), 9000);
+        Egg egg = new Egg(new Genes(8, 6), 9000);
         egg.setRandomPosition(width, height);
 
         objects = new Matrix(16, 10, width, height);
         //objects.add(egg);
 
-        Organism organism = new Organism(new Genes());
+        Organism organism = new Organism(new Genes(8, 6));
         organism.setRandomPosition(width, height);
         objects.add(organism);
     }

@@ -3,7 +3,7 @@ package organism;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import support.Options;
 
@@ -12,12 +12,19 @@ public class Genes {
     private HashMap<Integer, NeuronGene> neuronGenes;
     private HashSet<Synapse> synapseGenes;
 
-    public Genes() {
+    int inputSize;
+    int outputSize;
+
+    public Genes(int inputSize, int outputSize) {
         //unverbundenes neuronales netz machen (also nur inputs und outputs)
+        this.inputSize = inputSize;
+        this.outputSize = outputSize;
+
         neuronGenes = new HashMap<>();
         synapseGenes = new HashSet<>();
-        for(int i = 0; i < 14; i++){
-            neuronGenes.put(i, new NeuronGene(1, i));
+
+        for(int i = 0; i < inputSize + outputSize; i++){
+            neuronGenes.put(i, new NeuronGene(1.0, i));
         }
     }
 
@@ -43,7 +50,6 @@ public class Genes {
             neurons.put(neuron.index, neuron);
         }
 
-        //sind die synapsen eine kopie (gut) oder eine referenz (schlecht)?
         return new Brain(6, neurons, synapses);
     }
 
@@ -67,47 +73,86 @@ public class Genes {
     }
 
     private void addNeuron() {
-        //synapse aussuchen, gewichtung auf 0 setzen
+        //synapse löschen
         //an deren stelle zwei neue machen ins und aus dem neuen neuron
         //gewichtungen: 1 und so wie die alte
         if(!(synapseGenes.isEmpty())) {
-            int rand = (int) Math.floor(Math.random()*synapseGenes.size());
-            int size = neuronGenes.size();
-            NeuronGene n = new NeuronGene(1, size);
-            ArrayList<Synapse> list = new ArrayList<Synapse>(synapseGenes);
-            Synapse tempS = list.get(rand);
-            int temp = tempS.to;
-            synapseGenes.remove(tempS);
-            tempS.to = size;
-            synapseGenes.add(tempS);
-            neuronGenes.put(neuronGenes.size(), n);
-            synapseGenes.add(new Synapse(size, temp, 1));
+            int synapseIndex = ThreadLocalRandom.current().nextInt(synapseGenes.size());
+            int i = 0;
+            int oldFrom = 0;
+            int oldTo = inputSize;
+            double weight = 0.0;
+            for(Synapse s : synapseGenes) {
+                if(i != synapseIndex) {
+                    i++;
+                    break;
+                }
+                oldFrom = s.from;
+                oldTo = s.to;
+                weight = s.weight;
+                synapseGenes.remove(s);
+                break;
+            }
+
+            int neuronIndex = neuronGenes.size();
+            NeuronGene newNeuronGene = new NeuronGene(1.0, neuronIndex);
+
+            synapseGenes.add(new Synapse(oldFrom, neuronIndex, weight));
+            synapseGenes.add(new Synapse(neuronIndex, oldTo, 1.0));
+            neuronGenes.put(neuronGenes.size(), newNeuronGene);
         }
     }
 
     private void addSynapse() {
         //zwei unverbundene Neuronen aussuchen und Synapse mit zufälliger Gewichtung hinzufügen
-        int from = (int) Math.floor(Math.random()*neuronGenes.size());
-        int to = (int) Math.floor(Math.random()*neuronGenes.size());
-        while(from == to){
-            to = (int) Math.floor(Math.random()*neuronGenes.size());
+        ArrayList<int[]> unconnectedNeurons = new ArrayList<>();
+        for(int from : neuronGenes.keySet()) {
+            if(from >= inputSize && from < outputSize) continue; //keine synapsen von output neuronen
+            loop:
+            for(int to : neuronGenes.keySet()) {
+                if(to < inputSize) continue; //keine synapsen zu input neuronen
+                if(from == to) continue;
+                for(Synapse synapse : synapseGenes) {
+                    if(synapse.from == from && synapse.to == to) continue loop;
+                }
+                unconnectedNeurons.add(new int[] {from, to});
+            }
         }
-        synapseGenes.add(new Synapse(from, to, 1));
+
+        if(unconnectedNeurons.size() == 0) return;
+
+        int[] pair = unconnectedNeurons.get((int) Math.floor(Math.random() * unconnectedNeurons.size()));
+        synapseGenes.add(new Synapse(pair[0], pair[1], Math.random() * 2.0 - 1.0));
+
+        // int from = (int) Math.floor(Math.random()*neuronGenes.size());
+        // int to = (int) Math.floor(Math.random()*neuronGenes.size());
+        // while(from == to){
+        //     to = (int) Math.floor(Math.random()*neuronGenes.size());
+        // }
+        // synapseGenes.add(new Synapse(from, to, 1));
     }
 
+    //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
+    //wenn performance probleme, eventuel einfach uniform statt normalverteilt
     private void mutateWeights() {
-        //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
-        double sigma = 0.2;
-        Random random = new Random();
-        double mutation = (sigma * random.nextGaussian());
-        mutation = Math.min(Math.max(mutation, -1), 1);
-        int rand = (int) Math.floor(random.nextDouble()*synapseGenes.size());
-        ArrayList<Synapse> list = new ArrayList<Synapse>(synapseGenes);
-        Synapse tempS = list.get(rand);
-        double temp = tempS.weight + mutation;
-        synapseGenes.remove(tempS);
-        tempS.weight = temp;
-        synapseGenes.add(tempS);
+        double standardDeviation = 0.2;
+        for(Synapse synapse : synapseGenes) {
+            double mutation = ThreadLocalRandom.current().nextGaussian(0.0, standardDeviation);
+            mutation = Math.min(Math.max(mutation, -1.0), 1.0);
+            synapse.weight += mutation;
+        }
+
+        // double sigma = 0.2;
+        // Random random = new Random();
+        // float mutation = (float) (sigma * random.nextGaussian());
+        // mutation = Math.min(Math.max(mutation, -1), 1);
+        // int rand = (int) Math.floor(random.nextDouble()*synapseGenes.size());
+        // ArrayList<Synapse> list = new ArrayList<Synapse>(synapseGenes);
+        // Synapse tempS = list.get(rand);
+        // float temp = tempS.weight + mutation;
+        // synapseGenes.remove(tempS);
+        // tempS.weight = temp;
+        // synapseGenes.add(tempS);
     }
 
     // private void mutateNeuronThresholds() {
