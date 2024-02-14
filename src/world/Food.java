@@ -13,7 +13,7 @@ public class Food extends Positioned {
 
         for(int i=amount; i>0; i--) {
             Food food = new Food();
-            food.setRandomPosition(World.width, World.height)
+            food.setRandomPosition(World.width, World.height);
             list.add(food);
         }
     }

@@ -3,6 +3,8 @@ public class Options {
     public static double addNeuronRate = 0.03;
     public static double addSynapseRate = 0.05;
     public static double mutateWeightsRate = 0.9;
+    public static double multipleMutationsRate = 0.005;
+    public static int mutationsOnReproduction = 2;
     public static double tau = 10.0;
     public static double decay = Math.exp(-1.0 / tau);
 

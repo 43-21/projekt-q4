@@ -8,8 +8,8 @@ import support.Options;
 public class Brain {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
-    final double decay = Options.decay;
-    final double decaySpikeTrace = Math.exp(-1.0 / 100.0);
+    final float decay = (float) Options.decay;
+    final float decaySpikeTrace = (float) Math.exp(-1.0 / 100.0);
 
     int inputSize;
     int outputSize;
@@ -89,15 +89,15 @@ public class Brain {
 }
 
 class Neuron {
-    public double threshold;
+    public float threshold;
     public int index;
 
     public boolean spike = false;
-    public double potential = .0f;
-    public double preChange = .0f;
-    public double postChange = .0f;
+    public float potential = .0f;
+    public float preChange = .0f;
+    public float postChange = .0f;
 
-    public Neuron(double t, int i) {
+    public Neuron(float t, int i) {
         threshold = t;
         index = i;
     }
@@ -106,9 +106,9 @@ class Neuron {
 class Synapse {
     public int from;
     public int to;
-    public double weight;
+    public float weight;
 
-    public Synapse(int f, int t, double w) {
+    public Synapse(int f, int t, float w) {
         from = f;
         to = t;
         weight = w;
