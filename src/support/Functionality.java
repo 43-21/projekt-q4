@@ -10,6 +10,7 @@ public class Functionality {
     }
 
     //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
+    //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
         double r = ((double) ((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y))) / (double) denominator;
