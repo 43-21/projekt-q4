@@ -80,14 +80,32 @@ public class Matrix implements Iterable<Positioned> {
 
     //für sicht erstmal
     public ArrayList<Positioned> searchRay(Double position, float angle, float distance) {
-        ArrayList<Positioned> list = new ArrayList<>();
+        int horizontal = getHorizontalCell(position.x);
+        int vertical = getVerticalCell(position.y);
+        ArrayList<Positioned> relevant = new ArrayList<>();
 
-        //float distanceWalked = 0;
-        list.addAll(contents.get(getHorizontalCell(position.x)).get(getVerticalCell(position.y)));
+        double distanceWalkedX = 0;
+        while(distanceWalkedX < distance || horizontal < 0 || horizontal >= amountOfHorizontalCells) {
+            double distanceWalkedY = 0;
+            while(distanceWalkedY < distance || vertical < 0 || vertical >= amountOfVerticalCells) {
+                relevant.addAll(contents.get(horizontal).get(vertical));
+                if(angle < Math.PI) vertical--;
+                else vertical++;
+                distanceWalkedY += (double) width / (double) amountOfVerticalCells;
+            }
 
-        //alle felder, wo der strahl durchgeht, werden zurückgegeben (beachte das der strahl nur distance lang ist)
+            if(angle < Math.PI / 2.0 && angle > Math.PI / 2.0 * 3.0) horizontal++;
+            else horizontal--;
+            distanceWalkedX += (double) width / (double) amountOfHorizontalCells;
+        }
 
-        return list;
+        ArrayList<Positioned> inRay = new ArrayList<>();
+
+        for(Positioned p : relevant) {
+            //if(Functionality.getIntersectionPoint(position, position, position, position))
+        }
+
+        return inRay;
     }
 
     //für kollision oÄ

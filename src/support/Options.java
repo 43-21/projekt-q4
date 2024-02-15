@@ -22,4 +22,7 @@ public class Options {
 
     public static int fps = 60;
     public static int ups = 90;
+
+    public static int width = 1900;
+    public static int height = 1200;
 }

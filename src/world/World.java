@@ -39,7 +39,7 @@ public class World {
                 // Positioned visible;
                 boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
                 ((Organism) o).setInputs(inputs);
-            }   
+            }
         }
 
         for(Positioned o : objects) {
@@ -52,6 +52,10 @@ public class World {
                     objects.add(((Egg) o).hatch());
                     objects.remove(o);
                 }
+            }
+
+            if(o instanceof Organism) {
+                //energie
             }
 
             if(o.position.x < 0) o.position.x = 0;
