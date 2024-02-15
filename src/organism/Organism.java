@@ -51,6 +51,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         
         //MÖGLICHST BALD WEGMACHEN
         outputs[0] = true;
+        outputs[1] = true;
 
         if(outputs[0]) {
             position.x += Math.cos(rotation) * Options.speed;
@@ -62,7 +63,14 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         if(outputs[2]) {
             rotation -= Math.PI / 90.0;
         }
-        rotation = Math.min(2.0 * Math.PI, Math.max(0.0, rotation));
+        
+        if(rotation < 0.0) {
+            rotation = 2.0 * Math.PI - rotation;
+        }
+
+        else if(rotation >= Math.PI * 2.0) {
+            rotation = rotation - Math.PI * 2.0;
+        }
 
         energy = energy - Options.energyConsumptionAtDeathAge/Options.deathAge * (double) age;
     }

@@ -15,7 +15,8 @@ public class Options {
     public static double desiredEnergy = 1.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     public static double organismEnergy = 0.2;
-    public static double reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
+    public static double reproductionEnergy = initialEnergy + organismEnergy;
+    public static double reproductionThreshold = desiredEnergy + initialEnergy + organismEnergy;
     public static int deathAge = 20000;
     public static double energyConsumptionAtDeathAge = 0.2;
 
