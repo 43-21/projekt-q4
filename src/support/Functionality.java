@@ -9,8 +9,7 @@ public class Functionality {
         return p1.distance(p2);
     }
 
-    //a und b für die linie
-    //c und d für den strahl
+    //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
         double r = ((double) ((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y))) / (double) denominator;
@@ -23,11 +22,30 @@ public class Functionality {
         );
     }
 
+    //true wenn Punkt point auf Strecke AB ist, sonst false
+    public static boolean pointIsOnLine(Double a, Double b, Double point) {
+        double angle = getAngle(a, b) + Math.PI / 2.0;
+        Double d = getDestinationPoint(point, angle, 10.0);
+        Double intersection = getIntersectionPoint(a, b, point, d);
+        System.out.println(intersection);
+        return intersection != null;
+    }
+
     public static Double getDestinationPoint(Double startingPoint, double angle, double length) {
         return new Double(
             startingPoint.x + (length * Math.cos(angle)),
             startingPoint.y + (length * -Math.sin(angle))
         );
+    }
+
+    public static double getAngle(Double a, Double b) {
+        double x = b.x - a.x;
+        double y = b.y - a.y;
+        double scalar = x + y;
+        double length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double angle = Math.acos(scalar / length);
+
+        return angle;
     }
 
     public static Color getDisplayColorFromEncoding(boolean[] color) {
