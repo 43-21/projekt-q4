@@ -102,7 +102,7 @@ public class Matrix implements Iterable<Positioned> {
         ArrayList<Positioned> inRay = new ArrayList<>();
 
         for(Positioned p : relevant) {
-            //if(Functionality.getIntersectionPoint(position, position, position, position))
+            //schauen was sich schneidet
         }
 
         return inRay;

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.omg.PortableServer.ThreadPolicyOperations;
-
 import support.Options;
 
 //Gene fürs Gehirn und den Körper des Organismus

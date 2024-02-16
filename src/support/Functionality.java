@@ -14,13 +14,13 @@ public class Functionality {
     public static Double getIntersectionPointIntern(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
         double r = ((double) ((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y))) / (double) denominator;
-        if(r < 0) return null;
+        if(r < 0 || r > 1) return null;
         double s = ((double) ((a.x - c.x) * (d.y - c.y) - (d.x - c.x) * (a.y - c.y))) / (double) denominator;
         if(s < 0 || s > 1) return null;
         return new Double(
             (s * (b.x - a.x) + a.x),
             (s * (b.y - a.y) + a.y)
-        ); //neu schreiben 
+        ); //neu schreiben
     }
 
     public static boolean areVectorsLinearlyDependent(double[] vector1, double[] vector2) {
@@ -63,11 +63,13 @@ public class Functionality {
 
     //true wenn Punkt point auf Strecke AB ist, sonst false
     public static boolean pointIsOnLine(Double a, Double b, Double point) {
-        double angle = getAngle(a, b) + Math.PI / 2.0;
-        Double d = getDestinationPoint(point, angle, 10.0);
-        Double intersection = getIntersectionPoint(a, b, point, d);
-        System.out.println(intersection);
-        return intersection != null;
+        double angle1 = getAngle(a, b) + Math.PI / 2.0;
+        double angle2 = getAngle(a, b) - Math.PI / 2.0;
+        Double d1 = getDestinationPoint(point, angle1, 10.0);
+        Double d2 = getDestinationPoint(point, angle2, 10.0);
+        Double intersection1 = getIntersectionPoint(a, b, point, d1).getFirst();
+        Double intersection2 = getIntersectionPoint(a, b, point, d2).getFirst();
+        return intersection1 != null && intersection2 != null;
     }
 
     public static Double getDestinationPoint(Double startingPoint, double angle, double length) {

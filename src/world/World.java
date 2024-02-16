@@ -35,8 +35,22 @@ public class World {
 
         for(Positioned o : objects) {
             if(o instanceof Organism) {
-                // ArrayList<Positioned> candidates = objects.searchRay(((Organism) o).position, ((Organism) o).getRotation(), 50f);
-                // Positioned visible;
+                // alle möglicherweise relevanten objekte bestimmen (also alles was in den matrix feldern ist wo der strahl ist)
+                // davon alle strecken mit farbe vom rechteck bestimmen (gerne auch nur die relevanten wenn es schnell geht)
+                // davon alle strecken die sich mit dem strahl schneiden bestimmen
+                // (später sollte man auch rotationen berücksichtigen ist aber jetzt noch nicht so wichtig
+                //  weil wir es ja eh noch nicht so anzeigen)
+                // am ende braucht man farben mitsamt irgendwas um das nächste zu bestimmen
+                // also skalierender faktor oder punkt oder was auch immer
+                // damit die farbe vom nächsten rechteck quasi bestimmen. allerdings braucht man auch die
+                // tatsächliche entfernung davon dann, damit man die dem organismus geben kann
+
+                // evtl hilfreiche methoden:
+                    // Matrix.searchRay - soll alle Objekte die den Strahl schneiden zurückgeben
+                        // bis jetzt gibt er aber nur alle möglicherweise relevanten Objekte zurück
+                        // also kannst du die ja anpassen wie es dir passt.
+                    // und alles aus Functionality, musst halt schauen ob es funktioniert
+                // außerdem solltest du mit Shape arbeiten da dort die rechtecke gespeichert sind
                 boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
                 ((Organism) o).setInputs(inputs);
             }
