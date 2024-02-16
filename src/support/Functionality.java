@@ -11,7 +11,7 @@ public class Functionality {
 
     //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
     //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
-    public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
+    public static Double getIntersectionPointIntern(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
         double r = ((double) ((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y))) / (double) denominator;
         if(r < 0) return null;
@@ -20,8 +20,46 @@ public class Functionality {
         return new Double(
             (s * (b.x - a.x) + a.x),
             (s * (b.y - a.y) + a.y)
-        );
+        ); //neu schreiben 
     }
+
+    public static boolean areVectorsLinearlyDependent(double[] vector1, double[] vector2) {
+        // Überprüfen, ob die Determinante der Matrix gleich 0 ist
+        // | x1 y1 |
+        // | x2 y2 |
+        double determinant = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+
+        return determinant == 0;
+    }
+
+    static class DoubleBoolTuple {
+        private Double first;
+        private boolean second;
+    
+        public DoubleBoolTuple(Double first, boolean second) {
+            this.first = first;
+            this.second = second;
+        }
+    
+        public Double getFirst() {
+            return first;
+        }
+    
+        public boolean getSecond() {
+            return second;
+        }
+    }
+
+    public static DoubleBoolTuple getIntersectionPoint(Double a, Double b, Double c, Double d) {
+        double[] vector1 = {(b.x - a.x), (b.y - a.y)};
+        double[] vector2 = {(d.x - c.x), (d.y - c.y)};
+        if(!areVectorsLinearlyDependent(vector1, vector2)){
+            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), false);
+        } else {
+            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), true);
+        }
+    }
+    
 
     //true wenn Punkt point auf Strecke AB ist, sonst false
     public static boolean pointIsOnLine(Double a, Double b, Double point) {

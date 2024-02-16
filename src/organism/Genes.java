@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.omg.PortableServer.ThreadPolicyOperations;
+
 import support.Options;
 
 //Gene fürs Gehirn und den Körper des Organismus
@@ -25,6 +27,9 @@ public class Genes {
 
         for(int i = 0; i < inputSize + outputSize; i++){
             neuronGenes.put(i, new NeuronGene(1.0, i));
+        }
+        for(int i = 0; i < Options.startingSynapses; i++){
+            addSynapse();
         }
     }
 
@@ -55,19 +60,22 @@ public class Genes {
 
     public void mutate() {
         //sollte zu nem switch case gemacht werden
-        double ran = Math.random();
-        if(ran < Options.addNeuronRate) {
+        double[] ran = new double[Options.numberOfPossibleMutations];
+        for(int i = 0; i < Options.numberOfPossibleMutations; i++){
+            ran[i] = ThreadLocalRandom.current().nextDouble();
+        }
+        if(ran[0] < Options.addNeuronRate) {
             addNeuron();
         }
 
-        if(ran < Options.addSynapseRate) {
+        if(ran[1] < Options.addSynapseRate) {
             addSynapse();
         }
 
-        if(ran < Options.mutateWeightsRate) {
+        if(ran[2] < Options.mutateWeightsRate) {
             mutateWeights();
         }
-        if(ran < Options.multipleMutationsRate) {
+        if(ran[3] < Options.multipleMutationsRate) {
             mutate();
         }
     }
@@ -137,7 +145,7 @@ public class Genes {
     private void mutateWeights() {
         double standardDeviation = 0.2;
         for(Synapse synapse : synapseGenes) {
-            double mutation = ThreadLocalRandom.current().nextGaussian(0.0, standardDeviation);
+            double mutation = ThreadLocalRandom.current().nextGaussian()*standardDeviation;
             mutation = Math.min(Math.max(mutation, -1.0), 1.0);
             synapse.weight += mutation;
         }
