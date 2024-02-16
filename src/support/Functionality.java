@@ -59,7 +59,17 @@ public class Functionality {
             return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), true);
         }
     }
-    
+
+    public static boolean checkForCollision(Double point1, double radius1, Double point2, double radius2) {
+        boolean horizontalCollision = false;
+        boolean verticalCollision = false;
+        if(point1.x <= point2.x && point1.x + radius1 + radius2 >= point2.x) horizontalCollision = true;
+        else if(point1.x >= point2.x && point1.x - radius1 - radius2 <= point2.x) horizontalCollision = true;
+        if(point1.y <= point2.y && point1.y + radius1 + radius2 >= point2.y) verticalCollision = true;
+        else if(point1.y >= point2.y && point1.y - radius1 - radius2 <= point2.y) verticalCollision = true;
+
+        return horizontalCollision && verticalCollision;
+    }
 
     //true wenn Punkt point auf Strecke AB ist, sonst false
     public static boolean pointIsOnLine(Double a, Double b, Double point) {
