@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import support.Functionality;
 
 public class Shape implements Drawable {
-    // Point centerSquare;
+    public static int CORNER = 0;
+    public static int CENTER = 1;
+
+    Square centerSquare = null;
+    int centerPositionKind = CORNER;
     int scale;
     int width = 0;
     int height = 0;
@@ -43,11 +48,33 @@ public class Shape implements Drawable {
         if(x + 1 > width) width = x + 1;
         if(y + 1 > height) height = y + 1;
     }
+
+    public void setCenter(int x, int y) {
+        for(Square s : squares) {
+            if(s.x != x || s.y != y) continue;
+            centerSquare = s;
+            break;
+        }
+    }
+
+    public void setPositionKind(int positionKind) {
+        centerPositionKind = positionKind;
+    }
+
+    public Double getRelativePosition() {
+        if(centerSquare == null) return new Double();
+        Double position = new Double(centerSquare.x, centerSquare.y);
+        if(centerPositionKind == CENTER) {
+            int translation = scale + 2 / 1;
+            position.setLocation(position.x - translation, position.y - translation);
+        }
+        return position;
+    }
 }
 
 class Square {
     int x, y;
-    boolean[] color;
+    boolean[] color;    
 
     public Square(int x, int y, boolean[] color) {
         this.x = x;

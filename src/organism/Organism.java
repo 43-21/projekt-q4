@@ -30,9 +30,11 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.addSquare(0, 1, color);
         shape.addSquare(1, 0, color);
         shape.addSquare(1, 1, color);
+        shape.setCenter(1, 1);
+        shape.setPositionKind(Shape.CORNER);
 
         energy = 0.0f;
-        rotation = Math.PI / (4.0) * 3.0;
+        rotation = Math.PI / 2.0; //Math.PI / (4.0) * 3.0;
     }
 
     public void setInputs(boolean[] inputs) {
