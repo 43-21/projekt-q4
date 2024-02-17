@@ -8,8 +8,9 @@ import world.Drawable;
 import world.Dynamic;
 import world.Positioned;
 import world.Shape;
+import world.WithShape;
 
-public class Egg extends Positioned implements Dynamic, Drawable {
+public class Egg extends Positioned implements Dynamic, Drawable, WithShape {
     Shape shape;
     Genes genes;
     int timeToHatch;
@@ -43,19 +44,13 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     }
 
     public Organism hatch() {
-        return new Organism(genes);
+        Organism organism = new Organism(genes);
+        organism.setPosition(position.x, position.y);
+        return organism;
     }
 
     @Override
     public Image getSprite() {
-        // BufferedImage image = new BufferedImage(20, 30, BufferedImage.TYPE_INT_RGB);
-        // Graphics2D graphics = image.createGraphics();
-
-        // graphics.setColor(Color.BLACK);
-        // graphics.fillRect(0, 0, 20, 30);
-
-        // graphics.dispose();
-        // return image;
         return shape.getSprite();
     }
 
@@ -65,5 +60,10 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         double x = position.x + translation.x;
         double y = position.y + translation.y;
 
-        return new Point((int) x, (int) y);    }
+        return new Point((int) x, (int) y);
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
 }

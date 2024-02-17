@@ -7,7 +7,7 @@ import java.awt.geom.Point2D.Double;
 import support.Options;
 import world.*;
 
-public class Organism extends Positioned implements Dynamic, Drawable {
+public class Organism extends Positioned implements Dynamic, Drawable, WithShape {
     private Brain brain;
     private Genes genes;
     private Shape shape;
@@ -41,8 +41,6 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     }
 
     public void update() {
-        age++;
-
         brain.update();
         boolean[] outputs = brain.getOutputs();
 
@@ -74,11 +72,14 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         }
 
         energy = energy - Options.energyConsumptionAtDeathAge/Options.deathAge * (double) age;
+        age++;
     }
 
     public Egg layEgg() {
         energy -= Options.reproductionEnergy;
-        return new Egg(genes, 50);
+        Egg egg = new Egg(genes, 200);
+        egg.setPosition(position.x, position.y);
+        return egg;
     }
 
     public double getRotation() {
@@ -109,5 +110,9 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         double y = position.y + translation.y;
 
         return new Point((int) x, (int) y);
+    }
+
+    public Shape getShape() {
+        return shape;
     }
 }

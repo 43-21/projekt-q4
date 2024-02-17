@@ -97,7 +97,7 @@ public class Food implements Dynamic, Drawable {
 
     public double removeEnergy(int index) {
         food.remove(index);
-        return 0.2;
+        return 2.0;
     }
 
     public Image getSprite() {

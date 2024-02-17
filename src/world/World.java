@@ -18,9 +18,9 @@ public class World {
         this.width = width;
         this.height = height;
 
-        this.food = new Food(150, 0);
+        this.food = new Food(75, 0);
 
-        Egg egg = new Egg(new Genes(8, 6), 9000);
+        Egg egg = new Egg(new Genes(8, 6), 200);
         egg.setRandomPosition(width, height);
 
         objects = new Matrix(16, 10, width, height);
@@ -92,6 +92,11 @@ public class World {
 
                 if(((Organism) o).getEnergy() < Options.requiredEnergy) {
                     objects.remove(o);
+                }
+
+                else if(((Organism) o).getEnergy() >= Options.reproductionEnergy) {
+                    Egg child = ((Organism)o).layEgg();
+                    objects.add(child);
                 }
             }
         }
