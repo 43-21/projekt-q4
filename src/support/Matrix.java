@@ -1,11 +1,13 @@
 package support;
 
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import world.Positioned;
 import world.Shape;
+import world.Square;
 
 public class Matrix implements Iterable<Positioned> {
     int amountOfHorizontalCells;
@@ -210,21 +212,34 @@ public class Matrix implements Iterable<Positioned> {
             }
         }
 
-        PositionDistanceTuple currentInRay;
+        PositionDistanceTuple currentInRay = null;
         //schauen was sich schneidet
         for(PositionDistanceTuple p : relevant) {
-            for(Square s : p.getInSquare().getShape().getSquares()){
-                for(int i = 0; i < 4; i++){
-                    if(getIntersectionPoint(s.getLines(1)[i][0], s.getLines(1)[i][1], position, destination).getDouble() != null){
+            Shape shape = p.getInSquare().getShape();
+
+            for(Square s : shape.getSquares()) {
+                Point[][] lines = s.getLines(shape.getScale());
+                for(int i = 0; i < 4; i++) {
+                    int xa = lines[i][0].x;
+                    int ya = lines[i][0].y;
+                    int xb = lines[i][1].x;
+                    int yb = lines[i][1].y;
+                    Double a = new Double(xa, ya);
+                    Double b = new Double(xb, yb);
+                    if(Functionality.getIntersectionPoint(a, b, position, destination).getDouble() != null){
+                        if(currentInRay == null) {
+                            currentInRay = p;
+                            continue;
+                        }
                         if(p.getDistance() < currentInRay.getDistance()){
                             currentInRay = p;
-                            break;
+                            continue;
                         }
                     }
                 }
             }
         }
-
+        if(currentInRay == null) return null;
         return currentInRay.getInSquare();
     }
 
