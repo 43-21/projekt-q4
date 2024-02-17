@@ -3,6 +3,7 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
@@ -79,5 +80,13 @@ class Square {
         this.x = x;
         this.y = y;
         this.color = color;
+    }
+
+    public boolean[] getColor() {
+        return color;
+    }
+
+    public Point getPosition() {
+        return new Point(x, y);
     }
 }
