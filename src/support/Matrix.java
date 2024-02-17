@@ -100,7 +100,7 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     //für sicht erstmal
-    public Positioned searchRay(Double position, float angle, float distance) {
+    public Positioned searchRay(Double position, double angle, double distance) {
         ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
         double distanceCounterXY = 0;
         double distanceCounter = 0;
@@ -168,8 +168,8 @@ public class Matrix implements Iterable<Positioned> {
                 } else{
                     distanceCounter += Math.sqrt(2.0);
                 }
-                horizontalBoundsCounter += 1.0*angleCaseSwitch;
-                verticalBoundsCounter += 1.0*angleCaseSwitchSpecialCase;
+                horizontalBoundsCounter += angleCaseSwitch;
+                verticalBoundsCounter += angleCaseSwitchSpecialCase;
                 for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
                     relevant.add(new PositionDistanceTuple(i, distanceCounter));
                 }

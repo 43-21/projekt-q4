@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 
 public class Functionality {
-    public static double distance(Point p1, Point p2) {
+    public static double distance(Double p1, Double p2) {
         return p1.distance(p2);
     }
 

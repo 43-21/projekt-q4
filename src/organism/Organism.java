@@ -43,15 +43,12 @@ public class Organism extends Positioned implements Dynamic, Drawable, WithShape
     public void update() {
         brain.update();
         boolean[] outputs = brain.getOutputs();
+        System.out.println(outputs);
 
         for(int i = 0; i < 3; i++) {
             pheromones[i] = outputs[i + 3];
         }
         
-        //MÖGLICHST BALD WEGMACHEN
-        outputs[0] = true;
-        //outputs[1] = true;
-
         if(outputs[0]) {
             position.x += Math.cos(rotation) * Options.speed;
             position.y += -Math.sin(rotation) * Options.speed;

@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -64,6 +66,16 @@ public class Display extends JFrame {
 
             if(object instanceof Positioned) {
                 graphics.drawString(String.valueOf((int) ((Positioned) object).getPosition().x) + " " + String.valueOf((int) ((Positioned) object).getPosition().y), 10, 20);
+            }
+
+            if(object instanceof organism.Organism) {
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.HALF_UP);
+                graphics.drawString(df.format(((organism.Organism) object).getEnergy()), 10, 40);
+            }
+
+            if(object instanceof world.Food) {
+                graphics.drawString("" + ((world.Food) object).getAmountOfFood(), 10, 50);
             }
         }
 
