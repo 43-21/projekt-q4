@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import support.Functionality;
 
-public class Shape implements Drawable {
+public class Shape {
     public static int CORNER = 0;
     public static int CENTER = 1;
 
@@ -25,7 +25,6 @@ public class Shape implements Drawable {
         squares = new ArrayList<>();
     }
 
-    @Override
     public Image getSprite() {
         BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
@@ -63,10 +62,10 @@ public class Shape implements Drawable {
 
     public Double getRelativePosition() {
         if(centerSquare == null) return new Double();
-        Double position = new Double(centerSquare.x, centerSquare.y);
+        Double position = new Double(-centerSquare.x * scale, -centerSquare.y * scale);
         if(centerPositionKind == CENTER) {
-            int translation = scale + 2 / 1;
-            position.setLocation(position.x - translation, position.y - translation);
+            int translation = -scale / 2 + 1;
+            position.setLocation(position.x + translation, position.y + translation);
         }
         return position;
     }

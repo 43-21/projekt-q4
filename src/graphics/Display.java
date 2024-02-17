@@ -55,19 +55,16 @@ public class Display extends JFrame {
         graphics.setColor(Color.BLACK);
 
         for(Drawable object : objects) {
-            int posX = 0;
-            int posY = 0;
-            if(object instanceof Positioned) {
-                posX = (int) ((Positioned) object).getPosition().x;
-                posY = (int) ((Positioned) object).getPosition().y;
-            }
+            Point position = object.getDrawPosition();
             graphics.drawImage(
                 object.getSprite(),
-                posX, posY,
+                position.x, position.y,
                 null
             );
 
-            graphics.drawString(String.valueOf(posX) + " " + String.valueOf(posY), 10, 20);
+            if(object instanceof Positioned) {
+                graphics.drawString(String.valueOf((int) ((Positioned) object).getPosition().x) + " " + String.valueOf((int) ((Positioned) object).getPosition().y), 10, 20);
+            }
         }
 
         graphics.drawString(canvas.getWidth() + " " + canvas.getHeight(), 10, 30);

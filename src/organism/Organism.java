@@ -1,6 +1,7 @@
 package organism;
 
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 
 import support.Options;
@@ -34,7 +35,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.setPositionKind(Shape.CORNER);
 
         energy = 0.0f;
-        rotation = Math.PI / 2.0; //Math.PI / (4.0) * 3.0;
+        rotation = Math.PI / (4.0) * 3.0;
     }
 
     public void setInputs(boolean[] inputs) {
@@ -53,7 +54,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         
         //MÖGLICHST BALD WEGMACHEN
         outputs[0] = true;
-        outputs[1] = true;
+        //outputs[1] = true;
 
         if(outputs[0]) {
             position.x += Math.cos(rotation) * Options.speed;
@@ -101,5 +102,14 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     @Override
     public Image getSprite() {
         return shape.getSprite();
+    }
+
+    @Override
+    public Point getDrawPosition() {
+        Double translation = shape.getRelativePosition();
+        double x = position.x + translation.x;
+        double y = position.y + translation.y;
+
+        return new Point((int) x, (int) y);
     }
 }

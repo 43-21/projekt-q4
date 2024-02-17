@@ -1,6 +1,8 @@
 package organism;
 
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.geom.Point2D.Double;
 
 import world.Drawable;
 import world.Dynamic;
@@ -56,4 +58,12 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         // return image;
         return shape.getSprite();
     }
+
+    @Override
+    public Point getDrawPosition() {
+        Double translation = shape.getRelativePosition();
+        double x = position.x + translation.x;
+        double y = position.y + translation.y;
+
+        return new Point((int) x, (int) y);    }
 }
