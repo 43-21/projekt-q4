@@ -238,7 +238,7 @@ public class Matrix implements Iterable<Positioned> {
             for(Square s : p.getInSquare().getShape().getSquares()){
                 for(int i = 0; i < 4; i++){
                     if(getIntersectionPoint(s.getLines(1)[i][0], s.getLines(1)[i][1], position, destination).getDouble() != null){
-                        if(p.getDistance() < currentInRay.getDistance()){
+                        if(p.getDistance() < currentInRay.getDistance() || currentInRay == null){
                             currentInRay = p;
                             break;
                         }
