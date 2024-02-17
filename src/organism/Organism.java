@@ -18,8 +18,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private double rotation;
 
     private double energy = Options.initialEnergy;
-    private int age = 1;
-
+    private int age = 0;
 
     public Organism(Genes genes) {
         this.position = new Double();

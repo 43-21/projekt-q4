@@ -29,6 +29,10 @@ public class World {
         Organism organism = new Organism(new Genes(8, 6));
         organism.setRandomPosition(width, height);
         objects.add(organism);
+        Organism organism1 = new Organism(new Genes(8, 6));
+        organism1.setRandomPosition(width, height);
+        objects.add(organism1);
+        objects.add(egg);
     }
 
     public void update() {
@@ -64,10 +68,14 @@ public class World {
         food.update();
 
         for(Positioned o : objects) {
-
             if(o instanceof Dynamic) {
                 ((Dynamic) o).update();
             }
+
+            if(o.position.x < 0) o.position.x = 0;
+            else if(o.position.x >= width) o.position.x = width - 1;
+            if(o.position.y < 0) o.position.y = 0;
+            else if(o.position.y >= height) o.position.y = height - 1;
 
             if(o instanceof Egg) {
                 if(((Egg) o).canHatch()) {
@@ -81,12 +89,11 @@ public class World {
                 for(int index : indices) {
                     ((Organism) o).eat(food.removeEnergy(index));
                 }
-            }
 
-            if(o.position.x < 0) o.position.x = 0;
-            else if(o.position.x >= width) o.position.x = width - 1;
-            if(o.position.y < 0) o.position.y = 0;
-            else if(o.position.y >= height) o.position.y = height - 1;
+                if(((Organism) o).getEnergy() < Options.requiredEnergy) {
+                    objects.remove(o);
+                }
+            }
         }
     }
 
