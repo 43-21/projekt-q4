@@ -2,28 +2,43 @@ package world;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
+import java.awt.image.BufferedImage;
 
 import support.Functionality;
 import support.Options;
 
-public class Food {
+public class Food implements Dynamic, Drawable {
     ArrayList<Double> food = new ArrayList<>();
-    EnergyField[] fields;
+    // EnergyField[] fields;
     int desiredAmountOfFood;
     double accumulator = 0.0;
+    Shape energyShape;
 
     public Food(int food, int amountOfFields) {
         desiredAmountOfFood = food;
-        fields = new EnergyField[amountOfFields];
+        // fields = new EnergyField[amountOfFields];
         
-        for(int i = 0; i < amountOfFields; i++) {
-            fields[i] = new EnergyField(125, 50);
-        }
+        // for(int i = 0; i < amountOfFields; i++) {
+        //     fields[i] = new EnergyField(125, 50);
+        // }
 
         for(int i = 0; i < food; i++) {
             addFood();
         }
+
+        energyShape = new Shape(10);
+        energyShape.addSquare(1, 0, new boolean[]{false, true, false});
+        energyShape.addSquare(0, 1, new boolean[]{false, true, false});
+        energyShape.addSquare(2, 1, new boolean[]{false, true, false});
+        energyShape.addSquare(1, 2, new boolean[]{false, true, false});
+        energyShape.addSquare(1, 1, new boolean[]{false, false, false});
+        energyShape.setCenter(1, 1);
+        energyShape.setPositionKind(Shape.CENTER);
     }
 
     public void update() {
@@ -33,6 +48,10 @@ public class Food {
 
         double random = ThreadLocalRandom.current().nextDouble();
         if(accumulator >= random && addFood()) accumulator -= random;
+
+        // for(EnergyField field : fields) {
+        //     field.update();
+        // }
     }
 
     //true wenn erfolgreich
@@ -46,7 +65,7 @@ public class Food {
         for(int i = 0; i < 3; i++) {
             boolean noCollisionYet = true;
             for(Double position : food) {
-                if(Functionality.checkForCollision(position, 15.0, newPosition, 15.0)) {
+                if(Functionality.checkForCollision(position, 30.0, newPosition, 30.0)) {
                     noCollisionYet = false;
                     x = ThreadLocalRandom.current().nextDouble(Options.width);
                     y = ThreadLocalRandom.current().nextDouble(Options.height);
@@ -67,12 +86,45 @@ public class Food {
 
         int i = 0;
         for(Double energy : food) {
-            if(Functionality.checkForCollision(energy, 15.0, position, radius)) {
+            if(Functionality.checkForCircleCollision(energy, 15.0, position, radius)) {
                 list.add(i);
             }
             i++;
         }
 
         return list;
+    }
+
+    public double removeEnergy(int index) {
+        food.remove(index);
+        return 0.2;
+    }
+
+    public Image getSprite() {
+        BufferedImage image = new BufferedImage(Options.width, Options.height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = image.createGraphics();
+
+        Image sprite = energyShape.getSprite();
+
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, Options.width, Options.height);
+        
+        for(Double position : food) {
+            Point drawPosition = getAbsolutePosition(position, energyShape.getRelativePosition());
+            graphics.drawImage(sprite, drawPosition.x, drawPosition.y, null);
+        }
+
+        graphics.dispose();
+        return image;
+    }
+
+    private Point getAbsolutePosition(Double position, Double translation) {
+        double x = position.x + translation.x;
+        double y = position.y + translation.y;
+        return new Point((int) x, (int) y);
+    }
+
+    public Point getDrawPosition() {
+        return new Point(0, 0);
     }
 }

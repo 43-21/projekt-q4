@@ -29,7 +29,7 @@ public class Shape {
         BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
         
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(new Color(1f, 1f, 1f, 1f));
         graphics.fillRect(0, 0, width * scale, height * scale);
 
         for(Square square : squares) {

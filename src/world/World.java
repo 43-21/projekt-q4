@@ -9,12 +9,16 @@ import support.*;
 
 public class World {
     Matrix objects;
+    Food food;
+
     int width, height;
     public int time = 0;
 
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+
+        this.food = new Food(50, 0);
 
         Egg egg = new Egg(new Genes(8, 6), 9000);
         egg.setRandomPosition(width, height);
@@ -56,7 +60,11 @@ public class World {
             }
         }
 
+        //evtl muss das verschoben werden
+        food.update();
+
         for(Positioned o : objects) {
+
             if(o instanceof Dynamic) {
                 ((Dynamic) o).update();
             }
@@ -69,7 +77,10 @@ public class World {
             }
 
             if(o instanceof Organism) {
-                //energie
+                ArrayList<Integer> indices = food.checkForCollision(o.getPosition(), 15.0);
+                for(int index : indices) {
+                    ((Organism) o).eat(food.removeEnergy(index));
+                }
             }
 
             if(o.position.x < 0) o.position.x = 0;
@@ -81,11 +92,14 @@ public class World {
 
     public ArrayList<Drawable> getDrawables() {
         ArrayList<Drawable> drawables = new ArrayList<>();
+        drawables.add(food);
+
         for(Positioned thing : objects) {
             if(thing instanceof Drawable) {
                 drawables.add((Drawable) thing);
             }
         }
+
         return drawables;
     }
 }

@@ -60,15 +60,37 @@ public class Functionality {
         }
     }
 
-    public static boolean checkForCollision(Double point1, double radius1, Double point2, double radius2) {
+    //quadrate
+    public static boolean checkForCollision(Double point1, double length1, Double point2, double length2) {
         boolean horizontalCollision = false;
         boolean verticalCollision = false;
-        if(point1.x <= point2.x && point1.x + radius1 + radius2 >= point2.x) horizontalCollision = true;
-        else if(point1.x >= point2.x && point1.x - radius1 - radius2 <= point2.x) horizontalCollision = true;
-        if(point1.y <= point2.y && point1.y + radius1 + radius2 >= point2.y) verticalCollision = true;
-        else if(point1.y >= point2.y && point1.y - radius1 - radius2 <= point2.y) verticalCollision = true;
+        if(point1.x <= point2.x && point1.x + length1 / 2.0 + length2 / 2.0 >= point2.x) horizontalCollision = true;
+        else if(point1.x >= point2.x && point1.x - length1 / 2.0 - length2 / 2.0 <= point2.x) horizontalCollision = true;
+        if(point1.y <= point2.y && point1.y + length1 / 2.0 + length2 / 2.0 >= point2.y) verticalCollision = true;
+        else if(point1.y >= point2.y && point1.y - length1 / 2.0 - length2 / 2.0 <= point2.y) verticalCollision = true;
 
         return horizontalCollision && verticalCollision;
+    }
+
+    //rechtecke
+    public static boolean checkForCollision(Double point1, double length1, double length2, Double point2, double length3, double length4) {
+        boolean horizontal = false;
+        boolean vertical = false;
+        
+        return horizontal && vertical;
+    }
+
+    //kreise
+    public static boolean checkForCircleCollision(Double point1, double radius1, Double point2, double radius2) {
+        double distanceX = (point1.x - point2.x);
+        double distanceY = (point1.y - point2.y);
+        double distanceSquared = distanceX * distanceX + distanceY * distanceY;
+        return distanceSquared <= (radius1 + radius2) * (radius1 + radius2);
+    }
+
+    //kreis - rechteck
+    public static boolean checkForCircleCollision(Double point1, double radius1, Double point2, double length1, double length2) {
+        return false;
     }
 
     //true wenn Punkt point auf Strecke AB ist, sonst false
