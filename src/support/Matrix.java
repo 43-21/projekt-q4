@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import world.Positioned;
+import world.Shape;
 
 public class Matrix implements Iterable<Positioned> {
     int amountOfHorizontalCells;
@@ -78,34 +79,153 @@ public class Matrix implements Iterable<Positioned> {
         add(content);
     }
 
+    private class PositionDistanceTuple {
+        private Positioned inSquare;
+        private double distance;
+    
+        public PositionDistanceTuple(Positioned inSquare, double distance) {
+            this.inSquare = inSquare;
+            this.distance = distance;
+        }
+    
+        public double getDistance() {
+            return distance;
+        }
+    
+        public Positioned getInSquare() {
+            return inSquare;
+        }
+    }
+
     //für sicht erstmal
-    public ArrayList<Positioned> searchRay(Double position, float angle, float distance) {
-        int horizontal = getHorizontalCell(position.x);
-        int vertical = getVerticalCell(position.y);
-        ArrayList<Positioned> relevant = new ArrayList<>();
+    public Positioned searchRay(Double position, float angle, float distance) {
+        ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
+        double distanceCounterXY = 0;
+        double distanceCounter = 0;
+        int horizontalBoundsCounter = getHorizontalCell(position.x);
+        int verticalBoundsCounter = getVerticalCell(position.y);
+        boolean xy = true; // true bedeutet x false bedeutet y
+        boolean firstIntersect = true;
+        boolean isPiOverFour = false;
+        boolean straightLine = false;
+        int angleCaseSwitch = 1;
+        int angleCaseSwitchSpecialCase = 0;
+        Double destination = new Double();
+        destination.x = position.x + distance * Math.cos(angle);
+        destination.y = position.y + distance * Math.sin(angle);
+        if(angle == 0){
+            straightLine = true;
+            angleCaseSwitch = 1;
+            angleCaseSwitchSpecialCase = 0;
+        } else if(angle == Math.PI / 2){
+            straightLine = true;
+            angleCaseSwitch = 0;
+            angleCaseSwitchSpecialCase = 1;
+        } else if(angle == Math.PI){
+            straightLine = true;
+            angleCaseSwitch = -1;
+            angleCaseSwitchSpecialCase = 0;
+        } else if(angle == (Math.PI * 3) / 2){
+            straightLine = true;
+            angleCaseSwitch = 0;
+            angleCaseSwitchSpecialCase = -1;
+        } else if(((angle > Math.PI / 4) && (angle < (Math.PI * 3)/ 4))){
+            xy = false;
+            angleCaseSwitch = 1;
+        } else if(((angle > (Math.PI * 5 ) / 4) && (angle < (Math.PI * 7) / 4))){
+            xy = false;
+            angleCaseSwitch = -1;
+            angle -= Math.PI;
+        } else if(((angle > (Math.PI * 3 ) / 4) && (angle < (Math.PI * 5) / 4))){
+            xy = true;
+            angleCaseSwitch = -1;
+            angle -= Math.PI;
+        } else if((angle == Math.PI / 4)){
+            isPiOverFour = true;
+            angleCaseSwitchSpecialCase = 1;
+            angleCaseSwitch = 1;
+        } else if((angle == (Math.PI * 3)/ 4)){
+            isPiOverFour = true;
+            angleCaseSwitchSpecialCase = -1;
+            angleCaseSwitch = 1;
+        } else if((angle == (Math.PI * 5 ) / 4)){
+            isPiOverFour = true;
+            angleCaseSwitchSpecialCase = -1;
+            angleCaseSwitch = -1;
+        } else if((angle == (Math.PI * 7) / 4)){
+            isPiOverFour = true;
+            angleCaseSwitchSpecialCase = 1;
+            angleCaseSwitch = -1;
+        }
 
-        double distanceWalkedX = 0;
-        while(distanceWalkedX < distance || horizontal < 0 || horizontal >= amountOfHorizontalCells) {
-            double distanceWalkedY = 0;
-            while(distanceWalkedY < distance || vertical < 0 || vertical >= amountOfVerticalCells) {
-                relevant.addAll(contents.get(horizontal).get(vertical));
-                if(angle < Math.PI) vertical--;
-                else vertical++;
-                distanceWalkedY += (double) width / (double) amountOfVerticalCells;
+        while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+            if(isPiOverFour == true){
+                horizontalBoundsCounter += 1*angleCaseSwitch;
+                verticalBoundsCounter += 1*angleCaseSwitchSpecialCase;
+                distanceCounter += Math.sqrt(2);
+                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                }
+            } else if(straightLine == true){
+                horizontalBoundsCounter += 1*angleCaseSwitch;
+                verticalBoundsCounter += 1*angleCaseSwitchSpecialCase;
+                distanceCounter++;
+                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                }
+            }else if(xy == true){
+                if(distanceCounterXY >= 1){
+                    distanceCounterXY--;
+                    distanceCounterXY += 1 / Math.tan(angle);
+                    horizontalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
+                } else{
+                    distanceCounterXY += 1 / Math.tan(angle);
+                    verticalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
+                }
+            } else{
+                if(distanceCounterXY >= 1){
+                    distanceCounterXY--;
+                    verticalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounterXY += 1 / Math.tan(angle);
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
+                } else{
+                    distanceCounterXY += 1 / Math.tan(angle);
+                    horizontalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
+                }
             }
-
-            if(angle < Math.PI / 2.0 && angle > Math.PI / 2.0 * 3.0) horizontal++;
-            else horizontal--;
-            distanceWalkedX += (double) width / (double) amountOfHorizontalCells;
         }
 
-        ArrayList<Positioned> inRay = new ArrayList<>();
-
-        for(Positioned p : relevant) {
-            //schauen was sich schneidet
+        PositionDistanceTuple currentInRay;
+        //schauen was sich schneidet
+        for(PositionDistanceTuple p : relevant) {
+            for(Square s : p.getInSquare().getShape().getSquares()){
+                for(int i = 0; i < 4; i++){
+                    if(getIntersectionPoint(s.getLines(1)[i][0], s.getLines(1)[i][1], position, destination).getDouble() != null){
+                        if(p.getDistance() < currentInRay.getDistance()){
+                            currentInRay = p;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        return inRay;
+        return currentInRay.getInSquare();
     }
 
     //für kollision oÄ

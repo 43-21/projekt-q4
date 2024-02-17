@@ -36,16 +36,16 @@ public class Functionality {
         private Double first;
         private boolean second;
     
-        public DoubleBoolTuple(Double first, boolean second) {
+        public DoubleBoolTuple(Double d, boolean b) {
             this.first = first;
             this.second = second;
         }
     
-        public Double getFirst() {
+        public Double getDouble() {
             return first;
         }
     
-        public boolean getSecond() {
+        public boolean getBool() {
             return second;
         }
     }
@@ -99,8 +99,8 @@ public class Functionality {
         double angle2 = getAngle(a, b) - Math.PI / 2.0;
         Double d1 = getDestinationPoint(point, angle1, 10.0);
         Double d2 = getDestinationPoint(point, angle2, 10.0);
-        Double intersection1 = getIntersectionPoint(a, b, point, d1).getFirst();
-        Double intersection2 = getIntersectionPoint(a, b, point, d2).getFirst();
+        Double intersection1 = getIntersectionPoint(a, b, point, d1).getDouble();
+        Double intersection2 = getIntersectionPoint(a, b, point, d2).getDouble();
         return intersection1 != null && intersection2 != null;
     }
 

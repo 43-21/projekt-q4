@@ -43,6 +43,7 @@ public class World {
 
         for(Positioned o : objects) {
             if(o instanceof Organism) {
+                
                 // alle möglicherweise relevanten objekte bestimmen (also alles was in den matrix feldern ist wo der strahl ist)
                 // davon alle strecken mit farbe vom rechteck bestimmen (gerne auch nur die relevanten wenn es schnell geht)
                 // davon alle strecken die sich mit dem strahl schneiden bestimmen
