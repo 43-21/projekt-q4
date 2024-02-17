@@ -70,6 +70,10 @@ public class Shape {
         }
         return position;
     }
+
+    public ArrayList<Square> getSquares() {
+        return squares;
+    }
 }
 
 class Square {
@@ -88,5 +92,13 @@ class Square {
 
     public Point getPosition() {
         return new Point(x, y);
+    }
+
+    public Point[][] getLines() {
+        Point[][] lines = new Point[4][2];
+
+
+
+        return lines;
     }
 }
