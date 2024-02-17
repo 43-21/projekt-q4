@@ -74,6 +74,10 @@ public class Shape {
     public ArrayList<Square> getSquares() {
         return squares;
     }
+
+    public int getScale() {
+        return scale;
+    }
 }
 
 class Square {
@@ -94,10 +98,20 @@ class Square {
         return new Point(x, y);
     }
 
-    public Point[][] getLines() {
+    public Point[][] getLines(int scale) {
         Point[][] lines = new Point[4][2];
 
+        lines[0][0] = new Point(x * scale, y * scale);
+        lines[0][1] = new Point(x * scale + scale - 1, y * scale);
 
+        lines[1][0] = new Point(x * scale, y * scale);
+        lines[1][1] = new Point(x * scale, y * scale + scale - 1);
+
+        lines[2][0] = new Point(x * scale + scale - 1, y * scale);
+        lines[2][1] = new Point(x * scale + scale - 1, y * scale + scale - 1);
+
+        lines[3][0] = new Point(x * scale, y * scale + scale - 1);
+        lines[3][1] = new Point(x * scale + scale - 1, y * scale + scale - 1);
 
         return lines;
     }
