@@ -119,7 +119,7 @@ public class Matrix implements Iterable<Positioned> {
             straightLine = true;
             angleCaseSwitch = 1;
             angleCaseSwitchSpecialCase = 0;
-        } else if(angle == Math.PI / 2){
+        } else if(angle == Math.PI / 2.0){
             straightLine = true;
             angleCaseSwitch = 0;
             angleCaseSwitchSpecialCase = 1;
@@ -127,34 +127,34 @@ public class Matrix implements Iterable<Positioned> {
             straightLine = true;
             angleCaseSwitch = -1;
             angleCaseSwitchSpecialCase = 0;
-        } else if(angle == (Math.PI * 3) / 2){
+        } else if(angle == (Math.PI * 3.0) / 2.0){
             straightLine = true;
             angleCaseSwitch = 0;
             angleCaseSwitchSpecialCase = -1;
-        } else if(((angle > Math.PI / 4) && (angle < (Math.PI * 3)/ 4))){
+        } else if(((angle > Math.PI / 4.0) && (angle < (Math.PI * 3.0)/ 4.0))){
             xy = false;
             angleCaseSwitch = 1;
-        } else if(((angle > (Math.PI * 5 ) / 4) && (angle < (Math.PI * 7) / 4))){
+        } else if(((angle > (Math.PI * 5.0 ) / 4.0) && (angle < (Math.PI * 7.0) / 4.0))){
             xy = false;
             angleCaseSwitch = -1;
             angle -= Math.PI;
-        } else if(((angle > (Math.PI * 3 ) / 4) && (angle < (Math.PI * 5) / 4))){
+        } else if(((angle > (Math.PI * 3.0 ) / 4.0) && (angle < (Math.PI * 5.0) / 4.0))){
             xy = true;
             angleCaseSwitch = -1;
             angle -= Math.PI;
-        } else if((angle == Math.PI / 4)){
+        } else if((angle == Math.PI / 4.0)){
             isPiOverFour = true;
             angleCaseSwitchSpecialCase = 1;
             angleCaseSwitch = 1;
-        } else if((angle == (Math.PI * 3)/ 4)){
+        } else if((angle == (Math.PI * 3.0)/ 4.0)){
             isPiOverFour = true;
             angleCaseSwitchSpecialCase = -1;
             angleCaseSwitch = 1;
-        } else if((angle == (Math.PI * 5 ) / 4)){
+        } else if((angle == (Math.PI * 5.0 ) / 4.0)){
             isPiOverFour = true;
             angleCaseSwitchSpecialCase = -1;
             angleCaseSwitch = -1;
-        } else if((angle == (Math.PI * 7) / 4)){
+        } else if((angle == (Math.PI * 7.0) / 4.0)){
             isPiOverFour = true;
             angleCaseSwitchSpecialCase = 1;
             angleCaseSwitch = -1;
@@ -163,19 +163,19 @@ public class Matrix implements Iterable<Positioned> {
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
             if(isPiOverFour == true){
                 if(firstIntersect == true){
-                    distanceCounter += Math.sqrt(2) / 2;
+                    distanceCounter += Math.sqrt(2.0) / 2.0;
                     firstIntersect = false;
                 } else{
-                    distanceCounter += Math.sqrt(2);
+                    distanceCounter += Math.sqrt(2.0);
                 }
-                horizontalBoundsCounter += 1*angleCaseSwitch;
-                verticalBoundsCounter += 1*angleCaseSwitchSpecialCase;
+                horizontalBoundsCounter += 1.0*angleCaseSwitch;
+                verticalBoundsCounter += 1.0*angleCaseSwitchSpecialCase;
                 for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
                     relevant.add(new PositionDistanceTuple(i, distanceCounter));
                 }
             } else if(straightLine == true){
                 if(firstIntersect == true){
-                    distanceCounter += 1 / 2;
+                    distanceCounter += 1.0 / 2.0;
                     firstIntersect = false;
                 } else{
                     distanceCounter++;
