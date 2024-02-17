@@ -34,7 +34,6 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.setCenter(1, 1);
         shape.setPositionKind(Shape.CORNER);
 
-        energy = 0.0f;
         rotation = Math.PI / (4.0) * 3.0;
     }
 

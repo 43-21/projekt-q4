@@ -18,7 +18,7 @@ public class World {
         this.width = width;
         this.height = height;
 
-        this.food = new Food(50, 0);
+        this.food = new Food(150, 0);
 
         Egg egg = new Egg(new Genes(8, 6), 9000);
         egg.setRandomPosition(width, height);

@@ -127,4 +127,8 @@ public class Food implements Dynamic, Drawable {
     public Point getDrawPosition() {
         return new Point(0, 0);
     }
+
+    public int getAmountOfFood() {
+        return food.size();
+    }
 }
