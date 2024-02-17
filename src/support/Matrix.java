@@ -232,7 +232,7 @@ public class Matrix implements Iterable<Positioned> {
             }
         }
 
-        PositionDistanceTuple currentInRay;
+        PositionDistanceTuple currentInRay = null;
         //schauen was sich schneidet
         for(PositionDistanceTuple p : relevant) {
             for(Square s : p.getInSquare().getShape().getSquares()){
