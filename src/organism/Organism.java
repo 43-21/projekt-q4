@@ -75,7 +75,11 @@ public class Organism extends Positioned implements Dynamic, Drawable {
 
     public Egg layEgg() {
         energy -= Options.reproductionEnergy;
-        Egg egg = new Egg(genes, 200);
+        Genes copy = new Genes(genes);
+        for(int i = 0; i < Options.mutationsOnReproduction; i++) {
+            copy.mutate();
+        }
+        Egg egg = new Egg(copy, 300);
         egg.setPosition(position.x, position.y);
         return egg;
     }

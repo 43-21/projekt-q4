@@ -31,18 +31,21 @@ public class Genes {
         }
     }
 
+    //copy
+    public Genes(Genes genes) {
+        this.inputSize = genes.inputSize;
+        this.outputSize = genes.outputSize;
+        this.neuronGenes = new HashMap<>(genes.neuronGenes);
+        this.synapseGenes = new HashSet<>();
+
+        for(Synapse s : genes.synapseGenes) {
+            synapseGenes.add(new Synapse(s));
+        }
+    }
+
     // public Genes recombine(Genes partner) {
     //     return new Genes();
     // }
-
-    //neue Gene aus diesem durch Mutation
-    public Genes(Genes oldGenes) {
-        neuronGenes = oldGenes.neuronGenes;
-        synapseGenes = oldGenes.synapseGenes;
-        for(int i = 0; i < Options.mutationsOnReproduction; i++){
-            mutate();
-        }
-    }
 
     public Brain brain() {
         HashMap<Integer, Neuron> neurons = new HashMap<>();
@@ -82,31 +85,33 @@ public class Genes {
         //synapse löschen
         //an deren stelle zwei neue machen ins und aus dem neuen neuron
         //gewichtungen: 1 und so wie die alte
-        if(!(synapseGenes.isEmpty())) {
-            int synapseIndex = ThreadLocalRandom.current().nextInt(synapseGenes.size());
-            int i = 0;
-            int oldFrom = 0;
-            int oldTo = inputSize;
-            double weight = 0.0;
-            for(Synapse s : synapseGenes) {
-                if(i != synapseIndex) {
-                    i++;
-                    break;
-                }
-                oldFrom = s.from;
-                oldTo = s.to;
-                weight = s.weight;
-                synapseGenes.remove(s);
-                break;
+        if(synapseGenes.isEmpty()) return;
+
+        int synapseIndex = ThreadLocalRandom.current().nextInt(synapseGenes.size());
+        int i = 0;
+        int oldFrom = 0;
+        int oldTo = inputSize;
+        double weight = 0.0;
+        for(Synapse s : synapseGenes) {
+            if(i != synapseIndex) {
+                i++;
+                continue;
             }
-
-            int neuronIndex = neuronGenes.size();
-            NeuronGene newNeuronGene = new NeuronGene(1.0, neuronIndex);
-
-            synapseGenes.add(new Synapse(oldFrom, neuronIndex, weight));
-            synapseGenes.add(new Synapse(neuronIndex, oldTo, 1.0));
-            neuronGenes.put(neuronGenes.size(), newNeuronGene);
+            oldFrom = s.from;
+            oldTo = s.to;
+            weight = s.weight;
+            synapseGenes.remove(s);
+            break;
         }
+
+        int neuronIndex = neuronGenes.size();
+        NeuronGene newNeuronGene = new NeuronGene(1.0, neuronIndex);
+
+        synapseGenes.add(new Synapse(oldFrom, neuronIndex, weight));
+        synapseGenes.add(new Synapse(neuronIndex, oldTo, 1.0));
+        neuronGenes.put(neuronIndex, newNeuronGene);
+        System.out.println("Added a new neuron gene: index " + neuronIndex);
+        System.out.println("Neurongene: " + neuronGenes.get(neuronIndex));
     }
 
     private void addSynapse() {

@@ -26,13 +26,18 @@ public class Brain {
     public void update() {
         //inputs
         for(int i = 0; i < inputSize; i++) {
-            neurons.get(i).spike = inputs[i];
+            neurons.get(i).spike = true; //inputs[i];
         }
 
         //spiking
         for(Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
+            if(to == null || from == null) {
+                System.out.println("from: " + from + "; to: " + to);
+                System.out.println("from index: " + s.from + "; to index: " + s.to);
+                System.out.println(neurons.values());
+            }
 
             if(from.spike) {
                 to.potential += s.weight;
@@ -107,6 +112,10 @@ class Neuron {
         threshold = t;
         index = i;
     }
+
+    public String toString() {
+        return "Neuron { i: " + index + "; th: " + threshold + " }";
+    }
 }
 
 class Synapse {
@@ -118,5 +127,16 @@ class Synapse {
         from = f;
         to = t;
         weight = w;
+    }
+
+    //copy
+    public Synapse(Synapse s) {
+        from = s.from;
+        to = s.to;
+        weight = s.weight;
+    }
+
+    public String toString() {
+        return "Synapse { from: " + from + "; to: " + to + "; weight: " + weight + " }";
     }
 }
