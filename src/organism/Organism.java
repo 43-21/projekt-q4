@@ -3,6 +3,7 @@ package organism;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D.Double;
+import java.util.Arrays;
 
 import support.Options;
 import world.*;
@@ -43,7 +44,7 @@ public class Organism extends Positioned implements Dynamic, Drawable, WithShape
     public void update() {
         brain.update();
         boolean[] outputs = brain.getOutputs();
-        System.out.println(outputs);
+        System.out.println(Arrays.toString(outputs));
 
         for(int i = 0; i < 3; i++) {
             pheromones[i] = outputs[i + 3];
