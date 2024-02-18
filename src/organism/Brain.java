@@ -16,7 +16,8 @@ public class Brain {
     boolean[] inputs;
     boolean[] outputs;
 
-    public Brain(int outputSize, HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
+    public Brain(int inputSize, int outputSize, HashMap<Integer, Neuron> n, HashSet<Synapse> s) {
+        this.inputSize = inputSize;
         this.outputSize = outputSize;
         neurons = n;
         synapses = s;
@@ -32,6 +33,7 @@ public class Brain {
         for(Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
+
             if(from.spike) {
                 to.potential += s.weight;
 

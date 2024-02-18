@@ -48,6 +48,8 @@ public class Matrix implements Iterable<Positioned> {
         int horizontalCell = getHorizontalCell(x);
         int verticalCell = getVerticalCell(y);
 
+        // System.out.println(contents.get(horizontalCell).get(verticalCell).add(content));
+
         contents.get(horizontalCell).get(verticalCell).add(content);
     }
 
@@ -316,18 +318,44 @@ class MatrixIterator implements Iterator<Positioned> {
     public boolean hasNext() {
         if(i >= contents.size()) return false;
         if(j >= contents.get(i).size()) return false;
-        if(k >= contents.get(i).get(j).size()) return false;
-        return true;
+        if(k < contents.get(i).get(j).size()) return true;
+
+
+        k = 0;
+        for(int a = j + 1; a < contents.get(i).size(); a++) {
+            if(k < contents.get(i).get(a).size()) {
+                j = a;
+                return true;
+            }
+        }
+
+
+        for(int a = i + 1; a < contents.size(); a++) {
+            for(int b = 0; b < contents.get(a).size(); b++) {
+                if(k < contents.get(a).get(b).size()) {
+                    i = a;
+                    j = b;
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
     }
 
     @Override
     public Positioned next() {
         Positioned item = contents.get(i).get(j).get(k);
+        // System.out.println(i + " " + j + " " + k);
         if(++k < contents.get(i).get(j).size()) return item;
         else k = 0;
+        // System.out.println(k);
         if(++j < contents.get(i).size()) return item;
         else j = 0;
+        // System.out.println(j);
         i++;
+        // System.out.println(i);
         return item;
     }
 }

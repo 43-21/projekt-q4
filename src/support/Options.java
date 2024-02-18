@@ -6,7 +6,7 @@ public class Options {
     public static double multipleMutationsRate = 0.005;
     public static int numberOfPossibleMutations = 4;
     public static int mutationsOnReproduction = 2;
-    public static int startingSynapses = 12;
+    public static int startingSynapses = 48;
     public static double tau = 10.0;
     public static double decay = Math.exp(-1.0 / tau);
 
@@ -21,7 +21,7 @@ public class Options {
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
 
-    public static int amountOfOrganisms = 100;
+    public static int amountOfOrganisms = 10;
     public static int amountOfFood = 80;
 
     public static int fps = 60;

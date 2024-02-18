@@ -53,7 +53,7 @@ public class Genes {
             neurons.put(neuron.index, neuron);
         }
 
-        return new Brain(6, neurons, synapses);
+        return new Brain(inputSize, outputSize, neurons, synapses);
     }
 
     public void mutate() {
@@ -113,7 +113,7 @@ public class Genes {
         //zwei unverbundene Neuronen aussuchen und Synapse mit zufälliger Gewichtung hinzufügen
         ArrayList<int[]> unconnectedNeurons = new ArrayList<>();
         for(int from : neuronGenes.keySet()) {
-            if(from >= inputSize && from < outputSize) continue; //keine synapsen von output neuronen
+            if(from >= inputSize && from < inputSize + outputSize) continue; //keine synapsen von output neuronen
             loop:
             for(int to : neuronGenes.keySet()) {
                 if(to < inputSize) continue; //keine synapsen zu input neuronen
@@ -128,7 +128,8 @@ public class Genes {
         if(unconnectedNeurons.size() == 0) return;
 
         int[] pair = unconnectedNeurons.get((int) Math.floor(Math.random() * unconnectedNeurons.size()));
-        synapseGenes.add(new Synapse(pair[0], pair[1], Math.random() * 2.0 - 1.0));
+        double weight = Math.random() * 2.0 - 1.0;
+        synapseGenes.add(new Synapse(pair[0], pair[1], weight));
 
         // int from = (int) Math.floor(Math.random()*neuronGenes.size());
         // int to = (int) Math.floor(Math.random()*neuronGenes.size());
