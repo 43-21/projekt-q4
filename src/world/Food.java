@@ -101,7 +101,7 @@ public class Food implements Dynamic, Drawable {
     }
 
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(Options.width, Options.height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(Options.width, Options.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
 
         Image sprite = energyShape.getSprite();

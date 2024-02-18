@@ -26,7 +26,7 @@ public class Shape {
     }
 
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
         
         graphics.setColor(new Color(1f, 1f, 1f, 0f));

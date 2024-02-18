@@ -58,7 +58,6 @@ public class Display extends JFrame {
         graphics.setColor(Color.BLACK);
 
         for(Drawable object : objects) {
-            if(object instanceof Egg) continue;
             Point position = object.getDrawPosition();
             graphics.drawImage(
                 object.getSprite(),
