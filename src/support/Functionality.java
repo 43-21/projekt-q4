@@ -52,10 +52,10 @@ public class Functionality {
     public static DoubleBoolTuple getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double[] vector1 = {(b.x - a.x), (b.y - a.y)};
         double[] vector2 = {(d.x - c.x), (d.y - c.y)};
-        if(!areVectorsLinearlyDependent(vector1, vector2)){
-            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), false);
-        } else {
+        if(areVectorsLinearlyDependent(vector1, vector2)){
             return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), true);
+        } else {
+            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), false);
         }
     }
 

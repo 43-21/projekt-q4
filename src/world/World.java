@@ -1,6 +1,7 @@
 package world;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import organism.Egg;
 import organism.Genes;
@@ -37,17 +38,26 @@ public class World {
 
         for(Positioned o : objects) {
             if(o instanceof Organism) {
-                // Positioned nextObject = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), 60.0);
-                // double distance = Functionality.distance(nextObject.position, o.getPosition());
-                // boolean[] color = o.getShape().getSquares().get(0).getColor();
-                // boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
-                // for(int i = 0; i < color.length; i++) {
-                //     inputs[i] = color[i];
-                // }
-                // if(distance <= 40) inputs[3] = true;
-                // if(distance <= 20) inputs[4] = true;
+                double length = 120.0;
+                Positioned nextObject = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
+                if(nextObject == null) {
+                    ((Organism) o).setInputs(inputs);
+                    continue;
+                }
+
+                double distance = Functionality.distance(nextObject.position, o.getPosition());
+                boolean[] color = o.getShape().getSquares().get(0).getColor();
+                for(int i = 0; i < color.length; i++) {
+                    inputs[i] = color[i];
+                }
+                // System.out.println(distance);
+                if(distance <= length / 3.0 * 2.0) inputs[3] = true;
+                if(distance <= length / 3.0) inputs[4] = true;
                 
-                // ((Organism) o).setInputs(inputs);
+                ((Organism) o).setInputs(inputs);
+
+                // System.out.println(Arrays.toString(inputs));
             }
         }
 

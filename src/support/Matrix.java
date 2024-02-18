@@ -5,6 +5,7 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import support.Functionality.DoubleBoolTuple;
 import world.Positioned;
 import world.Shape;
 import world.Square;
@@ -46,6 +47,11 @@ public class Matrix implements Iterable<Positioned> {
 
         int horizontalCell = getHorizontalCell(x);
         int verticalCell = getVerticalCell(y);
+
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(horizontalCell);
+        System.out.println(verticalCell);
 
         contents.get(horizontalCell).get(verticalCell).add(content);
     }
@@ -162,6 +168,8 @@ public class Matrix implements Iterable<Positioned> {
             angleCaseSwitch = -1;
         }
 
+        // System.out.println(distance);
+
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
             if(isPiOverFour == true){
                 for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
@@ -245,18 +253,20 @@ public class Matrix implements Iterable<Positioned> {
         PositionDistanceTuple currentInRay = null;
         //schauen was sich schneidet
         for(PositionDistanceTuple p : relevant) {
+            if(p.getInSquare().getPosition() == position);
             Shape shape = p.getInSquare().getShape();
 
             for(Square s : shape.getSquares()) {
                 Point[][] lines = s.getLines(shape.getScale());
                 for(int i = 0; i < 4; i++) {
-                    int xa = lines[i][0].x;
-                    int ya = lines[i][0].y;
-                    int xb = lines[i][1].x;
-                    int yb = lines[i][1].y;
+                    double xa = lines[i][0].x + position.x;
+                    double ya = lines[i][0].y + position.y;
+                    double xb = lines[i][1].x + position.x;
+                    double yb = lines[i][1].y + position.y;
                     Double a = new Double(xa, ya);
                     Double b = new Double(xb, yb);
-                    if(Functionality.getIntersectionPoint(a, b, position, destination).getDouble() != null){
+                    DoubleBoolTuple intersectionPoint = Functionality.getIntersectionPoint(a, b, position, destination);
+                    if(intersectionPoint.getDouble() != null){
                         if(currentInRay == null) {
                             currentInRay = p;
                             continue;

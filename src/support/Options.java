@@ -21,7 +21,7 @@ public class Options {
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
 
-    public static int amountOfOrganisms = 10;
+    public static int amountOfOrganisms = 100;
     public static int amountOfFood = 80;
 
     public static int fps = 60;

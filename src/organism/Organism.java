@@ -34,7 +34,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.setCenter(1, 1);
         shape.setPositionKind(Shape.CORNER);
 
-        rotation = Math.PI / (4.0) * 3.0;
+        rotation = 0.0; //Math.PI / (4.0) * 3.0;
     }
 
     public void setInputs(boolean[] inputs) {
@@ -44,7 +44,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     public void update() {
         brain.update();
         boolean[] outputs = brain.getOutputs();
-        System.out.println(Arrays.toString(outputs));
+        // System.out.println(Arrays.toString(outputs));
 
         for(int i = 0; i < 3; i++) {
             pheromones[i] = outputs[i + 3];
