@@ -201,7 +201,7 @@ public class Matrix implements Iterable<Positioned> {
                         relevant.add(new PositionDistanceTuple(i, distanceCounter));
                     }
                     if(firstIntersect == true){
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1) / 2;
+                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)) / 2, 2) + Math.pow(1 / 2, 2));
                         distanceCounterXY += (1 / Math.tan(angle)) / 2;
                         firstIntersect = false;
                     } else{
@@ -224,7 +224,7 @@ public class Matrix implements Iterable<Positioned> {
                         relevant.add(new PositionDistanceTuple(i, distanceCounter));
                     }
                     if(firstIntersect == true){
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1) / 2;
+                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)) / 2, 2) + Math.pow(1 / 2, 2));
                         distanceCounterXY += 1 / Math.tan(angle) / 2;
                         firstIntersect = false;
                     } else{
