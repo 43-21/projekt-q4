@@ -276,7 +276,7 @@ public class Matrix implements Iterable<Positioned> {
         PositionDistanceTuple currentInRay = null;
         //schauen was sich schneidet
         for(PositionDistanceTuple p : relevant) {
-            if(p.getInSquare().getPosition() == position);
+            if(p.getInSquare().getPosition() == position) continue;
             Shape shape = p.getInSquare().getShape();
 
             for(Square s : shape.getSquares()) {

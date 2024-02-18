@@ -1,7 +1,6 @@
 package world;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import organism.Egg;
 import organism.Genes;
@@ -54,6 +53,8 @@ public class World {
                 for(int i = 0; i < color.length; i++) {
                     inputs[i] = color[i];
                 }
+
+                System.out.println(distance);
 
                 if(distance <= length / 3.0 * 2.0) inputs[3] = true;
                 if(distance <= length / 3.0) inputs[4] = true;
