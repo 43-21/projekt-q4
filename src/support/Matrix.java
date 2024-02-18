@@ -48,11 +48,6 @@ public class Matrix implements Iterable<Positioned> {
         int horizontalCell = getHorizontalCell(x);
         int verticalCell = getVerticalCell(y);
 
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(horizontalCell);
-        System.out.println(verticalCell);
-
         contents.get(horizontalCell).get(verticalCell).add(content);
     }
 
@@ -299,11 +294,11 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     private int getHorizontalCell(double x) {
-        return (int) (x / (double) width) * amountOfHorizontalCells;
+        return (int) ((x / (double) width) * amountOfHorizontalCells);
     }
 
     private int getVerticalCell(double y) {
-        return (int) (y / (double) height) * amountOfVerticalCells;
+        return (int) ((y / (double) height) * amountOfVerticalCells);
     }
 }
 
