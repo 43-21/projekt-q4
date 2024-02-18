@@ -3,7 +3,6 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;

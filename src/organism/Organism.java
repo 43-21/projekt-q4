@@ -8,7 +8,7 @@ import java.util.Arrays;
 import support.Options;
 import world.*;
 
-public class Organism extends Positioned implements Dynamic, Drawable, WithShape {
+public class Organism extends Positioned implements Dynamic, Drawable {
     private Brain brain;
     private Genes genes;
     private Shape shape;

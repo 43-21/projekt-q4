@@ -3,7 +3,7 @@ package world;
 import java.awt.geom.Point2D.Double;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Positioned implements WithShape{
+public abstract class Positioned implements WithShape {
     protected Double position = new Double();
 
     public Double getPosition() {

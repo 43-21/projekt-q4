@@ -8,9 +8,8 @@ import world.Drawable;
 import world.Dynamic;
 import world.Positioned;
 import world.Shape;
-import world.WithShape;
 
-public class Egg extends Positioned implements Dynamic, Drawable, WithShape {
+public class Egg extends Positioned implements Dynamic, Drawable {
     Shape shape;
     Genes genes;
     int timeToHatch;

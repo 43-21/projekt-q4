@@ -1,7 +1,6 @@
 package support;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 
 public class Functionality {
@@ -37,8 +36,8 @@ public class Functionality {
         private boolean second;
     
         public DoubleBoolTuple(Double d, boolean b) {
-            this.first = first;
-            this.second = second;
+            this.first = d;
+            this.second = b;
         }
     
         public Double getDouble() {
