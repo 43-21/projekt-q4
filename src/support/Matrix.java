@@ -112,6 +112,8 @@ public class Matrix implements Iterable<Positioned> {
         boolean straightLine = false;
         int angleCaseSwitch = 1;
         int angleCaseSwitchSpecialCase = 0;
+        double amountOfCells = (double) Options.amountOfHorizontalCells;
+        distance = (distance / width) * amountOfCells;
         Double destination = new Double();
         destination.x = position.x + distance * Math.cos(angle);
         destination.y = position.y + distance * Math.sin(angle);
@@ -162,6 +164,9 @@ public class Matrix implements Iterable<Positioned> {
 
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
             if(isPiOverFour == true){
+                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                }
                 if(firstIntersect == true){
                     distanceCounter += Math.sqrt(2.0) / 2.0;
                     firstIntersect = false;
@@ -170,10 +175,10 @@ public class Matrix implements Iterable<Positioned> {
                 }
                 horizontalBoundsCounter += angleCaseSwitch;
                 verticalBoundsCounter += angleCaseSwitchSpecialCase;
+            } else if(straightLine == true){
                 for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
                     relevant.add(new PositionDistanceTuple(i, distanceCounter));
                 }
-            } else if(straightLine == true){
                 if(firstIntersect == true){
                     distanceCounter += 1.0 / 2.0;
                     firstIntersect = false;
@@ -182,19 +187,19 @@ public class Matrix implements Iterable<Positioned> {
                 }
                 horizontalBoundsCounter += 1*angleCaseSwitch;
                 verticalBoundsCounter += 1*angleCaseSwitchSpecialCase;
-                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                }
             }else if(xy == true){
                 if(distanceCounterXY >= 1){
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
                     distanceCounterXY--;
                     distanceCounterXY += 1 / Math.tan(angle);
                     horizontalBoundsCounter += 1*angleCaseSwitch;
                     distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                } else{
                     for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
                         relevant.add(new PositionDistanceTuple(i, distanceCounter));
                     }
-                } else{
                     if(firstIntersect == true){
                         distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1) / 2;
                         distanceCounterXY += (1 / Math.tan(angle)) / 2;
@@ -204,20 +209,20 @@ public class Matrix implements Iterable<Positioned> {
                         distanceCounterXY += 1 / Math.tan(angle);
                     }
                     verticalBoundsCounter += 1*angleCaseSwitch;
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                    }
                 }
             } else{
                 if(distanceCounterXY >= 1){
+                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    }
                     distanceCounterXY--;
                     verticalBoundsCounter += 1*angleCaseSwitch;
                     distanceCounterXY += 1 / Math.tan(angle);
                     distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                } else{
                     for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
                         relevant.add(new PositionDistanceTuple(i, distanceCounter));
                     }
-                } else{
                     if(firstIntersect == true){
                         distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1) / 2;
                         distanceCounterXY += 1 / Math.tan(angle) / 2;
@@ -227,10 +232,13 @@ public class Matrix implements Iterable<Positioned> {
                         distanceCounterXY += 1 / Math.tan(angle);
                     }
                     horizontalBoundsCounter += 1*angleCaseSwitch;
-                    for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(p, distanceCounter));
-                    }
                 }
+            }
+        }
+
+        if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+            for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(new PositionDistanceTuple(i, distanceCounter));
             }
         }
 

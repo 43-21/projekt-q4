@@ -29,4 +29,6 @@ public class Options {
 
     public static int width = 1920;
     public static int height = 1200;
+    public static int amountOfHorizontalCells = 16;
+    public static int amountOfVerticalCells = 10;
 }

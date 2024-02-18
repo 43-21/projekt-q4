@@ -20,7 +20,7 @@ public class World {
 
         this.food = new Food(Options.amountOfFood, 0);
 
-        objects = new Matrix(16, 10, width, height);
+        objects = new Matrix(Options.amountOfHorizontalCells, Options.amountOfVerticalCells, width, height);
 
         for(int i = 0; i < Options.amountOfOrganisms; i++) {
             Organism organism = new Organism(new Genes(8, 6));
