@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import organism.Egg;
 import world.Drawable;
 import world.Positioned;
 import world.World;

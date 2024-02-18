@@ -3,7 +3,6 @@ package organism;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D.Double;
-import java.util.Arrays;
 
 import support.Options;
 import world.*;
