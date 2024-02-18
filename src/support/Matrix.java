@@ -5,7 +5,6 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import support.Functionality.DoubleBoolTuple;
 import world.Positioned;
 import world.Shape;
 import world.Square;
@@ -288,8 +287,8 @@ public class Matrix implements Iterable<Positioned> {
                     double yb = lines[i][1].y + position.y;
                     Double a = new Double(xa, ya);
                     Double b = new Double(xb, yb);
-                    DoubleBoolTuple intersectionPoint = Functionality.getIntersectionPoint(a, b, position, destination);
-                    if(intersectionPoint.getDouble() != null){
+                    Double intersectionPoint = Functionality.getIntersectionPoint(a, b, position, destination);
+                    if(intersectionPoint != null){
                         if(currentInRay == null) {
                             currentInRay = p;
                             continue;

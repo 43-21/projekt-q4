@@ -10,8 +10,15 @@ public class Functionality {
 
     //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
     //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
-    public static Double getIntersectionPointIntern(Double a, Double b, Double c, Double d) {
+    public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
+        //kollinear... oder?
+        if(denominator == 0) {
+            //überprüfen: parallel, nacheinander, oder überschneidend?
+            //provisorisch:
+            return null;
+        }
+
         double r = ((double) ((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y))) / (double) denominator;
         if(r < 0 || r > 1) return null;
         double s = ((double) ((a.x - c.x) * (d.y - c.y) - (d.x - c.x) * (a.y - c.y))) / (double) denominator;
@@ -19,44 +26,7 @@ public class Functionality {
         return new Double(
             (s * (b.x - a.x) + a.x),
             (s * (b.y - a.y) + a.y)
-        ); //neu schreiben
-    }
-
-    public static boolean areVectorsLinearlyDependent(double[] vector1, double[] vector2) {
-        // Überprüfen, ob die Determinante der Matrix gleich 0 ist
-        // | x1 y1 |
-        // | x2 y2 |
-        double determinant = vector1[0] * vector2[1] - vector1[1] * vector2[0];
-
-        return determinant == 0;
-    }
-
-    static class DoubleBoolTuple {
-        private Double first;
-        private boolean second;
-    
-        public DoubleBoolTuple(Double d, boolean b) {
-            this.first = d;
-            this.second = b;
-        }
-    
-        public Double getDouble() {
-            return first;
-        }
-    
-        public boolean getBool() {
-            return second;
-        }
-    }
-
-    public static DoubleBoolTuple getIntersectionPoint(Double a, Double b, Double c, Double d) {
-        double[] vector1 = {(b.x - a.x), (b.y - a.y)};
-        double[] vector2 = {(d.x - c.x), (d.y - c.y)};
-        if(areVectorsLinearlyDependent(vector1, vector2)){
-            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), true);
-        } else {
-            return new DoubleBoolTuple(getIntersectionPointIntern(a, b, c, d), false);
-        }
+        );
     }
 
     //quadrate
@@ -98,8 +68,8 @@ public class Functionality {
         double angle2 = getAngle(a, b) - Math.PI / 2.0;
         Double d1 = getDestinationPoint(point, angle1, 10.0);
         Double d2 = getDestinationPoint(point, angle2, 10.0);
-        Double intersection1 = getIntersectionPoint(a, b, point, d1).getDouble();
-        Double intersection2 = getIntersectionPoint(a, b, point, d2).getDouble();
+        Double intersection1 = getIntersectionPoint(a, b, point, d1);
+        Double intersection2 = getIntersectionPoint(a, b, point, d2);
         return intersection1 != null && intersection2 != null;
     }
 

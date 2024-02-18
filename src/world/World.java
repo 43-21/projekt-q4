@@ -54,8 +54,6 @@ public class World {
                     inputs[i] = color[i];
                 }
 
-                System.out.println(distance);
-
                 if(distance <= length / 3.0 * 2.0) inputs[3] = true;
                 if(distance <= length / 3.0) inputs[4] = true;
                 
