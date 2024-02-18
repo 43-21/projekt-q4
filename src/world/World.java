@@ -18,21 +18,15 @@ public class World {
         this.width = width;
         this.height = height;
 
-        this.food = new Food(75, 0);
-
-        Egg egg = new Egg(new Genes(8, 6), 200);
-        egg.setRandomPosition(width, height);
+        this.food = new Food(Options.amountOfFood, 0);
 
         objects = new Matrix(16, 10, width, height);
-        //objects.add(egg);
 
-        Organism organism = new Organism(new Genes(8, 6));
-        organism.setRandomPosition(width, height);
-        objects.add(organism);
-        Organism organism1 = new Organism(new Genes(8, 6));
-        organism1.setRandomPosition(width, height);
-        objects.add(organism1);
-        objects.add(egg);
+        for(int i = 0; i < Options.amountOfOrganisms; i++) {
+            Organism organism = new Organism(new Genes(8, 6));
+            organism.setRandomPosition(width, height);
+            objects.add(organism);
+        }
     }
 
     public void update() {
