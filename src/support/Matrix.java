@@ -227,8 +227,8 @@ public class Matrix implements Iterable<Positioned> {
                         distanceCounterXY += 1 / Math.tan(angle);
                     }
                     horizontalBoundsCounter += 1*angleCaseSwitch;
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
+                    for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                        relevant.add(new PositionDistanceTuple(p, distanceCounter));
                     }
                 }
             }
