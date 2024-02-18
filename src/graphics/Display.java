@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import organism.Egg;
 import world.Drawable;
 import world.Positioned;
 import world.World;
@@ -57,6 +58,7 @@ public class Display extends JFrame {
         graphics.setColor(Color.BLACK);
 
         for(Drawable object : objects) {
+            if(object instanceof Egg) continue;
             Point position = object.getDrawPosition();
             graphics.drawImage(
                 object.getSprite(),
@@ -65,7 +67,11 @@ public class Display extends JFrame {
             );
 
             if(object instanceof Positioned) {
-                graphics.drawString(String.valueOf((int) ((Positioned) object).getPosition().x) + " " + String.valueOf((int) ((Positioned) object).getPosition().y), 10, 20);
+                int x = (int) ((Positioned) object).getPosition().x;
+                int y = (int) ((Positioned) object).getPosition().y;
+                graphics.setColor(Color.ORANGE);
+                graphics.drawString(x + " " + y, x, y);
+                graphics.setColor(Color.BLACK);
             }
 
             if(object instanceof organism.Organism) {
@@ -82,6 +88,9 @@ public class Display extends JFrame {
         graphics.drawString(canvas.getWidth() + " " + canvas.getHeight(), 10, 30);
 
         graphics.drawString(String.valueOf(time), 10, 10);
+
+        graphics.drawString(String.valueOf(objects.size()), 10, 60);
+
 
         graphics.dispose();
         bufferStrategy.show();

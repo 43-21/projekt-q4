@@ -15,6 +15,8 @@ public class World {
     int width, height;
     public int time = 0;
 
+    int counter = 0;
+
     public World(int width, int height) {
         this.width = width;
         this.height = height;
@@ -35,7 +37,8 @@ public class World {
         //abfolge:
         //1. inputs ermitteln
         //2. alle updaten, essen, koordinaten etc
-
+        // System.out.println("------------------------------------");
+        
         for(Positioned o : objects) {
             if(o instanceof Organism) {
                 double length = 120.0;
@@ -51,18 +54,19 @@ public class World {
                 for(int i = 0; i < color.length; i++) {
                     inputs[i] = color[i];
                 }
-                // System.out.println(distance);
+
                 if(distance <= length / 3.0 * 2.0) inputs[3] = true;
                 if(distance <= length / 3.0) inputs[4] = true;
                 
                 ((Organism) o).setInputs(inputs);
-
-                // System.out.println(Arrays.toString(inputs));
             }
         }
 
         //evtl muss das verschoben werden
         food.update();
+
+        ArrayList<Positioned> toBeRemoved = new ArrayList<>();
+        ArrayList<Positioned> toBeAdded = new ArrayList<>();
 
         for(Positioned o : objects) {
             if(o instanceof Dynamic) {
@@ -76,8 +80,10 @@ public class World {
 
             if(o instanceof Egg) {
                 if(((Egg) o).canHatch()) {
-                    objects.add(((Egg) o).hatch());
-                    objects.remove(o);
+                    Organism child = ((Egg) o).hatch();
+                    toBeAdded.add(child);
+                    System.out.println("Added child: " + child);
+                    toBeRemoved.add(o);
                 }
             }
 
@@ -88,17 +94,23 @@ public class World {
                 }
 
                 if(((Organism) o).getEnergy() < Options.requiredEnergy) {
-                    objects.remove(o);
+                    toBeRemoved.add(o);
                 }
 
                 else if(((Organism) o).getEnergy() >= Options.reproductionEnergy) {
                     Egg child = ((Organism)o).layEgg();
-                    objects.add(child);
+                    toBeAdded.add(child);
+                    System.out.println("Added egg: " + child);
                 }
             }
         }
+
+        objects.update();
+        objects.removeAll(toBeRemoved);
+        objects.addAll(toBeAdded);
     }
 
+    
     public ArrayList<Drawable> getDrawables() {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(food);

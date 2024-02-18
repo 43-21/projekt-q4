@@ -38,27 +38,27 @@ public class Brain {
                 to.potential += s.weight;
 
                 //stdp presynaptic spike
-                from.preChange += 0.1f;
-                s.weight += to.postChange;
+                // from.preChange += 0.1f;
+                // s.weight += to.postChange;
             }
 
-            else from.preChange *= decaySpikeTrace;
+            // else from.preChange *= decaySpikeTrace;
 
             //stdp postsynaptic spike
-            if(to.spike) {
-                to.postChange -= 0.1f;
-                s.weight += from.preChange;
-            }
+            // if(to.spike) {
+            //     to.postChange -= 0.1f;
+            //     s.weight += from.preChange;
+            // }
 
-            else to.postChange *= decaySpikeTrace;
+            // else to.postChange *= decaySpikeTrace;
 
-            if(s.weight > 1.0) {
-                s.weight = 1.0f;
-            }
+            // if(s.weight > 1.0) {
+            //     s.weight = 1.0f;
+            // }
 
-            else if(s.weight < 0.0) {
-                s.weight = 0.0f;
-            }
+            // else if(s.weight < 0.0) {
+            //     s.weight = 0.0f;
+            // }
         }
 
 
@@ -69,8 +69,12 @@ public class Brain {
             n.spike = false;
 
             if(n.potential >= n.threshold) {
-                n.potential = .0f;
+                n.potential -= n.threshold;
                 n.spike = true;
+            }
+
+            if(n.potential < 0) {
+                n.potential = 0;
             }
             
             n.potential = n.potential * decay;

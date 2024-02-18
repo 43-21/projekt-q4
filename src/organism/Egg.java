@@ -27,6 +27,9 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         shape.addSquare(0, 1, color);
         shape.addSquare(2, 1, color);
         shape.addSquare(1, 2, color);
+        shape.addSquare(1, 1, new boolean[]{false, false, false});
+        shape.setCenter(1, 1);
+        shape.setPositionKind(Shape.CENTER);
     }
 
     public void update() {

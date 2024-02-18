@@ -65,23 +65,49 @@ public class Matrix implements Iterable<Positioned> {
         return contents.get(horizontalCell).get(verticalCell).remove(content);
     }
 
-    public void update(Double oldPosition, Positioned content) {
-        double x = content.getPosition().x;
-        double y = content.getPosition().y;
-        if(x < 0 || x >= width) return;
-        if(y < 0 || y >= height) return;
-        if(oldPosition.x < 0 || oldPosition.x >= width) return;
-        if(oldPosition.y < 0 || oldPosition.y >= height) return;
+    public void update() {
+        int i = 0;
+        ArrayList<Positioned> changed = new ArrayList<>();
+        for(ArrayList<ArrayList<Positioned>> row : contents) {
+            int j = 0;
+            for(ArrayList<Positioned> cell : row) {
+                ArrayList<Positioned> toBeRemoved = new ArrayList<>();
+                for(Positioned p : cell) {
+                    double x = p.getPosition().x;
+                    double y = p.getPosition().y;
 
-        int horizontalCell = getHorizontalCell(x);
-        int verticalCell = getVerticalCell(y);
+                    int horizontal = getHorizontalCell(x);
+                    int vertical = getVerticalCell(y);
 
-        if(getHorizontalCell(oldPosition.x) == horizontalCell && getVerticalCell(oldPosition.y) == verticalCell) {
-            return;
+                    if(horizontal == i && vertical == j) continue;
+                    changed.add(p);
+                    toBeRemoved.add(p);
+                }
+                cell.removeAll(toBeRemoved);
+                j++;
+            }
+            i++;
         }
 
-        remove(content);
-        add(content);
+        for(Positioned p : changed) {
+            System.out.print("Changed position: ");
+            System.out.println(p);
+            add(p);
+        }
+    }
+
+    public void removeAll(ArrayList<Positioned> objects) {
+        for(ArrayList<ArrayList<Positioned>> row : contents) {
+            for(ArrayList<Positioned> cell : row) {
+                cell.removeAll(objects);
+            }
+        }
+    }
+
+    public void addAll(ArrayList<Positioned> objects) {
+        for(Positioned p : objects) {
+            add(p);
+        }
     }
 
     private class PositionDistanceTuple {

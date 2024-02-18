@@ -7,13 +7,13 @@ public class Options {
     public static int numberOfPossibleMutations = 4;
     public static int mutationsOnReproduction = 2;
     public static int startingSynapses = 48;
-    public static double tau = 10.0;
+    public static double tau = 30.0;
     public static double decay = Math.exp(-1.0 / tau);
 
     public static double speed = 1.0;
 
     public static double initialEnergy = 0.2;
-    public static double requiredEnergy = 0.0;
+    public static double requiredEnergy = 0.0;  
     public static double desiredEnergy = 1.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     public static double organismEnergy = 0.2;
