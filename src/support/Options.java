@@ -12,7 +12,7 @@ public class Options {
 
     public static double speed = 1.0;
 
-    public static double initialEnergy = 0.2;
+    public static double initialEnergy = 2.0;
     public static double requiredEnergy = 0.0;  
     public static double desiredEnergy = 1.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
