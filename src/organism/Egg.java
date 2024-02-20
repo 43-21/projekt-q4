@@ -17,11 +17,13 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     int time = 0;
     boolean fertilised = true; //false
 
+    final int scale = 6;
+
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
         this.timeToHatch = timeToHatch;
 
-        shape = new Shape(10);
+        shape = new Shape(scale);
         boolean[] color = {true, true, false};
         shape.addSquare(1, 0, color);
         shape.addSquare(0, 1, color);

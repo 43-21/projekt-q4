@@ -12,17 +12,17 @@ public class Options {
 
     public static double speed = 1.0;
 
-    public static double initialEnergy = 2.0;
+    public static double initialEnergy = 1.0;
     public static double requiredEnergy = 0.0;  
-    public static double desiredEnergy = 1.0;
+    public static double desiredEnergy = 3.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     public static double organismEnergy = 0.2;
     public static double reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
 
-    public static int amountOfOrganisms = 10;
-    public static int amountOfFood = 80;
+    public static int amountOfOrganisms = 1;
+    public static int amountOfFood = 300;
 
     public static int fps = 60;
     public static int ups = 90;

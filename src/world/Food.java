@@ -18,6 +18,7 @@ public class Food implements Dynamic, Drawable {
     int desiredAmountOfFood;
     double accumulator = 0.0;
     Shape energyShape;
+    final int scale = 3;
 
     public Food(int food, int amountOfFields) {
         desiredAmountOfFood = food;
@@ -31,7 +32,7 @@ public class Food implements Dynamic, Drawable {
             addFood();
         }
 
-        energyShape = new Shape(10);
+        energyShape = new Shape(3);
         energyShape.addSquare(1, 0, new boolean[]{false, true, false});
         energyShape.addSquare(0, 1, new boolean[]{false, true, false});
         energyShape.addSquare(2, 1, new boolean[]{false, true, false});
@@ -65,7 +66,7 @@ public class Food implements Dynamic, Drawable {
         for(int i = 0; i < 3; i++) {
             boolean noCollisionYet = true;
             for(Double position : food) {
-                if(Functionality.checkForCollision(position, 30.0, newPosition, 30.0)) {
+                if(Functionality.checkForCollision(position, scale * 3, newPosition, scale * 3)) {
                     noCollisionYet = false;
                     x = ThreadLocalRandom.current().nextDouble(Options.width);
                     y = ThreadLocalRandom.current().nextDouble(Options.height);
@@ -86,7 +87,7 @@ public class Food implements Dynamic, Drawable {
 
         int i = 0;
         for(Double energy : food) {
-            if(Functionality.checkForCircleCollision(energy, 15.0, position, radius)) {
+            if(Functionality.checkForCircleCollision(energy, scale * 1.5, position, radius)) {
                 list.add(i);
             }
             i++;
@@ -97,7 +98,7 @@ public class Food implements Dynamic, Drawable {
 
     public double removeEnergy(int index) {
         food.remove(index);
-        return 10.0;
+        return 4.0;
     }
 
     public Image getSprite() {
