@@ -1,4 +1,4 @@
-package world;
+
 
 import graphics.Display;
 import world.World;
@@ -15,7 +15,8 @@ public class GUI implements ActionListener{
     JButton button = new JButton("Start Simulation");
 
     public GUI(){
-        panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
+        //panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
         panel.setLayout(new GridLayout(0, 1));
         
         frame.add(panel, BorderLayout.CENTER);
