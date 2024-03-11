@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import input.Input;
 import overlay.Overlay;
 import world.Drawable;
 import world.World;
@@ -15,7 +16,7 @@ public class Display extends JFrame {
     int width;
     int height;
 
-    public Display(int width, int height) {
+    public Display(int width, int height, Input input) {
         setTitle("Simulation");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
@@ -23,8 +24,11 @@ public class Display extends JFrame {
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.setFocusable(false);
-
         add(canvas);
+        canvas.addMouseListener(input);
+        addKeyListener(input);  
+        addMouseWheelListener(input);
+
         pack();
         
         canvas.createBufferStrategy(3);

@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.MouseInfo;
-
 import graphics.Display;
 import input.Controller;
 import input.Input;
@@ -27,13 +25,14 @@ public class Loop implements Runnable, State {
     private long nextStatTime;
     private long currentTime = System.currentTimeMillis();
 
-    public Loop(World world, Display display) {
-        this.world = world;
+    public Loop(Input input) {
+        this.world = new World(Options.width, Options.height);
         this.overlay = new Overlay();
+        input.overlay = overlay;
         world.overlay = overlay;
-        this.display = display;
+        this.display = new Display(Options.width, Options.height, input);
 
-        this.controller = new Controller(new Input());
+        this.controller = new Controller(input);
     }
 
     // Eigentlicher Loop
@@ -49,6 +48,7 @@ public class Loop implements Runnable, State {
             if(controller.isRequestingPause()) {
                 if(state == PAUSE) {
                     state = SIMULATION;
+                    lastUpdate = System.currentTimeMillis();
                 }
                 else {
                     state = PAUSE;
@@ -59,20 +59,15 @@ public class Loop implements Runnable, State {
                 //speicherung muss hier initiiert werden, wenn nicht schon gespeichert wird.
                 state = SAVING;
             }
-
-            if(controller.getMouseClicked()) {
-                Positioned object = world.getPositionedOnMouse(MouseInfo.getPointerInfo().getLocation());
-            }
-
             
             currentTime = System.currentTimeMillis();
             double lastRenderTimeInSeconds = (currentTime - lastRender) / 1000.0;
             double lastUpdateTimeInSeconds = (currentTime - lastUpdate) / 1000.0;
-            accumulator += lastUpdateTimeInSeconds;
+            if(state == SIMULATION) accumulator += lastUpdateTimeInSeconds;
             rAccumulator += lastRenderTimeInSeconds;
             lastRender = currentTime;
             lastUpdate = currentTime;
-            boolean updated = false;
+            boolean updated = state == SIMULATION ? false : true;
 
             while(accumulator >= updateRate || (rAccumulator >= frameRate && updated)) {
                 if(accumulator >= updateRate) {
@@ -94,7 +89,6 @@ public class Loop implements Runnable, State {
         }
     }
 
-    // Print was gerade passiert
     private void printStats() {
         if(System.currentTimeMillis() > nextStatTime) {
             System.out.println(String.format("FPS: %d, UPS: %d", fps, ups));
@@ -106,7 +100,11 @@ public class Loop implements Runnable, State {
 
     private void update() {
         overlay.clear();
-
+        if(controller.getMouseClicked()) {
+            Positioned object = world.getPositionedOnMouse(display.getCanvas().getMousePosition());
+            System.out.println("focus: " + object);
+            overlay.setFocus(object);
+        }
         if(state == SIMULATION) world.update();
         ups++;
     }

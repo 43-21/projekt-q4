@@ -2,6 +2,7 @@ package gui;
 
 
 import graphics.Display;
+import input.Input;
 import main.Loop;
 import world.World;
 import support.Options;
@@ -109,7 +110,7 @@ public class GUI{ // Graphic User Interface
                 // Start der Simulation
                 if(phase == 1){
                     frame.dispose();
-                    new Thread(new Loop(new World(Options.width, Options.height), new Display(Options.width, Options.height))).start();
+                    new Thread(new Loop(new Input())).start();
                 }
             }
         });

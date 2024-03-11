@@ -11,7 +11,7 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     private boolean[] pressed;
     private boolean[] typed;
     private boolean mousePressed;
-    private boolean mouseClicked;
+    private boolean mouseClicked = false;
     private int mouseWheelRotation;
 
     public Input() {
@@ -53,12 +53,13 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        overlay.addAdvancedMessage(new Message("Taste getippt: " + e.getKeyChar(), 3000));
+        // overlay.addAdvancedMessage(new Message("Taste getippt: " + e.getKeyCode(), 3000));
+        // typed[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        overlay.addAdvancedMessage(new Message("Taste gedrückt: " + e.getKeyChar(), 3000));
+        overlay.addAdvancedMessage(new Message("Taste gedrückt: " + e.getKeyCode(), 3000));
         pressed[e.getKeyCode()] = true;
     }
 
@@ -66,12 +67,13 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     public void keyReleased(KeyEvent e) {
         pressed[e.getKeyCode()] = false;
         typed[e.getKeyCode()] = true;
-        overlay.addAdvancedMessage(new Message("Taste losgelassen: " + e.getKeyChar(), 3000));
+        overlay.addAdvancedMessage(new Message("Taste losgelassen: " + e.getKeyCode(), 3000));
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         mouseClicked = true;
+        overlay.addAdvancedMessage(new Message("Mausklick!", 3000));
     }
 
     @Override

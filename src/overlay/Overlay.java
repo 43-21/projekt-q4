@@ -3,17 +3,17 @@ package overlay;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import organism.Organism;
 import support.Options;
+import world.Positioned;
 
 public class Overlay {
     private ArrayList<Rect> rects;
     private ArrayList<Line> lines;
-    private Organism focus;
+    private Positioned focus;
     private ArrayList<String> messages;
     private ArrayList<Message> advancedMessages;
 
@@ -29,12 +29,6 @@ public class Overlay {
         BufferedImage image = new BufferedImage(Options.width, Options.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
 
-        RenderingHints hints = new RenderingHints(
-            RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON
-        );
-
-        graphics.setRenderingHints(hints);
-        
         graphics.setColor(new Color(1f, 1f, 1f, 0f));
         graphics.fillRect(0, 0, Options.width, Options.height);
 
@@ -80,7 +74,9 @@ public class Overlay {
 
         if(focus != null) {
             graphics.drawString("Position: ( " + focus.getPosition().x + " | " + focus.getPosition().y + " )", 10, y);
-            graphics.drawString("Energie: " + focus.getEnergy(), 10, y + 10);
+            if(focus instanceof Organism) {
+                graphics.drawString("Energie: " + ((Organism) focus).getEnergy(), 10, y + 10);
+            }
         }
 
         graphics.dispose();
@@ -95,8 +91,12 @@ public class Overlay {
         this.rects.add(rect);
     }
 
-    public void setFocus(Organism organism) {
-        this.focus = organism;
+    public void setFocus(Positioned object) {
+        this.focus = object;
+    }
+
+    public Positioned getFocus() {
+        return focus;
     }
 
     public void addMessage(String message) {
@@ -107,14 +107,16 @@ public class Overlay {
         this.advancedMessages.add(message);
     }
 
+    public void addAdvancedMessage(String content, int duration) {
+        this.advancedMessages.add(new Message(content, duration));
+    }
+
     public void clear() {
         this.rects = new ArrayList<>();
         this.lines = new ArrayList<>();
-        this.focus = null;
         this.messages = new ArrayList<>();
 
         advancedMessages.removeIf(m -> {
-            System.out.println(m.old());
             return m.old();
         });
     }
