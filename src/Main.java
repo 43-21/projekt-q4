@@ -1,9 +1,11 @@
 import graphics.Display;
-import world.World;
 import support.Options;
+import world.World;
 
-class Main {
+class Main { //startet GUI
     public static void main(String[] args) {
-        new Thread(new Loop(new World(Options.width, Options.height), new Display(Options.width, Options.height))).start();
+        GUI gui = new GUI();
+        //gui.button.updateUI();
+        //new Thread(new Loop(new World(Options.width, Options.height), new Display(Options.width, Options.height))).start();
     }
 }

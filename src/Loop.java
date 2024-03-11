@@ -5,6 +5,7 @@ import overlay.Overlay;
 import support.Options;
 import world.World;
 
+// Game Loop
 public class Loop implements Runnable {
     private World world;
     private Display display;
@@ -25,6 +26,7 @@ public class Loop implements Runnable {
         this.display = display;
     }
 
+    // Eigentlicher Loop
     @Override
     public void run() {
         double accumulator = 0;
@@ -63,6 +65,7 @@ public class Loop implements Runnable {
         }
     }
 
+    // Print was gerade passiert
     private void printStats() {
         if(System.currentTimeMillis() > nextStatTime) {
             System.out.println(String.format("FPS: %d, UPS: %d", fps, ups));

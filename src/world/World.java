@@ -9,6 +9,7 @@ import organism.Organism;
 import overlay.Overlay;
 import support.*;
 
+// Die Welt der Simulation
 public class World {
     public Overlay overlay;
 
@@ -20,6 +21,7 @@ public class World {
 
     int counter = 0;
 
+    // Die Welt wird erstellt und befüllt
     public World(int width, int height) {
         this.width = width;
         this.height = height;
@@ -37,10 +39,10 @@ public class World {
 
     public void update() {
         time++;
-        //abfolge:
-        //1. inputs ermitteln
-        //2. alle updaten, essen, koordinaten etc
-        // System.out.println("------------------------------------");
+        // Abfolge:
+        // 1. Inputs der Gehirne ermitteln
+        // 2. Alles updaten, essen, koordinaten etc
+        // 3. System.out.println("------------------------------------"); (Was passiert gerade?)
         
         for(Positioned o : objects) {
             if(o instanceof Organism) {
@@ -119,7 +121,6 @@ public class World {
         overlay.addMessage("Anzahl an Essen: " + food.getAmountOfFood());
     }
 
-    
     public ArrayList<Drawable> getDrawables() {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(food);
