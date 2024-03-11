@@ -1,10 +1,7 @@
 package gui;
 
-
-import graphics.Display;
 import input.Input;
 import main.Loop;
-import world.World;
 import support.Options;
 import javax.swing.*;
 
@@ -35,7 +32,7 @@ public class GUI{ // Graphic User Interface
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Evolution Simulation");
+        frame.setTitle("Einstellungen");
         frame.pack();
         //frame.setLayout(new FlowLayout());
         
@@ -54,7 +51,7 @@ public class GUI{ // Graphic User Interface
             @Override
             public void actionPerformed(ActionEvent e){
                 // String wird zu double konvertiert
-                Options.speed = new Double(speedInput.getText()).doubleValue();
+                Options.speed = Double.parseDouble(speedInput.getText());
             }
         });
         panel.add(speedLabel);
@@ -75,7 +72,7 @@ public class GUI{ // Graphic User Interface
             @Override
             public void actionPerformed(ActionEvent e){
                 // String wird zu int konvertiert
-                Options.amountOfOrganisms = new Integer(amountOfOrganismsInput.getText()).intValue();
+                Options.amountOfOrganisms = Integer.parseInt(amountOfOrganismsInput.getText());
             }
         });
         panel.add(amountOfOrganismsLabel);
@@ -96,7 +93,7 @@ public class GUI{ // Graphic User Interface
             @Override
             public void actionPerformed(ActionEvent e){
                 // String wird zu int konvertiert
-                Options.amountOfFood = new Integer(amountOfFoodInput.getText()).intValue();
+                Options.amountOfFood = Integer.parseInt(amountOfFoodInput.getText());
             }
         });
         panel.add(amountOfFoodLabel);
