@@ -2,6 +2,7 @@ package support;
 
 import java.awt.Color;
 import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 
 public class Functionality {
     public static double distance(Double p1, Double p2) {
@@ -12,7 +13,7 @@ public class Functionality {
     //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
-        //kollinear... oder?
+
         if(denominator == 0) {
             //überprüfen: parallel, nacheinander, oder überschneidend?
             //provisorisch:
@@ -27,6 +28,47 @@ public class Functionality {
             (s * (b.x - a.x) + a.x),
             (s * (b.y - a.y) + a.y)
         );
+    }
+
+    //ggf rotierte rechtecke
+    public static boolean rectsColliding(Double a, Double b, Double c, Double d, Double e, Double f, Double g, Double h) {
+        return false;
+    }
+
+    //rechteck - punkt
+    public static boolean pointInRect(Double p, Double a, Double b, Double c, Double d) {
+        //vektoren
+        double apx = p.x - a.x;
+        double abx = b.x - a.x;
+        double adx = d.x - a.x;
+
+        double apy = p.y - a.y;
+        double aby = b.y - a.y;
+        double ady = d.y - a.y;
+
+        //skalarprodukte
+        double apab = apx * abx + apy * aby;
+        double abab = abx * abx + aby * aby;
+        double apad = apx * adx + apy * ady;
+        double adad = adx * adx + ady * ady;
+
+        return 0 < apab && apab < abab && 0 < apad && apad < adad;
+    }
+
+    //rechteck - linie
+    public static ArrayList<Double> getIntersectionPoints(Double a, Double b, Double c, Double d, Double e, Double f) {
+        ArrayList<Double> intersections = new ArrayList<>();
+        Double p1 = getIntersectionPoint(a, b, e, f);
+        Double p2 = getIntersectionPoint(b, c, e, f);
+        Double p3 = getIntersectionPoint(c, d, e, f);
+        Double p4 = getIntersectionPoint(d, a, e, f);
+
+        if(p1 != null) intersections.add(p1);
+        if(p2 != null) intersections.add(p2);
+        if(p3 != null) intersections.add(p3);
+        if(p4 != null) intersections.add(p4);
+
+        return intersections;
     }
 
     //quadrate

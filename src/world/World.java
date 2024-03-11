@@ -3,6 +3,7 @@ package world;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.awt.geom.Point2D.Double;
 
 import organism.Egg;
 import organism.Genes;
@@ -105,6 +106,9 @@ public class World {
                 }
 
                 if(((Organism) o).getEnergy() < Options.requiredEnergy) {
+                    if(overlay.getFocus() == o) {
+                        overlay.setFocus(null);
+                    }
                     toBeRemoved.add(o);
                     amountOfOrganisms--;
                 }
@@ -140,7 +144,12 @@ public class World {
     }
 
     public Positioned getPositionedOnMouse(Point mousePosition) {
-        for(Positioned object : objects) {
+        Double position = new Double(mousePosition.x, mousePosition.y);
+        overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);
+        for(Positioned object : objects.getCellContents(position)) {
+            if(object.intersecting(position)) {
+                return object;
+            }
         }
         return null;
     }

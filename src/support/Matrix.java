@@ -320,6 +320,13 @@ public class Matrix implements Iterable<Positioned> {
         return list;
     }
 
+    public ArrayList<Positioned> getCellContents(Double position) {
+        int horizontal = getHorizontalCell(position.x);
+        int vertical = getVerticalCell(position.y);
+
+        return contents.get(horizontal).get(vertical);
+    }
+
     private int getHorizontalCell(double x) {
         return (int) ((x / (double) width) * amountOfHorizontalCells);
     }

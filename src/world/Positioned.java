@@ -1,9 +1,12 @@
 package world;
 
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.util.concurrent.ThreadLocalRandom;
 
-// Oblekte dieser Art haben eine Position
+import support.Functionality;
+
+// Objekte dieser Art haben eine Position
 public abstract class Positioned implements WithShape {
     protected Double position = new Double();
 
@@ -21,5 +24,48 @@ public abstract class Positioned implements WithShape {
         double y = ThreadLocalRandom.current().nextDouble(height);
 
         position.setLocation(x, y);
+    }
+    
+    //collision
+    public boolean colliding(Positioned other) {
+        //großen test mit rechtecken ausführen
+        //dann für alle squares wie ein volidiot überprüfen ob sie kollidieren, aufwand ist ja nur n2...
+        return false;
+    }
+
+    //intersection
+    public boolean intersecting(Double p) {
+        System.out.println(p);
+        System.out.println(position);
+        int scale = getShape().getScale();
+        Double translation = getShape().getRelativePosition();
+        for(Square square : getShape().getSquares()) {
+            Point squarePos = square.getPosition();
+            double x = position.x + squarePos.x * scale + translation.x;
+            double y = position.y + squarePos.y * scale + translation.y;
+
+            Double a = new Double(x, y);
+            Double b = new Double(x + scale, y);
+            Double c = new Double(x + scale, y + scale);
+            Double d = new Double(x, y + scale);
+
+            System.out.println("x: " + x + ", y: " + y);
+
+            if(Functionality.pointInRect(p, a, b, c, d)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Square intersecting(Double a, Double b) {
+        Square closestIntersection = null;
+        for(Square square : getShape().getSquares()) {
+            //tatsächliche position berechnen
+            //eckpunkte bestimmen
+            //getIntersectionPoints bestimmen
+            //wenn drin: distanz zu a mit früherem vergleichen, wenn kleiner: aktuelles square
+        }
+        return closestIntersection;
     }
 }

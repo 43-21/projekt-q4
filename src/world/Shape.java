@@ -13,12 +13,12 @@ public class Shape {
     public static int CORNER = 0;
     public static int CENTER = 1;
 
-    Square centerSquare = null;
-    int centerPositionKind = CORNER;
-    int scale;
-    int width = 0;
-    int height = 0;
-    ArrayList<Square> squares;
+    private Square centerSquare = null;
+    private int centerPositionKind = CORNER;
+    private int scale;
+    private int width = 0;
+    private int height = 0;
+    private ArrayList<Square> squares;
 
     public Shape(int scale) {
         this.scale = scale;
@@ -59,6 +59,8 @@ public class Shape {
         centerPositionKind = positionKind;
     }
 
+    //gibt die Position des (0|0) Punktes der Shape wieder im Vergleich zum Mittelpunkt
+    //square position + relative position = position zum zentrum
     public Double getRelativePosition() {
         if(centerSquare == null) return new Double();
         Double position = new Double(-centerSquare.x * scale, -centerSquare.y * scale);
