@@ -1,13 +1,17 @@
 package world;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import organism.Egg;
 import organism.Genes;
 import organism.Organism;
+import overlay.Overlay;
 import support.*;
 
 public class World {
+    public Overlay overlay;
+
     Matrix objects;
     Food food;
 
@@ -48,6 +52,9 @@ public class World {
                     continue;
                 }
 
+                overlay.addLine(new overlay.Line(o.getPosition(), nextObject.getPosition(), Color.GREEN));
+                java.awt.geom.Point2D.Double end = Functionality.getDestinationPoint(o.getPosition(), ((Organism) o).getRotation(), length);
+                overlay.addLine(new overlay.Line(o.getPosition(), end));
                 double distance = Functionality.distance(nextObject.position, o.getPosition());
                 boolean[] color = o.getShape().getSquares().get(0).getColor();
                 for(int i = 0; i < color.length; i++) {
@@ -107,6 +114,9 @@ public class World {
         objects.update();
         objects.removeAll(toBeRemoved);
         objects.addAll(toBeAdded);
+
+        overlay.addMessage("Zeitpunkt: " + time);
+        overlay.addMessage("Anzahl an Essen: " + food.getAmountOfFood());
     }
 
     

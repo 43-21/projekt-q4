@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+
 import graphics.Display;
+import overlay.Overlay;
 import support.Options;
 import world.World;
 
 public class Loop implements Runnable {
     private World world;
     private Display display;
+
+    private Overlay overlay;
 
     private final double frameRate = 1.0 / Options.fps;
     private final double updateRate = 1.0 / Options.ups;
@@ -15,6 +20,8 @@ public class Loop implements Runnable {
 
     public Loop(World world, Display display) {
         this.world = world;
+        this.overlay = new Overlay();
+        world.overlay = overlay;
         this.display = display;
     }
 
@@ -27,10 +34,6 @@ public class Loop implements Runnable {
         nextStatTime = System.currentTimeMillis() + 1000;
 
         while(true) {
-            //updates
-            //while updaterate isnt fulfilled, update
-            //render
-            //if its time to render, render
             currentTime = System.currentTimeMillis();
             double lastRenderTimeInSeconds = (currentTime - lastRender) / 1000.0;
             double lastUpdateTimeInSeconds = (currentTime - lastUpdate) / 1000.0;
@@ -70,12 +73,13 @@ public class Loop implements Runnable {
     }
 
     private void update() {
+        overlay.clear();
         world.update();
         ups++;
     }
 
     private void render() {
-        display.render(world);
+        display.render(world, overlay);
         fps++;
     }
 }

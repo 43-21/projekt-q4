@@ -2,14 +2,12 @@ package graphics;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import overlay.Overlay;
 import world.Drawable;
-import world.Positioned;
 import world.World;
 
 public class Display extends JFrame {
@@ -38,9 +36,8 @@ public class Display extends JFrame {
         this.height = height;
     }
 
-    public void render(World world) {
+    public void render(World world, Overlay overlay) {
         ArrayList<Drawable> objects = world.getDrawables();
-        int time = world.time;
 
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
@@ -63,32 +60,9 @@ public class Display extends JFrame {
                 position.x, position.y,
                 null
             );
-
-            if(object instanceof Positioned) {
-                int x = (int) ((Positioned) object).getPosition().x;
-                int y = (int) ((Positioned) object).getPosition().y;
-                graphics.setColor(Color.ORANGE);
-                graphics.drawString(x + " " + y, x, y);
-                graphics.setColor(Color.BLACK);
-            }
-
-            if(object instanceof organism.Organism) {
-                DecimalFormat df = new DecimalFormat("#.##");
-                df.setRoundingMode(RoundingMode.HALF_UP);
-                graphics.drawString(df.format(((organism.Organism) object).getEnergy()), 10, 40);
-            }
-
-            if(object instanceof world.Food) {
-                graphics.drawString("" + ((world.Food) object).getAmountOfFood(), 10, 50);
-            }
         }
 
-        graphics.drawString(canvas.getWidth() + " " + canvas.getHeight(), 10, 30);
-
-        graphics.drawString(String.valueOf(time), 10, 10);
-
-        graphics.drawString(String.valueOf(objects.size()), 10, 60);
-
+        graphics.drawImage(overlay.getOverlay(), 0, 0, null);
 
         graphics.dispose();
         bufferStrategy.show();
