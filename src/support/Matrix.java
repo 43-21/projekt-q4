@@ -126,140 +126,95 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     //für sicht erstmal
-    public Positioned searchRay(Double position, double angle, double distance) {
-        ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
-        double distanceCounterXY = 0;
+    public ArrayList<PositionDistanceTuple> searchRay(Double position, double angle, double distance) {
+        double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+        double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
         double distanceCounter = 0;
         int horizontalBoundsCounter = getHorizontalCell(position.x);
         int verticalBoundsCounter = getVerticalCell(position.y);
-        boolean xy = true; // true bedeutet x false bedeutet y
-        boolean firstIntersect = true;
-        boolean isPiOverFour = false;
-        boolean straightLine = false;
-        int angleCaseSwitch = 1;
-        int angleCaseSwitchSpecialCase = 0;
-        double amountOfCells = (double) Options.amountOfHorizontalCells;
-        distance = (distance / width) * amountOfCells;
-        Double destination = new Double();
-        destination.x = position.x + distance * Math.cos(angle);
-        destination.y = position.y + distance * Math.sin(angle);
-        if(angle == 0){
-            straightLine = true;
-            angleCaseSwitch = 1;
-            angleCaseSwitchSpecialCase = 0;
-        } else if(angle == Math.PI / 2.0){
-            straightLine = true;
-            angleCaseSwitch = 0;
-            angleCaseSwitchSpecialCase = 1;
-        } else if(angle == Math.PI){
-            straightLine = true;
-            angleCaseSwitch = -1;
-            angleCaseSwitchSpecialCase = 0;
-        } else if(angle == (Math.PI * 3.0) / 2.0){
-            straightLine = true;
-            angleCaseSwitch = 0;
-            angleCaseSwitchSpecialCase = -1;
-        } else if(((angle > Math.PI / 4.0) && (angle < (Math.PI * 3.0)/ 4.0))){
-            xy = false;
-            angleCaseSwitch = 1;
-        } else if(((angle > (Math.PI * 5.0 ) / 4.0) && (angle < (Math.PI * 7.0) / 4.0))){
-            xy = false;
-            angleCaseSwitch = -1;
-            angle -= Math.PI;
-        } else if(((angle > (Math.PI * 3.0 ) / 4.0) && (angle < (Math.PI * 5.0) / 4.0))){
-            xy = true;
-            angleCaseSwitch = -1;
-            angle -= Math.PI;
-        } else if((angle == Math.PI / 4.0)){
-            isPiOverFour = true;
-            angleCaseSwitchSpecialCase = 1;
-            angleCaseSwitch = 1;
-        } else if((angle == (Math.PI * 3.0)/ 4.0)){
-            isPiOverFour = true;
-            angleCaseSwitchSpecialCase = -1;
-            angleCaseSwitch = 1;
-        } else if((angle == (Math.PI * 5.0 ) / 4.0)){
-            isPiOverFour = true;
-            angleCaseSwitchSpecialCase = -1;
-            angleCaseSwitch = -1;
-        } else if((angle == (Math.PI * 7.0) / 4.0)){
-            isPiOverFour = true;
-            angleCaseSwitchSpecialCase = 1;
-            angleCaseSwitch = -1;
-        }
+        boolean xyAngleSwitch = false; // true bedeutet delta x != 1 false bedeutet y != 1
+        boolean firstIntersect = true; // nach dem 1. Intersect bleibt die Distanz konstant, der Wert beim 1. Intersect ist Positionsabhängig
+        boolean isPiOverFour = false; // 45 Grad?
+        boolean straightLine = false; // Gerade Linie?
+        int angleCaseSwitchX = 0; // Regelt in welche Richtung sich die Sicht ausbreitet
+        int angleCaseSwitchY = 0; // Regelt in welche Richtung sich die Sicht ausbreitet in Sonderfällen
 
+        if(Math.cos(angle) == 0 || Math.cos(angle) == 0){ // Regelt Vorzeichen der Rechnung
+            angleCaseSwitchX = (int) Math.cos(angle);
+            angleCaseSwitchY = (int) Math.sin(angle);
+            straightLine = true;
+
+        } else{
+            angleCaseSwitchX = (int) (Math.cos(angle) / Math.abs(Math.cos(angle)));
+            angleCaseSwitchY = (int) (Math.sin(angle) / Math.abs(Math.sin(angle)));
+            if(Math.abs(Math.cos(angle)) == Math.abs(Math.sin(angle))){
+                isPiOverFour = true;
+            } else if(Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))){
+                xyAngleSwitch = true;
+                distanceCounterXY = position.y - getVerticalCell(position.y) * Options.cellLength;
+                heightAtStart = position.x - getHorizontalCell(position.x) * Options.cellLength;
+            } else{
+                xyAngleSwitch = false;
+                distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
+                heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+            }
+        } 
+
+
+        
+        ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
 
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+            for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(new PositionDistanceTuple(i, distanceCounter));
+            }
             if(isPiOverFour == true){
-                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                }
                 if(firstIntersect == true){
-                    distanceCounter += Math.sqrt(2.0) / 2.0;
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength - distanceCounterXY), 2) + Math.pow(heightAtStart, 2));
                     firstIntersect = false;
                 } else{
-                    distanceCounter += Math.sqrt(2.0);
+                    distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
                 }
-                horizontalBoundsCounter += angleCaseSwitch;
-                verticalBoundsCounter += angleCaseSwitchSpecialCase;
+                horizontalBoundsCounter += angleCaseSwitchX;
+                verticalBoundsCounter += angleCaseSwitchY;
             } else if(straightLine == true){
-                for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                    relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                }
                 if(firstIntersect == true){
-                    distanceCounter += 1.0 / 2.0;
+                    distanceCounter += (Options.cellLength - distanceCounterXY) * Math.abs(angleCaseSwitchX);
+                    distanceCounter += (Options.cellLength - heightAtStart) * Math.abs(angleCaseSwitchY);
                     firstIntersect = false;
                 } else{
-                    distanceCounter++;
+                    distanceCounter+= Options.cellLength;
                 }
-                horizontalBoundsCounter += 1*angleCaseSwitch;
-                verticalBoundsCounter += 1*angleCaseSwitchSpecialCase;
-            }else if(xy == true){
-                if(distanceCounterXY >= 1){
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                    }
-                    distanceCounterXY--;
-                    distanceCounterXY += 1 / Math.tan(angle);
-                    horizontalBoundsCounter += 1*angleCaseSwitch;
-                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                horizontalBoundsCounter += angleCaseSwitchX;
+                verticalBoundsCounter += angleCaseSwitchY;
+            }else if(xyAngleSwitch == true){
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
+                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    firstIntersect = false;
                 } else{
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                    }
-                    if(firstIntersect == true){
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)) / 2, 2) + Math.pow(1 / 2, 2));
-                        distanceCounterXY += (1 / Math.tan(angle)) / 2;
-                        firstIntersect = false;
-                    } else{
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
-                        distanceCounterXY += 1 / Math.tan(angle);
-                    }
-                    verticalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    distanceCounterXY += 1 / Math.tan(angle);
                 }
+                if(distanceCounterXY >= 1){
+                    distanceCounterXY--;
+                    horizontalBoundsCounter += angleCaseSwitchX;
+                }
+                verticalBoundsCounter += angleCaseSwitchY;
             } else{
-                if(distanceCounterXY >= 1){
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                    }
-                    distanceCounterXY--;
-                    verticalBoundsCounter += 1*angleCaseSwitch;
-                    distanceCounterXY += 1 / Math.tan(angle);
-                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
+                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    firstIntersect = false;
                 } else{
-                    for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                        relevant.add(new PositionDistanceTuple(i, distanceCounter));
-                    }
-                    if(firstIntersect == true){
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)) / 2, 2) + Math.pow(1 / 2, 2));
-                        distanceCounterXY += 1 / Math.tan(angle) / 2;
-                        firstIntersect = false;
-                    } else{
-                        distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
-                        distanceCounterXY += 1 / Math.tan(angle);
-                    }
-                    horizontalBoundsCounter += 1*angleCaseSwitch;
+                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
+                    distanceCounterXY += 1 / Math.tan(angle);
                 }
+                if(distanceCounterXY >= 1){
+                    distanceCounterXY--;
+                    verticalBoundsCounter += angleCaseSwitchY;
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
             }
         }
 
@@ -269,7 +224,7 @@ public class Matrix implements Iterable<Positioned> {
             }
         }
 
-        PositionDistanceTuple currentInRay = null;
+        /*PositionDistanceTuple currentInRay = null;
         //schauen was sich schneidet
         for(PositionDistanceTuple p : relevant) {
             if(p.getInSquare().getPosition() == position) continue;
@@ -297,9 +252,9 @@ public class Matrix implements Iterable<Positioned> {
                     }
                 }
             }
-        }
-        if(currentInRay == null) return null;
-        return currentInRay.getInSquare();
+        } */
+        if(relevant == null) return null;
+        return relevant;
     }
 
     //für kollision oÄ
