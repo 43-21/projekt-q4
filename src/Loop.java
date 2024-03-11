@@ -2,6 +2,7 @@ import graphics.Display;
 import support.Options;
 import world.World;
 
+// Game Loop
 public class Loop implements Runnable {
     private World world;
     private Display display;
@@ -18,6 +19,7 @@ public class Loop implements Runnable {
         this.display = display;
     }
 
+    // Eigentlicher Loop
     @Override
     public void run() {
         double accumulator = 0;
@@ -27,10 +29,10 @@ public class Loop implements Runnable {
         nextStatTime = System.currentTimeMillis() + 1000;
 
         while(true) {
-            //updates
-            //while updaterate isnt fulfilled, update
-            //render
-            //if its time to render, render
+            // Updates
+            // While updaterate isnt fulfilled, update
+            // Render
+            // If its time to render, render
             currentTime = System.currentTimeMillis();
             double lastRenderTimeInSeconds = (currentTime - lastRender) / 1000.0;
             double lastUpdateTimeInSeconds = (currentTime - lastUpdate) / 1000.0;
@@ -60,6 +62,7 @@ public class Loop implements Runnable {
         }
     }
 
+    // Print was gerade passiert
     private void printStats() {
         if(System.currentTimeMillis() > nextStatTime) {
             System.out.println(String.format("FPS: %d, UPS: %d", fps, ups));

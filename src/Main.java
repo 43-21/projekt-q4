@@ -2,7 +2,7 @@ import graphics.Display;
 import support.Options;
 import world.World;
 
-class Main {
+class Main { //startet GUI
     public static void main(String[] args) {
         GUI gui = new GUI();
         //gui.button.updateUI();

@@ -1,5 +1,8 @@
 package support;
+// Globale Konstanten sind hier gespeichert
 public class Options {
+
+    // Konstanten im Kontext der Gehirne
     public static double addNeuronRate = 0.06;
     public static double addSynapseRate = 0.1;
     public static double mutateWeightsRate = 0.9;
@@ -10,8 +13,7 @@ public class Options {
     public static double tau = 30.0;
     public static double decay = Math.exp(-1.0 / tau);
 
-    public static double speed = 1.0;
-
+    // Konstanten im Kontext der Energie
     public static double initialEnergy = 1.0;
     public static double requiredEnergy = 0.0;  
     public static double desiredEnergy = 3.0;
@@ -21,12 +23,14 @@ public class Options {
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
 
+    // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte hier)
     public static int amountOfOrganisms = 1;
     public static int amountOfFood = 300;
+    public static double speed = 1.0;
 
+    // Technische Konstanten
     public static int fps = 60;
     public static int ups = 90;
-
     public static int width = 1920;
     public static int height = 1200;
     public static int amountOfHorizontalCells = 16;
