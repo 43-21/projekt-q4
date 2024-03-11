@@ -29,7 +29,7 @@ public class Options {
     public static double speed = 1.0;
 
     // Technische Konstanten
-    public static int fps = 60;
+    public static int fps = 30;
     public static int ups = 90;
     public static int width = 1920;
     public static int height = 1200;
