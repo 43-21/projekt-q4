@@ -1,9 +1,12 @@
+package gui;
 
 
 import graphics.Display;
+import main.Loop;
 import world.World;
 import support.Options;
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.awt.*;
 

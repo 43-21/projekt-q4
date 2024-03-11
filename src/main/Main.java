@@ -1,4 +1,6 @@
+package main;
 import graphics.Display;
+import gui.GUI;
 import support.Options;
 import world.World;
 
