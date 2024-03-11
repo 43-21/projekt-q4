@@ -1,17 +1,24 @@
 package main;
-import java.util.ArrayList;
+
+import java.awt.MouseInfo;
 
 import graphics.Display;
+import input.Controller;
+import input.Input;
 import overlay.Overlay;
 import support.Options;
+import world.Positioned;
 import world.World;
 
 // Game Loop
-public class Loop implements Runnable {
+public class Loop implements Runnable, State {
     private World world;
     private Display display;
 
+    int state = SIMULATION;
+
     private Overlay overlay;
+    private Controller controller;
 
     private final double frameRate = 1.0 / Options.fps;
     private final double updateRate = 1.0 / Options.ups;
@@ -25,6 +32,8 @@ public class Loop implements Runnable {
         this.overlay = new Overlay();
         world.overlay = overlay;
         this.display = display;
+
+        this.controller = new Controller(new Input());
     }
 
     // Eigentlicher Loop
@@ -37,6 +46,25 @@ public class Loop implements Runnable {
         nextStatTime = System.currentTimeMillis() + 1000;
 
         while(true) {
+            if(controller.isRequestingPause()) {
+                if(state == PAUSE) {
+                    state = SIMULATION;
+                }
+                else {
+                    state = PAUSE;
+                }
+            }
+    
+            if(controller.isRequestingSave()) {
+                //speicherung muss hier initiiert werden, wenn nicht schon gespeichert wird.
+                state = SAVING;
+            }
+
+            if(controller.getMouseClicked()) {
+                Positioned object = world.getPositionedOnMouse(MouseInfo.getPointerInfo().getLocation());
+            }
+
+            
             currentTime = System.currentTimeMillis();
             double lastRenderTimeInSeconds = (currentTime - lastRender) / 1000.0;
             double lastUpdateTimeInSeconds = (currentTime - lastUpdate) / 1000.0;
@@ -78,7 +106,8 @@ public class Loop implements Runnable {
 
     private void update() {
         overlay.clear();
-        world.update();
+
+        if(state == SIMULATION) world.update();
         ups++;
     }
 
