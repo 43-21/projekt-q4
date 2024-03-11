@@ -39,7 +39,6 @@ public class Shape {
 
         graphics.dispose();
         return image;
-
     }
 
     public void addSquare(int x, int y, boolean[] color) {
