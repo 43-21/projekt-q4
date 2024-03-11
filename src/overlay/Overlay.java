@@ -15,10 +15,14 @@ public class Overlay {
     private ArrayList<Line> lines;
     private Organism focus;
     private ArrayList<String> messages;
+    private ArrayList<Message> advancedMessages;
 
     public Overlay() {
         this.rects = new ArrayList<>();
         this.lines = new ArrayList<>();
+        this.messages = new ArrayList<>();
+        this.focus = null;
+        this.advancedMessages = new ArrayList<>();
     }
 
     public Image getOverlay() {
@@ -60,11 +64,19 @@ public class Overlay {
         }
 
         int y = 10;
+        graphics.setColor(Color.BLACK);
         for(String message : messages) {
-            graphics.setColor(Color.BLACK);
             graphics.drawString(message, 10, y);
             y += 10;
         }
+
+        for(Message message : advancedMessages) {
+            graphics.setColor(message.getColor());
+            graphics.drawString(message.getContent(), 10, y);
+            y += 10;
+        }
+
+        graphics.setColor(Color.BLACK);
 
         if(focus != null) {
             graphics.drawString("Position: ( " + focus.getPosition().x + " | " + focus.getPosition().y + " )", 10, y);
@@ -91,10 +103,19 @@ public class Overlay {
         this.messages.add(message);
     }
 
+    public void addAdvancedMessage(Message message) {
+        this.advancedMessages.add(message);
+    }
+
     public void clear() {
         this.rects = new ArrayList<>();
         this.lines = new ArrayList<>();
         this.focus = null;
         this.messages = new ArrayList<>();
+
+        advancedMessages.removeIf(m -> {
+            System.out.println(m.old());
+            return m.old();
+        });
     }
 }

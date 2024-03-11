@@ -24,7 +24,7 @@ public class Options {
     public static double energyConsumptionAtDeathAge = 0.1;
 
     // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte hier)
-    public static int amountOfOrganisms = 1;
+    public static int amountOfOrganisms = 5;
     public static int amountOfFood = 300;
     public static double speed = 1.0;
 

@@ -1,6 +1,7 @@
 package world;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import organism.Egg;
@@ -17,7 +18,8 @@ public class World {
     Food food;
 
     int width, height;
-    public int time = 0;
+    int time = 0;
+    int amountOfOrganisms = Options.amountOfOrganisms;
 
     int counter = 0;
 
@@ -89,6 +91,7 @@ public class World {
             if(o instanceof Egg) {
                 if(((Egg) o).canHatch()) {
                     Organism child = ((Egg) o).hatch();
+                    amountOfOrganisms++;
                     toBeAdded.add(child);
                     System.out.println("Added child: " + child);
                     toBeRemoved.add(o);
@@ -103,6 +106,7 @@ public class World {
 
                 if(((Organism) o).getEnergy() < Options.requiredEnergy) {
                     toBeRemoved.add(o);
+                    amountOfOrganisms--;
                 }
 
                 else if(((Organism) o).getEnergy() >= Options.reproductionEnergy) {
@@ -119,6 +123,7 @@ public class World {
 
         overlay.addMessage("Zeitpunkt: " + time);
         overlay.addMessage("Anzahl an Essen: " + food.getAmountOfFood());
+        overlay.addMessage("Anzahl der Organismen: " + amountOfOrganisms);
     }
 
     public ArrayList<Drawable> getDrawables() {
@@ -132,5 +137,11 @@ public class World {
         }
 
         return drawables;
+    }
+
+    public Positioned getPositionedOnMouse(Point mousePosition) {
+        for(Positioned object : objects) {
+        }
+        return null;
     }
 }
