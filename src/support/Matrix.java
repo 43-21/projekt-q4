@@ -47,8 +47,6 @@ public class Matrix implements Iterable<Positioned> {
         int horizontalCell = getHorizontalCell(x);
         int verticalCell = getVerticalCell(y);
 
-        // System.out.println(contents.get(horizontalCell).get(verticalCell).add(content));
-
         contents.get(horizontalCell).get(verticalCell).add(content);
     }
 
@@ -190,7 +188,6 @@ public class Matrix implements Iterable<Positioned> {
             angleCaseSwitch = -1;
         }
 
-        // System.out.println(distance);
 
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
             if(isPiOverFour == true){
@@ -379,15 +376,11 @@ class MatrixIterator implements Iterator<Positioned> {
     @Override
     public Positioned next() {
         Positioned item = contents.get(i).get(j).get(k);
-        // System.out.println(i + " " + j + " " + k);
         if(++k < contents.get(i).get(j).size()) return item;
         else k = 0;
-        // System.out.println(k);
         if(++j < contents.get(i).size()) return item;
         else j = 0;
-        // System.out.println(j);
         i++;
-        // System.out.println(i);
         return item;
     }
 }

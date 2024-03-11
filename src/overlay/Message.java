@@ -25,8 +25,6 @@ public class Message {
     }
 
     public boolean old() {
-        System.out.println(this.startTime);
-        System.out.println(System.currentTimeMillis());
         return this.startTime + duration < System.currentTimeMillis();
     }
 

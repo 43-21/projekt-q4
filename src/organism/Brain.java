@@ -33,11 +33,11 @@ public class Brain {
         for(Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
-            if(to == null || from == null) {
-                System.out.println("from: " + from + "; to: " + to);
-                System.out.println("from index: " + s.from + "; to index: " + s.to);
-                System.out.println(neurons.values());
-            }
+            // if(to == null || from == null) {
+            //     System.out.println("from: " + from + "; to: " + to);
+            //     System.out.println("from index: " + s.from + "; to index: " + s.to);
+            //     System.out.println(neurons.values());
+            // }
 
             if(from.spike) {
                 to.potential += s.weight;

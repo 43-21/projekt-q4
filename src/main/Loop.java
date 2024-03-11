@@ -102,7 +102,6 @@ public class Loop implements Runnable, State {
         overlay.clear();
         if(controller.getMouseClicked()) {
             Positioned object = world.getPositionedOnMouse(display.getCanvas().getMousePosition());
-            System.out.println("focus: " + object);
             overlay.setFocus(object);
         }
         if(state == SIMULATION) world.update();

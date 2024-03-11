@@ -45,7 +45,6 @@ public class World {
         // Abfolge:
         // 1. Inputs der Gehirne ermitteln
         // 2. Alles updaten, essen, koordinaten etc
-        // 3. System.out.println("------------------------------------"); (Was passiert gerade?)
         
         for(Positioned o : objects) {
             if(o instanceof Organism) {

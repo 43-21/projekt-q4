@@ -35,8 +35,6 @@ public abstract class Positioned implements WithShape {
 
     //intersection
     public boolean intersecting(Double p) {
-        System.out.println(p);
-        System.out.println(position);
         int scale = getShape().getScale();
         Double translation = getShape().getRelativePosition();
         for(Square square : getShape().getSquares()) {
@@ -48,8 +46,6 @@ public abstract class Positioned implements WithShape {
             Double b = new Double(x + scale, y);
             Double c = new Double(x + scale, y + scale);
             Double d = new Double(x, y + scale);
-
-            System.out.println("x: " + x + ", y: " + y);
 
             if(Functionality.pointInRect(p, a, b, c, d)) {
                 return true;
