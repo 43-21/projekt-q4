@@ -159,8 +159,6 @@ public class Matrix implements Iterable<Positioned> {
                 heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
             }
         } 
-
-
         
         ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
 
