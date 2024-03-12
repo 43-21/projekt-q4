@@ -1,4 +1,5 @@
 package main;
+
 import gui.GUI;
 
 class Main { //startet GUI
