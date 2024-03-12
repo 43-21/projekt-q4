@@ -9,8 +9,9 @@ public class Options {
     public static double multipleMutationsRate = 0.005;
     public static final int numberOfPossibleMutations = 4;
     public static int mutationsOnReproduction = 2;
-    public static int startingSynapses = 48;
-    public static int amountOfPseudoInputs = 2;
+    public static int startingSynapses = 38;
+    public static int startingMutations = 10;
+    public static final int amountOfPseudoInputs = 2;
     public static double tau = 30.0;
     public static double decay(){
         return Math.exp(-1.0 / tau);
@@ -22,13 +23,16 @@ public class Options {
     public static double desiredEnergy = 3.0;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     //public static double organismEnergy = 0.0;
-    public static double reproductionEnergy = desiredEnergy + initialEnergy; // Methode
+    public static double reproductionEnergy(){ 
+        return desiredEnergy + initialEnergy; 
+    }
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
 
     // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte hier)
     public static int amountOfOrganisms = 5;
     public static int amountOfFood = 300;
+    public static double foodSpawnRate = 0.05;
     public static double speed = 1.0;
 
     // Technische Konstanten

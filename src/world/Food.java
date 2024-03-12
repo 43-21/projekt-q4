@@ -44,7 +44,7 @@ public class Food implements Dynamic, Drawable {
 
     public void update() {
         if(food.size() < desiredAmountOfFood) {
-            accumulator += 0.05;
+            accumulator += Options.foodSpawnRate;
         }
 
         double random = ThreadLocalRandom.current().nextDouble();

@@ -8,7 +8,7 @@ import support.Options;
 public class Brain {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
-    final double decay = Options.decay;
+    final double decay = Options.decay();
     final double decaySpikeTrace = Math.exp(-1.0 / 100.0);
 
     int inputSize;
