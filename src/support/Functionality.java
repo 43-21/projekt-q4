@@ -9,6 +9,10 @@ public class Functionality {
         return p1.distance(p2);
     }
 
+    public static double squareDistance(Double p1, Double p2) {
+        return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+    }
+
     //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
     //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {

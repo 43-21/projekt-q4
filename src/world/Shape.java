@@ -78,4 +78,12 @@ public class Shape {
     public int getScale() {
         return scale;
     }
+
+    public double getWidth() {
+        return width * scale;
+    }
+
+    public double getHeight() {
+        return height * scale;
+    }
 }
