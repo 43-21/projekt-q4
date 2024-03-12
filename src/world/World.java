@@ -49,7 +49,8 @@ public class World {
         for(Positioned o : objects) {
             if(o instanceof Organism) {
                 double length = 120.0;
-                Positioned nextObject = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                Positioned nextObject = null; // Provisorisch
+                //Positioned nextObject = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
                 boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
                 if(nextObject == null) {
                     ((Organism) o).setInputs(inputs);

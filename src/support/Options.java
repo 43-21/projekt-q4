@@ -35,4 +35,5 @@ public class Options {
     public static int height = 1200;
     public static int amountOfHorizontalCells = 16;
     public static int amountOfVerticalCells = 10;
+    public static int cellLength = width / amountOfHorizontalCells;
 }
