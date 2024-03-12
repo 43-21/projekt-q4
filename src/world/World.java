@@ -8,6 +8,7 @@ import java.awt.geom.Point2D.Double;
 import organism.Egg;
 import organism.Genes;
 import organism.Organism;
+import overlay.Line;
 import overlay.Overlay;
 import support.*;
 
@@ -48,26 +49,51 @@ public class World {
         
         for(Positioned o : objects) {
             if(o instanceof Organism) {
-                double length = 120.0;
-                Positioned nextObject = null; // Provisorisch
-                //Positioned nextObject = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                double length = 2500.0;
+                Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism)o).getRotation(), length);
+
+                // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                // if(overlay.getFocus() == o) overlay.addAdvancedMessage("Potentielle Sichtopfer: " + possible.size(), 4000);
+
                 boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
-                if(nextObject == null) {
+
+                double currentDistanceSquared = 0;
+                Positioned closest = null;
+                for(Positioned p : objects) {
+                    if(p.equals(o)) {
+                        continue;
+                    }
+                    Double intersection = p.getIntersectionPoint(o.position, endPoint);
+                    if(intersection != null) {
+                        double distance = Functionality.squareDistance(endPoint, endPoint);
+                        if(currentDistanceSquared > distance) {
+                            closest = p;
+                            currentDistanceSquared = distance;
+                        }
+                    }
+
+                    if(overlay.getFocus() == o) {
+                        overlay.addLine(new Line(o.position, p.position));
+                    }
+                }
+
+                if(closest == null) {
                     ((Organism) o).setInputs(inputs);
                     continue;
                 }
 
-                overlay.addLine(new overlay.Line(o.getPosition(), nextObject.getPosition(), Color.GREEN));
-                java.awt.geom.Point2D.Double end = Functionality.getDestinationPoint(o.getPosition(), ((Organism) o).getRotation(), length);
-                overlay.addLine(new overlay.Line(o.getPosition(), end));
-                double distance = Functionality.distance(nextObject.position, o.getPosition());
-                boolean[] color = o.getShape().getSquares().get(0).getColor();
+                overlay.addLine(new overlay.Line(o.getPosition(), closest.getPosition(), Color.GREEN));
+                overlay.addLine(new overlay.Line(o.getPosition(), endPoint));
+
+                Square square = closest.intersecting(o.position, endPoint);
+                boolean[] color = square.getColor();
+
                 for(int i = 0; i < color.length; i++) {
                     inputs[i] = color[i];
                 }
 
-                if(distance <= length / 3.0 * 2.0) inputs[3] = true;
-                if(distance <= length / 3.0) inputs[4] = true;
+                if(currentDistanceSquared <= (length * length) / 9.0 * 4.0) inputs[3] = true;
+                if(currentDistanceSquared <= (length * length) / 9.0) inputs[4] = true;
                 
                 ((Organism) o).setInputs(inputs);
             }

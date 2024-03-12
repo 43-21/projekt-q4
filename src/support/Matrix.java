@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import world.Positioned;
-import world.Shape;
-import world.Square;
 
 public class Matrix implements Iterable<Positioned> {
     int amountOfHorizontalCells;
@@ -107,26 +105,8 @@ public class Matrix implements Iterable<Positioned> {
         }
     }
 
-    private class PositionDistanceTuple {
-        private Positioned inSquare;
-        private double distance;
-    
-        public PositionDistanceTuple(Positioned inSquare, double distance) {
-            this.inSquare = inSquare;
-            this.distance = distance;
-        }
-    
-        public double getDistance() {
-            return distance;
-        }
-    
-        public Positioned getInSquare() {
-            return inSquare;
-        }
-    }
-
     //für sicht erstmal
-    public ArrayList<PositionDistanceTuple> searchRay(Double position, double angle, double distance) {
+    public ArrayList<Positioned> searchRay(Double position, double angle, double distance) {
         double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
         double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
         double distanceCounter = 0;
@@ -160,11 +140,11 @@ public class Matrix implements Iterable<Positioned> {
             }
         } 
         
-        ArrayList<PositionDistanceTuple> relevant = new ArrayList<>();
+        ArrayList<Positioned> relevant = new ArrayList<>();
 
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
-            for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                relevant.add(new PositionDistanceTuple(i, distanceCounter));
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(p);
             }
             if(isPiOverFour == true){
                 if(firstIntersect == true){
@@ -217,8 +197,8 @@ public class Matrix implements Iterable<Positioned> {
         }
 
         if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
-            for(Positioned i : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                relevant.add(new PositionDistanceTuple(i, distanceCounter));
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(p);
             }
         }
 
