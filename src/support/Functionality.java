@@ -96,6 +96,8 @@ public class Functionality {
     }
 
     //rechteck - linie
+    // abcd:  Rechteck
+    // ef: Linie
     public static ArrayList<Double> getIntersectionPoints(Double a, Double b, Double c, Double d, Double e, Double f) {
         ArrayList<Double> intersections = new ArrayList<>();
         Double p1 = getIntersectionPoint(a, b, e, f);

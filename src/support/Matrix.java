@@ -231,17 +231,27 @@ public class Matrix implements Iterable<Positioned> {
                 }
             }
         } */
-        if(relevant == null) return null;
         return relevant;
     }
 
     //für kollision oÄ
-    public ArrayList<Positioned> searchRect(Double position, int x, int y) {
+    public ArrayList<Positioned> searchRect(Double position, double x, double y) {
         ArrayList<Positioned> list = new ArrayList<>();
 
-        for(int i = (int) position.x - x; x < position.x + x; i += (int) ((double) width / (double) amountOfHorizontalCells)) {
+        double startX = position.x - x;
+        double endX = position.x + x;
+        if(startX < 0) startX = 0;
+        if(endX >= width) endX = width - 1;
+
+        double startY = position.y - y;
+        double endY = position.y + y;
+        if(startY < 0) startY = 0;
+        if(endY >= height) endY = height - 1;
+
+        for(double i = startX; i < endX; i += (double) width / (double) amountOfHorizontalCells) {
             int horizontalCell = getHorizontalCell(i);
-            for(int j = (int) position.y - y; y < position.y + y; j += (int) ((double) width / (double) amountOfVerticalCells)) {
+
+            for(double j = startY; j < endY; j += (double) height / (double) amountOfVerticalCells) {
                 int verticalCell = getVerticalCell(j);
                 list.addAll(contents.get(horizontalCell).get(verticalCell));
             }

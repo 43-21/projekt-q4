@@ -59,6 +59,11 @@ public class Loop implements Runnable, State {
                 //speicherung muss hier initiiert werden, wenn nicht schon gespeichert wird.
                 state = SAVING;
             }
+
+            if(controller.getMouseClicked()) {
+                Positioned object = world.getPositionedOnMouse(display.getCanvas().getMousePosition());
+                overlay.setFocus(object);
+            }
             
             currentTime = System.currentTimeMillis();
             double lastRenderTimeInSeconds = (currentTime - lastRender) / 1000.0;
@@ -100,10 +105,6 @@ public class Loop implements Runnable, State {
 
     private void update() {
         overlay.clear();
-        if(controller.getMouseClicked()) {
-            Positioned object = world.getPositionedOnMouse(display.getCanvas().getMousePosition());
-            overlay.setFocus(object);
-        }
         if(state == SIMULATION) world.update();
         ups++;
     }

@@ -20,7 +20,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private double energy = Options.initialEnergy;
     private int age = 0;
 
-    public final int scale = 10;
+    public static final int scale = 10;
 
     public Organism(Genes genes) {
         this.position = new Double();

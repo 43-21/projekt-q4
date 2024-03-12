@@ -142,7 +142,7 @@ public abstract class Positioned implements WithShape {
         Double translation = getShape().getRelativePosition();
 
         Square current = null;
-        double currentSquareDistance = 0;
+        double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
 
         for(Square square : getShape().getSquares()) {
             Point squarePos = square.getPosition();
@@ -172,7 +172,7 @@ public abstract class Positioned implements WithShape {
         Double translation = getShape().getRelativePosition();
 
         Double current = null;
-        double currentSquareDistance = 0;
+        double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
 
         for(Square square : getShape().getSquares()) {
             Point squarePos = square.getPosition();
