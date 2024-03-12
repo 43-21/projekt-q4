@@ -49,15 +49,15 @@ public class World {
         
         for(Positioned o : objects) {
             if(o instanceof Organism) {
-                double length = 2500.0;
+                double length = 300.0;
                 Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism)o).getRotation(), length);
 
                 // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
-                // if(overlay.getFocus() == o) overlay.addAdvancedMessage("Potentielle Sichtopfer: " + possible.size(), 4000);
 
                 boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
+                overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
 
-                double currentDistanceSquared = 0;
+                double currentDistanceSquared = java.lang.Double.POSITIVE_INFINITY;
                 Positioned closest = null;
                 for(Positioned p : objects) {
                     if(p.equals(o)) {
@@ -65,11 +65,12 @@ public class World {
                     }
                     Double intersection = p.getIntersectionPoint(o.position, endPoint);
                     if(intersection != null) {
-                        double distance = Functionality.squareDistance(endPoint, endPoint);
+                        double distance = Functionality.squareDistance(o.position, intersection);
                         if(currentDistanceSquared > distance) {
                             closest = p;
                             currentDistanceSquared = distance;
                         }
+                        overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
                     }
 
                     if(overlay.getFocus() == o) {
@@ -81,9 +82,6 @@ public class World {
                     ((Organism) o).setInputs(inputs);
                     continue;
                 }
-
-                overlay.addLine(new overlay.Line(o.getPosition(), closest.getPosition(), Color.GREEN));
-                overlay.addLine(new overlay.Line(o.getPosition(), endPoint));
 
                 Square square = closest.intersecting(o.position, endPoint);
                 boolean[] color = square.getColor();
@@ -172,7 +170,7 @@ public class World {
     public Positioned getPositionedOnMouse(Point mousePosition) {
         Double position = new Double(mousePosition.x, mousePosition.y);
         overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);
-        for(Positioned object : objects.getCellContents(position)) {
+        for(Positioned object : objects.searchRect(position, Organism.scale, Organism.scale)) {
             if(object.intersecting(position)) {
                 return object;
             }
