@@ -23,7 +23,7 @@ public class Genes {
         neuronGenes = new HashMap<>();
         synapseGenes = new HashSet<>();
 
-        for(int i = 0; i < inputSize + outputSize; i++){
+        for(int i = 0; i < inputSize + Options.amountOfPseudoInputs + outputSize; i++){
             neuronGenes.put(i, new NeuronGene(1.0, i));
         }
         for(int i = 0; i < Options.startingSynapses; i++){
@@ -118,10 +118,10 @@ public class Genes {
         //zwei unverbundene Neuronen aussuchen und Synapse mit zufälliger Gewichtung hinzufügen
         ArrayList<int[]> unconnectedNeurons = new ArrayList<>();
         for(int from : neuronGenes.keySet()) {
-            if(from >= inputSize && from < inputSize + outputSize) continue; //keine synapsen von output neuronen
+            if(from >= inputSize + Options.amountOfPseudoInputs && from < inputSize + Options.amountOfPseudoInputs + outputSize) continue; //keine synapsen von output neuronen
             loop:
             for(int to : neuronGenes.keySet()) {
-                if(to < inputSize) continue; //keine synapsen zu input neuronen
+                if(to < inputSize + Options.amountOfPseudoInputs) continue; //keine synapsen zu input neuronen
                 if(from == to) continue;
                 for(Synapse synapse : synapseGenes) {
                     if(synapse.from == from && synapse.to == to) continue loop;

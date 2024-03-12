@@ -24,67 +24,70 @@ public class Brain {
     }
 
     public void update() {
-        //inputs
-        for(int i = 0; i < inputSize; i++) {
+        // inputs
+        for (int i = 0; i < inputSize; i++) {
             neurons.get(i).spike = inputs[i];
         }
 
-        //spiking
-        for(Synapse s : synapses) {
+        for (int i = inputSize; i < inputSize + Options.amountOfPseudoInputs; i++) {
+            neurons.get(i).spike = true;
+        }
+
+        // spiking
+        for (Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
             // if(to == null || from == null) {
-            //     System.out.println("from: " + from + "; to: " + to);
-            //     System.out.println("from index: " + s.from + "; to index: " + s.to);
-            //     System.out.println(neurons.values());
+            // System.out.println("from: " + from + "; to: " + to);
+            // System.out.println("from index: " + s.from + "; to index: " + s.to);
+            // System.out.println(neurons.values());
             // }
 
-            if(from.spike) {
+            if (from.spike) {
                 to.potential += s.weight;
 
-                //stdp presynaptic spike
+                // stdp presynaptic spike
                 // from.preChange += 0.1f;
                 // s.weight += to.postChange;
             }
 
             // else from.preChange *= decaySpikeTrace;
 
-            //stdp postsynaptic spike
+            // stdp postsynaptic spike
             // if(to.spike) {
-            //     to.postChange -= 0.1f;
-            //     s.weight += from.preChange;
+            // to.postChange -= 0.1f;
+            // s.weight += from.preChange;
             // }
 
             // else to.postChange *= decaySpikeTrace;
 
             // if(s.weight > 1.0) {
-            //     s.weight = 1.0f;
+            // s.weight = 1.0f;
             // }
 
             // else if(s.weight < 0.0) {
-            //     s.weight = 0.0f;
+            // s.weight = 0.0f;
             // }
         }
 
-
-        //outputs & spiking
+        // outputs & spiking
         outputs = new boolean[outputSize];
 
-        for(Neuron n : neurons.values()) {
+        for (Neuron n : neurons.values()) {
             n.spike = false;
 
-            if(n.potential >= n.threshold) {
+            if (n.potential >= n.threshold) {
                 n.potential -= n.threshold;
                 n.spike = true;
             }
 
-            if(n.potential < 0) {
+            if (n.potential < 0) {
                 n.potential = 0;
             }
-            
+
             n.potential = n.potential * decay;
 
-            if(n.index >= inputSize && n.index < inputSize + outputSize) {
+            if (n.index >= inputSize && n.index < inputSize + outputSize) {
                 outputs[n.index - inputSize] = n.spike;
             }
         }
@@ -129,7 +132,7 @@ class Synapse {
         weight = w;
     }
 
-    //copy
+    // copy
     public Synapse(Synapse s) {
         from = s.from;
         to = s.to;
