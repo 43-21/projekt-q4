@@ -191,11 +191,11 @@ public class Matrix implements Iterable<Positioned> {
                     distanceCounterXY += (heightAtStart / Math.tan(angle));
                     firstIntersect = false;
                 } else{
-                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
-                    distanceCounterXY += 1 / Math.tan(angle);
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
                 }
-                if(distanceCounterXY >= 1){
-                    distanceCounterXY--;
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
                     horizontalBoundsCounter += angleCaseSwitchX;
                 }
                 verticalBoundsCounter += angleCaseSwitchY;
@@ -205,11 +205,11 @@ public class Matrix implements Iterable<Positioned> {
                     distanceCounterXY += (heightAtStart / Math.tan(angle));
                     firstIntersect = false;
                 } else{
-                    distanceCounter += Math.sqrt(Math.pow((1 / Math.tan(angle)), 2) + 1);
-                    distanceCounterXY += 1 / Math.tan(angle);
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
                 }
-                if(distanceCounterXY >= 1){
-                    distanceCounterXY--;
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
                     verticalBoundsCounter += angleCaseSwitchY;
                 }
                 horizontalBoundsCounter += angleCaseSwitchX;
