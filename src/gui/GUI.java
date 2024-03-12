@@ -16,9 +16,20 @@ public class GUI{ // Graphic User Interface
     int phase = 0;
     JFrame frame = new JFrame();
     JPanel panelTextFields = new JPanel();
-    JPanel panelButton = new JPanel();
+    JPanel panelCharakterDesign = new JPanel();
     JPanel panelCheckboxes = new JPanel();
-    JButton button = new JButton("Start Simulation");
+
+
+    JButton buttonSimulation = new JButton("Start Simulation");
+    /*JButton buttonDesign11 = new JButton("");
+    JButton buttonDesign12 = new JButton("");
+    JButton buttonDesign13 = new JButton("");
+    JButton buttonDesign21 = new JButton("");
+    JButton buttonDesign22 = new JButton("");
+    JButton buttonDesign23 = new JButton("");
+    JButton buttonDesign31 = new JButton("");
+    JButton buttonDesign32 = new JButton("");
+    JButton buttonDesign33 = new JButton("");*/
 
     //
     JLabel speedLabel = new JLabel("Set Organism Speed:");
@@ -69,12 +80,15 @@ public class GUI{ // Graphic User Interface
 
         // Setup
         //panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
-        panelTextFields.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-        frame.setPreferredSize(new Dimension(Options.width, Options.height));
-        panelTextFields.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        panelButton.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+        panelTextFields.setBorder(BorderFactory.createEmptyBorder(25, 80, 25, 80));
+        frame.setPreferredSize(new Dimension(Options.width / 2, Options.height / 3));
+        //panelCharakterDesign.setLayout(new GridLayout(3, 2, 10, 10));
+        //panelButton.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+        panelCheckboxes.setBorder(BorderFactory.createEmptyBorder(25, 100, 25, 100));
+        panelTextFields.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         frame.add(panelTextFields, BorderLayout.CENTER);
-        frame.add(panelButton, BorderLayout.SOUTH);
+        //frame.add(panelButton, BorderLayout.SOUTH);
+        frame.add(panelCheckboxes, BorderLayout.NORTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Einstellungen");
         frame.pack();
@@ -462,14 +476,36 @@ public class GUI{ // Graphic User Interface
         panelTextFields.add(upsInput);
 
 
+        checkbox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // Aktion einfügen
+            }
+        });
+        panelCheckboxes.add(checkboxLabel1);
+        panelCheckboxes.add(checkbox1);
 
+        checkbox2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // Aktion einfügen
+            }
+        });
+        panelCheckboxes.add(checkboxLabel2);
+        panelCheckboxes.add(checkbox2);
+
+        checkbox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // Aktion einfügen
+            }
+        });
+        panelCheckboxes.add(checkboxLabel3);
+        panelCheckboxes.add(checkbox3);
         
 
-
-
-        
         // Ein Button zum Start der Simulation wird hinzugefügt
-        button.addActionListener(new ActionListener() {
+        buttonSimulation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 phase++;
@@ -480,8 +516,14 @@ public class GUI{ // Graphic User Interface
                 }
             }
         });
-        button.setBounds(50, 50, 100, 50);
-        panelButton.add(button);
+        buttonSimulation.setBounds(50, 50, 100, 50);
+        frame.add(buttonSimulation, BorderLayout.SOUTH);
+
+        /*for(int i = 0; i < 9; i++){
+            JButton b = new JButton("");
+            b.addActionListener(null);
+            panelCharakterDesign.add(b);
+        }*/
 
         frame.setVisible(true);
     }
