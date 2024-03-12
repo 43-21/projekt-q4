@@ -27,8 +27,9 @@ public class GUI{ // Graphic User Interface
     public GUI(){
 
         // Setup
-        panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
-        //panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+        //panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+        frame.setPreferredSize(new Dimension(Options.width, Options.height));
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,6 +117,5 @@ public class GUI{ // Graphic User Interface
 
         frame.setVisible(true);
     }
-
 
 }
