@@ -1,8 +1,12 @@
 package support;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+
+import world.Shape;
+import world.Square;
 
 public class Functionality {
     public static double distance(Double p1, Double p2) {
@@ -113,6 +117,35 @@ public class Functionality {
         return intersections;
     }
 
+    public static Double getClosestIntersection(Shape shape, Double position, Double a, Double b) {
+        int scale = shape.getScale();
+        Double translation = shape.getRelativePosition();
+
+        Double current = null;
+        double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
+
+        for(Square square : shape.getSquares()) {
+            Point squarePos = square.getPosition();
+            double x = position.x + squarePos.x * scale + translation.x;
+            double y = position.y + squarePos.y * scale + translation.y;
+            
+            Double c = new Double(x, y);
+            Double d = new Double(x + scale - 1, y);
+            Double e = new Double(x + scale - 1, y + scale - 1);
+            Double f = new Double(x, y + scale - 1);
+
+            ArrayList<Double> intersections = Functionality.getIntersectionPoints(c, d, e, f, a, b);
+            for(Double intersection : intersections) {
+                double squareDistance = Functionality.squareDistance(a, intersection);
+                if(currentSquareDistance > squareDistance) {
+                    currentSquareDistance = squareDistance;
+                    current = intersection;
+                }
+            }
+        }
+        return current;
+    }
+
     //quadrate
     public static boolean checkForCollision(Double point1, double length1, Double point2, double length2) {
         boolean horizontalCollision = false;
@@ -179,7 +212,6 @@ public class Functionality {
         for(int i = 0; i < color.length; i++) {
             switchValue += color[i] ? 1 << 2 - i : 0;
         }
-        //1 0 0 = 4 + 0 + 0
         switch(switchValue) {
             //000
             case 0:
@@ -187,9 +219,6 @@ public class Functionality {
             //001
             case 1:
                 return Color.GRAY;
-            //010
-            case 2:
-                return Color.RED;
             //011
             case 3:
                 return Color.ORANGE;
@@ -199,6 +228,9 @@ public class Functionality {
             //110
             case 6:
                 return Color.GREEN;
+            //111
+            case 7:
+                return Color.RED;
 
             //?
             default:

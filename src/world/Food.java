@@ -33,10 +33,10 @@ public class Food implements Dynamic, Drawable {
         }
 
         energyShape = new Shape(3);
-        energyShape.addSquare(1, 0, new boolean[]{false, true, false});
-        energyShape.addSquare(0, 1, new boolean[]{false, true, false});
-        energyShape.addSquare(2, 1, new boolean[]{false, true, false});
-        energyShape.addSquare(1, 2, new boolean[]{false, true, false});
+        energyShape.addSquare(1, 0, new boolean[]{true, true, true});
+        energyShape.addSquare(0, 1, new boolean[]{true, true, true});
+        energyShape.addSquare(2, 1, new boolean[]{true, true, true});
+        energyShape.addSquare(1, 2, new boolean[]{true, true, true});
         energyShape.addSquare(1, 1, new boolean[]{false, false, false});
         energyShape.setCenter(1, 1);
         energyShape.setPositionKind(Shape.CENTER);
@@ -94,6 +94,21 @@ public class Food implements Dynamic, Drawable {
         }
 
         return list;
+    }
+
+    public Double checkForLineIntersection(Double a, Double b) {
+        Double current = null;
+        double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
+        for(Double energy : food) {
+            Double intersection = Functionality.getClosestIntersection(energyShape, energy, a, b);
+            if(intersection == null) continue;
+            double squareDistance = Functionality.squareDistance(intersection, a);
+            if(currentSquareDistance > squareDistance) {
+                currentSquareDistance = squareDistance;
+                current = intersection;
+            }
+        }
+        return current;
     }
 
     public double removeEnergy(int index) {

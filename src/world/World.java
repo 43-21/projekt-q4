@@ -34,7 +34,7 @@ public class World {
 
         objects = new Matrix(Options.amountOfHorizontalCells, Options.amountOfVerticalCells, width, height);
 
-        for(int i = 0; i < Options.amountOfOrganisms; i++) {
+        for (int i = 0; i < Options.amountOfOrganisms; i++) {
             Organism organism = new Organism(new Genes(8, 6));
             organism.setRandomPosition(width, height);
             objects.add(organism);
@@ -46,75 +46,99 @@ public class World {
         // Abfolge:
         // 1. Inputs der Gehirne ermitteln
         // 2. Alles updaten, essen, koordinaten etc
-        
-        for(Positioned o : objects) {
-            if(o instanceof Organism) {
+
+        for (Positioned o : objects) {
+            if (o instanceof Organism) {
                 double length = 300.0;
-                Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism)o).getRotation(), length);
+                Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation(), length);
 
-                // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(),
+                // ((Organism) o).getRotation(), length);
 
-                boolean[] inputs = new boolean[8]; //3 für farbe, 2 für entfernung, 3 für kommunikation
+                boolean[] inputs = new boolean[8]; // 3 für farbe, 2 für entfernung, 3 für kommunikation
                 overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
 
                 double currentDistanceSquared = java.lang.Double.POSITIVE_INFINITY;
                 Positioned closest = null;
-                for(Positioned p : objects) {
-                    if(p.equals(o)) {
+                for (Positioned p : objects) {
+                    if (p.equals(o)) {
                         continue;
                     }
                     Double intersection = p.getIntersectionPoint(o.position, endPoint);
-                    if(intersection != null) {
+                    if (intersection != null) {
                         double distance = Functionality.squareDistance(o.position, intersection);
-                        if(currentDistanceSquared > distance) {
+                        if (currentDistanceSquared > distance) {
                             closest = p;
                             currentDistanceSquared = distance;
                         }
-                        overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
                     }
 
-                    if(overlay.getFocus() == o) {
+                    if (overlay.getFocus() == o) {
                         overlay.addLine(new Line(o.position, p.position));
                     }
                 }
 
-                if(closest == null) {
+                boolean[] color;
+
+                Double intersection = food.checkForLineIntersection(o.position, endPoint);
+                if(intersection == null && closest == null) {
                     ((Organism) o).setInputs(inputs);
                     continue;
                 }
+                if (intersection != null) {
+                    double squareDistance = Functionality.squareDistance(o.position, intersection);
 
-                Square square = closest.intersecting(o.position, endPoint);
-                boolean[] color = square.getColor();
+                    if (currentDistanceSquared > squareDistance) {
+                        color = new boolean[] { true, true, true };
+                        overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
+                    }
 
-                for(int i = 0; i < color.length; i++) {
+                    else {
+                        Square square = closest.intersecting(o.position, endPoint);
+                        color = square.getColor();
+                    }
+                }
+
+                else {
+                    Square square = closest.intersecting(o.position, endPoint);
+                    color = square.getColor();
+                    overlay.addLine(new Line(o.position, closest.getIntersectionPoint(o.position, endPoint), Color.MAGENTA));
+                }
+
+                for (int i = 0; i < color.length; i++) {
                     inputs[i] = color[i];
                 }
 
-                if(currentDistanceSquared <= (length * length) / 9.0 * 4.0) inputs[3] = true;
-                if(currentDistanceSquared <= (length * length) / 9.0) inputs[4] = true;
-                
+                if (currentDistanceSquared <= (length * length) / 9.0 * 4.0)
+                    inputs[3] = true;
+                if (currentDistanceSquared <= (length * length) / 9.0)
+                    inputs[4] = true;
+
                 ((Organism) o).setInputs(inputs);
             }
         }
 
-        //evtl muss das verschoben werden
         food.update();
 
         ArrayList<Positioned> toBeRemoved = new ArrayList<>();
         ArrayList<Positioned> toBeAdded = new ArrayList<>();
 
-        for(Positioned o : objects) {
-            if(o instanceof Dynamic) {
+        for (Positioned o : objects) {
+            if (o instanceof Dynamic) {
                 ((Dynamic) o).update();
             }
 
-            if(o.position.x < 0) o.position.x = 0;
-            else if(o.position.x >= width) o.position.x = width - 1;
-            if(o.position.y < 0) o.position.y = 0;
-            else if(o.position.y >= height) o.position.y = height - 1;
+            if (o.position.x < 0)
+                o.position.x = 0;
+            else if (o.position.x >= width)
+                o.position.x = width - 1;
+            if (o.position.y < 0)
+                o.position.y = 0;
+            else if (o.position.y >= height)
+                o.position.y = height - 1;
 
-            if(o instanceof Egg) {
-                if(((Egg) o).canHatch()) {
+            if (o instanceof Egg) {
+                if (((Egg) o).canHatch()) {
                     Organism child = ((Egg) o).hatch();
                     amountOfOrganisms++;
                     toBeAdded.add(child);
@@ -123,22 +147,22 @@ public class World {
                 }
             }
 
-            if(o instanceof Organism) {
+            if (o instanceof Organism) {
                 ArrayList<Integer> indices = food.checkForCollision(o);
-                for(int index : indices) {
+                for (int index : indices) {
                     ((Organism) o).eat(food.removeEnergy(index));
                 }
 
-                if(((Organism) o).getEnergy() < Options.requiredEnergy) {
-                    if(overlay.getFocus() == o) {
+                if (((Organism) o).getEnergy() < Options.requiredEnergy) {
+                    if (overlay.getFocus() == o) {
                         overlay.setFocus(null);
                     }
                     toBeRemoved.add(o);
                     amountOfOrganisms--;
                 }
 
-                else if(((Organism) o).getEnergy() >= Options.reproductionEnergy) {
-                    Egg child = ((Organism)o).layEgg();
+                else if (((Organism) o).getEnergy() >= Options.reproductionEnergy) {
+                    Egg child = ((Organism) o).layEgg();
                     toBeAdded.add(child);
                     System.out.println("Added egg: " + child);
                 }
@@ -158,8 +182,8 @@ public class World {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(food);
 
-        for(Positioned thing : objects) {
-            if(thing instanceof Drawable) {
+        for (Positioned thing : objects) {
+            if (thing instanceof Drawable) {
                 drawables.add((Drawable) thing);
             }
         }
@@ -170,8 +194,8 @@ public class World {
     public Positioned getPositionedOnMouse(Point mousePosition) {
         Double position = new Double(mousePosition.x, mousePosition.y);
         overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);
-        for(Positioned object : objects.searchRect(position, Organism.scale, Organism.scale)) {
-            if(object.intersecting(position)) {
+        for (Positioned object : objects.searchRect(position, Organism.scale, Organism.scale)) {
+            if (object.intersecting(position)) {
                 return object;
             }
         }

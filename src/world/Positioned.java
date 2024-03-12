@@ -168,31 +168,6 @@ public abstract class Positioned implements WithShape {
 
     //schnittpunkt mit linie
     public Double getIntersectionPoint(Double a, Double b) {
-        int scale = getShape().getScale();
-        Double translation = getShape().getRelativePosition();
-
-        Double current = null;
-        double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
-
-        for(Square square : getShape().getSquares()) {
-            Point squarePos = square.getPosition();
-            double x = position.x + squarePos.x * scale + translation.x;
-            double y = position.y + squarePos.y * scale + translation.y;
-            
-            Double c = new Double(x, y);
-            Double d = new Double(x + scale - 1, y);
-            Double e = new Double(x + scale - 1, y + scale - 1);
-            Double f = new Double(x, y + scale - 1);
-
-            ArrayList<Double> intersections = Functionality.getIntersectionPoints(c, d, e, f, a, b);
-            for(Double intersection : intersections) {
-                double squareDistance = Functionality.squareDistance(a, intersection);
-                if(currentSquareDistance > squareDistance) {
-                    currentSquareDistance = squareDistance;
-                    current = intersection;
-                }
-            }
-        }
-        return current;
+        return Functionality.getClosestIntersection(getShape(), position, a, b);
     }
 }

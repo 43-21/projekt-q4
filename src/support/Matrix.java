@@ -1,6 +1,5 @@
 package support;
 
-import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
