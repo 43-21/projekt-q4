@@ -32,9 +32,45 @@ public class Functionality {
 
     //ggf rotierte rechtecke
     public static boolean rectsColliding(Double a, Double b, Double c, Double d, Double e, Double f, Double g, Double h) {
-        return false;
+        if(allNegativeOrAllGreater(a, b, e, f, g, h)) return false;
+        if(allNegativeOrAllGreater(a, d, e, f, g, h)) return false;
+        if(allNegativeOrAllGreater(e, f, a, b, c, d)) return false;
+        if(allNegativeOrAllGreater(e, h, a, b, c, d)) return false;
+        return true;
     }
 
+    private static boolean allNegativeOrAllGreater(Double a, Double b, Double e, Double f, Double g, Double h) {
+        boolean lookingForNegative = true;
+
+        Double ab = new Double(b.x - a.x, b.y - a.y);
+        double squareDistance = ab.x * ab.x + ab.y * ab.y;
+
+        double sea = projection(e, a, b);
+        if(sea > squareDistance) lookingForNegative = false;
+        else if(sea >= 0) return false;
+
+        double sfa = projection(f, a, b);
+        if(lookingForNegative && sfa >= 0) return false;
+        else if(!lookingForNegative && sfa <= squareDistance) return false;
+
+        double sga = projection(g, a, b);
+        if(lookingForNegative && sga >= 0) return false;
+        else if(!lookingForNegative && sga <= squareDistance) return false;
+
+        double sha = projection(h, a, b);
+        if(lookingForNegative && sha >= 0) return false;
+        else if(!lookingForNegative && sha <= squareDistance) return false;
+
+        return true;
+    }
+
+    //scalar projection * |AB|
+    private static double projection(Double p, Double a, Double b) {
+        Double r = new Double(b.x - a.x, b.y - a.y);
+        Double t = new Double(p.x - a.x, p.y - a.y);
+        double s = (t.x * r.x + t.y * r.y);
+        return s;
+    }
     //rechteck - punkt
     public static boolean pointInRect(Double p, Double a, Double b, Double c, Double d) {
         //vektoren

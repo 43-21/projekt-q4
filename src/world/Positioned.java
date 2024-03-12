@@ -33,6 +33,11 @@ public abstract class Positioned implements WithShape {
         return false;
     }
 
+    public boolean colliding(Shape shape, Double position) {
+        //dasselbe wie oben :)
+        return false;
+    }
+
     //intersection
     public boolean intersecting(Double p) {
         int scale = getShape().getScale();

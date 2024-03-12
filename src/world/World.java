@@ -99,7 +99,7 @@ public class World {
             }
 
             if(o instanceof Organism) {
-                ArrayList<Integer> indices = food.checkForCollision(o.getPosition(), ((Organism) o).scale);
+                ArrayList<Integer> indices = food.checkForCollision(o);
                 for(int index : indices) {
                     ((Organism) o).eat(food.removeEnergy(index));
                 }

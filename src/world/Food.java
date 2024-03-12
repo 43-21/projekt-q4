@@ -82,12 +82,12 @@ public class Food implements Dynamic, Drawable {
         return !collision;
     }
 
-    public ArrayList<Integer> checkForCollision(Double position, double radius) {
+    public ArrayList<Integer> checkForCollision(Positioned object) {
         ArrayList<Integer> list = new ArrayList<>();
 
         int i = 0;
         for(Double energy : food) {
-            if(Functionality.checkForCircleCollision(energy, scale * 1.5, position, radius)) {
+            if(object.colliding(energyShape, energy)) {
                 list.add(i);
             }
             i++;
