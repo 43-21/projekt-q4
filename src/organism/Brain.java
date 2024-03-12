@@ -26,7 +26,7 @@ public class Brain {
     public void update() {
         //inputs
         for(int i = 0; i < inputSize; i++) {
-            neurons.get(i).spike = true; //inputs[i];
+            neurons.get(i).spike = inputs[i];
         }
 
         //spiking
