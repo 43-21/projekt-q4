@@ -50,10 +50,11 @@ public class Overlay {
 
         graphics.setColor(Color.BLACK);
 
-        if(focus != null) {
+        if(focus != null && Options.showInformationOnFocus) {
             graphics.drawString("Position: ( " + focus.getPosition().x + " | " + focus.getPosition().y + " )", 10, y);
             if(focus instanceof Organism) {
-                graphics.drawString("Energie: " + ((Organism) focus).getEnergy(), 10, y + 10);
+                graphics.drawString("Rotation: " + ((Organism) focus).getRotation() / Math.PI * 180 + "°", 10, y + 10);
+                graphics.drawString("Energie: " + ((Organism) focus).getEnergy(), 10, y + 20);
             }
         }
 

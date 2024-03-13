@@ -60,10 +60,11 @@ public class Options {
     public static boolean showCommunication = true;
     public static boolean showSensesOnlyOnFocus = true;
     
-    public static boolean showPossiblyInView = false;
+    public static boolean showPossiblyInView = true;
 
     public static boolean showLogs = false;
     public static boolean showInformationOnFocus = true;
 
     public static boolean showWorldInformation = true;
+    public static boolean updateRate = true;
 }

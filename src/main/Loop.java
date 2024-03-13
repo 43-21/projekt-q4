@@ -21,6 +21,7 @@ public class Loop implements Runnable, State {
     private final double frameRate = 1.0 / Options.fps;
     private final double updateRate = 1.0 / Options.ups;
     private int fps, ups;
+    private int currentFps, currentUps;
 
     private long nextStatTime;
     private long currentTime = System.currentTimeMillis();
@@ -90,7 +91,8 @@ public class Loop implements Runnable, State {
 
     private void printStats() {
         if(System.currentTimeMillis() > nextStatTime) {
-            System.out.println(String.format("FPS: %d, UPS: %d", fps, ups));
+            currentFps = fps;
+            currentUps = ups;
             fps = 0;
             ups = 0;
             nextStatTime = System.currentTimeMillis() + 1000;
@@ -104,6 +106,7 @@ public class Loop implements Runnable, State {
     }
 
     private void render() {
+        overlay.addMessage(String.format("FPS: %d, UPS: %d", currentFps, currentUps));
         display.render(world, overlay);
         fps++;
     }
