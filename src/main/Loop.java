@@ -101,12 +101,12 @@ public class Loop implements Runnable, State {
 
     private void update() {
         overlay.clear();
+        overlay.addMessage(String.format("FPS: %d, UPS: %d", currentFps, currentUps));
         if(state == SIMULATION) world.update();
         ups++;
     }
 
     private void render() {
-        overlay.addMessage(String.format("FPS: %d, UPS: %d", currentFps, currentUps));
         display.render(world, overlay);
         fps++;
     }
