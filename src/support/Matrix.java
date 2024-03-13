@@ -222,8 +222,28 @@ public class Matrix implements Iterable<Positioned> {
             }
         }
 
-        if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
             for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter == -1 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter+1).get(verticalBoundsCounter)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter == amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter-1).get(verticalBoundsCounter)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter == -1 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter+1)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter == amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter-1)){
                 relevant.add(p);
             }
         }
