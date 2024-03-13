@@ -110,52 +110,179 @@ public class Matrix implements Iterable<Positioned> {
         }
     }
 
-    public ArrayList<Positioned> searchRay(Double position, double angle, double distance) {
+    //für sicht erstmal
+    public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
+        double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+        double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
+        double distanceCounter = 0;
+        double xPosInCell = 0; 
+        double yPosInCell = 0;
+        int horizontalBoundsCounter = getHorizontalCell(position.x);
+        int verticalBoundsCounter = getVerticalCell(position.y);
+        boolean xyAngleSwitch = false; // true bedeutet delta x != 1 false bedeutet y != 1
+        boolean firstIntersect = true; // nach dem 1. Intersect bleibt die Distanz konstant, der Wert beim 1. Intersect ist Positionsabhängig
+        boolean isPiOverFour = false; // 45 Grad?
+        boolean straightLine = false; // Gerade Linie?
+        int angleCaseSwitchX = 0; // Regelt in welche Richtung sich die Sicht ausbreitet
+        int angleCaseSwitchY = 0; // Regelt in welche Richtung sich die Sicht ausbreitet in Sonderfällen
+
+        if(Math.cos(angle) == 0 || Math.cos(angle) == 0){ // Regelt Vorzeichen der Rechnung
+            angleCaseSwitchX = (int) Math.cos(angle);
+            angleCaseSwitchY = (int) Math.sin(angle);
+            straightLine = true;
+
+        } else{
+            angleCaseSwitchX = (int) (Math.cos(angle) / Math.abs(Math.cos(angle)));
+            angleCaseSwitchY = (int) (Math.sin(angle) / Math.abs(Math.sin(angle)));
+            if(Math.abs(Math.cos(angle)) == Math.abs(Math.sin(angle))){
+                isPiOverFour = true;
+            } else if(Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))){
+                xyAngleSwitch = true;
+                distanceCounterXY = position.y - getVerticalCell(position.y) * Options.cellLength;
+                heightAtStart = position.x - getHorizontalCell(position.x) * Options.cellLength;
+            } else{
+                xyAngleSwitch = false;
+                distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
+                heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+            }
+        } 
+
+        
+        if(xyAngleSwitch){
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = heightAtStart;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = distanceCounterXY;
+            } 
+        } else{
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = distanceCounterXY;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = heightAtStart;
+            } 
+        }
+        
         ArrayList<Positioned> relevant = new ArrayList<>();
 
-        int x = getHorizontalCell(distance);
-        int y = getVerticalCell(distance);
-
-        int horizontal = getHorizontalCell(position.x);
-        int vertical = getVerticalCell(position.y);
-
-        if (angle > 0 && angle < Math.PI) {
-            if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
-                //oben links
-                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
-                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
-                        relevant.addAll(contents.get(i).get(j));
-                    }
-                }
+        while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(p);
             }
-            else {
-                //oben rechts
-                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
-                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
-                        relevant.addAll(contents.get(i).get(j));
-                    }
+            if(isPiOverFour == true){
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((xPosInCell), 2) + Math.pow(yPosInCell, 2));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
                 }
+                horizontalBoundsCounter += angleCaseSwitchX;
+                verticalBoundsCounter += angleCaseSwitchY;
+            } else if(straightLine == true){
+                if(firstIntersect == true){
+                    distanceCounter += (xPosInCell) * Math.abs(angleCaseSwitchX);
+                    distanceCounter += (yPosInCell) * Math.abs(angleCaseSwitchY);
+                    firstIntersect = false;
+                } else{
+                    distanceCounter+= Options.cellLength;
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
+                verticalBoundsCounter += angleCaseSwitchY;
+            }else if(xyAngleSwitch == true){
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
+                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
+                }
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
+                    horizontalBoundsCounter += angleCaseSwitchX;
+                }
+                verticalBoundsCounter += angleCaseSwitchY;
+            } else{
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
+                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
+                }
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
+                    verticalBoundsCounter += angleCaseSwitchY;
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
             }
         }
-        else {
-            if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
-                //unten links
-                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
-                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
-                        relevant.addAll(contents.get(i).get(j));
-                    }
-                }
+
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
+                relevant.add(p);
             }
-            else {
-                //unten rechts
-                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
-                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
-                        relevant.addAll(contents.get(i).get(j));
-                    }
-                }
+        }
+        if((horizontalBoundsCounter == -1 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter+1).get(verticalBoundsCounter)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter == amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter-1).get(verticalBoundsCounter)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter == -1 && verticalBoundsCounter < amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter+1)){
+                relevant.add(p);
+            }
+        }
+        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter == amountOfVerticalCells)){
+            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter-1)){
+                relevant.add(p);
             }
         }
 
+        /*PositionDistanceTuple currentInRay = null;
+        //schauen was sich schneidet
+        for(PositionDistanceTuple p : relevant) {
+            if(p.getInSquare().getPosition() == position) continue;
+            Shape shape = p.getInSquare().getShape();
+
+            for(Square s : shape.getSquares()) {
+                Point[][] lines = s.getLines(shape.getScale());
+                for(int i = 0; i < 4; i++) {
+                    double xa = lines[i][0].x + position.x;
+                    double ya = lines[i][0].y + position.y;
+                    double xb = lines[i][1].x + position.x;
+                    double yb = lines[i][1].y + position.y;
+                    Double a = new Double(xa, ya);
+                    Double b = new Double(xb, yb);
+                    Double intersectionPoint = Functionality.getIntersectionPoint(a, b, position, destination);
+                    if(intersectionPoint != null){
+                        if(currentInRay == null) {
+                            currentInRay = p;
+                            continue;
+                        }
+                        if(p.getDistance() < currentInRay.getDistance()){
+                            currentInRay = p;
+                            continue;
+                        }
+                    }
+                }
+            }
+        } */
         return relevant;
     }
 
