@@ -13,14 +13,13 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     private Shape shape;
 
     private boolean[] color = {true, false, false};
-    private boolean[] pheromones = new boolean[3];
 
     private double rotation;
 
     private double energy = Options.initialEnergy;
     private int age = 0;
 
-    public static final int scale = 10;
+    public static final int scale = Options.organismScale;
 
     public Organism(Genes genes) {
         this.position = new Double();
@@ -46,14 +45,11 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         brain.update();
         boolean[] outputs = brain.getOutputs();
 
-        for(int i = 0; i < 3; i++) {
-            pheromones[i] = outputs[i + 3];
-        }
-        
-        if(outputs[0]) {
-            position.x += Math.cos(rotation) * Options.speed;
-            position.y += -Math.sin(rotation) * Options.speed;
-        }
+        // if(outputs[0]) {
+        //     position.x += Math.cos(rotation) * Options.speed;
+        //     position.y += -Math.sin(rotation) * Options.speed;
+        // }
+
         if(outputs[1]) {
             rotation += Math.PI / 90.0;
         }
@@ -71,6 +67,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
 
         energy = energy - Options.energyConsumptionAtDeathAge/Options.deathAge * (double) age;
         age++;
+    }
+
+    public boolean[] getOutputs() {
+        return brain.getOutputs();
     }
 
     public Egg layEgg() {

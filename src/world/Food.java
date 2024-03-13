@@ -18,7 +18,7 @@ public class Food implements Dynamic, Drawable {
     int desiredAmountOfFood;
     double accumulator = 0.0;
     Shape energyShape;
-    final int scale = 3;
+    final int scale = Options.foodScale;
 
     public Food(int food, int amountOfFields) {
         desiredAmountOfFood = food;
@@ -113,7 +113,7 @@ public class Food implements Dynamic, Drawable {
 
     public double removeEnergy(int index) {
         food.remove(index);
-        return 4.0;
+        return Options.energyInFood;
     }
 
     public Image getSprite() {

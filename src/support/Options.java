@@ -1,4 +1,5 @@
 package support;
+
 // Globale Konstanten sind hier gespeichert
 public class Options {
 
@@ -16,16 +17,24 @@ public class Options {
 
     // Konstanten im Kontext der Energie
     public static double initialEnergy = 1.0;
-    public static double requiredEnergy = 0.0;  
+    public static double requiredEnergy = 0.0;
     public static double desiredEnergy = 3.0;
-    //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     public static double organismEnergy = 0.2;
     public static double reproductionEnergy = desiredEnergy + initialEnergy + organismEnergy;
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.1;
+    public static double energyInFood = 3.0;
 
-    // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte hier)
-    public static int amountOfOrganisms = 5;
+    // Konstanten für Organismen und andere Objekte
+    public static double viewRange = 300.0;
+    public static double communicationRadius = 100.0;
+    public static int eggScale = 6;
+    public static int organismScale = 10;
+    public static int foodScale = 3;
+
+    // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte
+    // hier)
+    public static int amountOfOrganisms = 10;
     public static int amountOfFood = 300;
     public static double speed = 1.0;
 

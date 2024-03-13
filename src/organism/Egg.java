@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 
+import support.Options;
 import world.Drawable;
 import world.Dynamic;
 import world.Positioned;
@@ -17,7 +18,7 @@ public class Egg extends Positioned implements Dynamic, Drawable {
     int time = 0;
     boolean fertilised = true; //false
 
-    final int scale = 6;
+    final int scale = Options.eggScale;
 
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
