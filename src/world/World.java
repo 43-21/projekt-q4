@@ -42,6 +42,7 @@ public class World {
     }
 
     public void update() {
+        objects.overlay = overlay;
         time++;
         // Abfolge:
         // 1. Inputs der Gehirne ermitteln
@@ -75,8 +76,7 @@ public class World {
                 double length = Options.viewRange;
                 Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation(), length);
 
-                // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(),
-                // ((Organism) o).getRotation(), length);
+                ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
 
                 if(Options.showViewRange) {
                     if(!Options.showSensesOnlyOnFocus || hasFocus ) {
@@ -86,7 +86,7 @@ public class World {
 
                 double currentDistanceSquared = java.lang.Double.POSITIVE_INFINITY;
                 Positioned closest = null;
-                for (Positioned p : objects) {
+                for (Positioned p : possible) {
                     if (p.equals(o)) {
                         continue;
                     }
