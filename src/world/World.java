@@ -200,7 +200,7 @@ public class World {
                     amountOfOrganisms--;
                 }
 
-                else if (((Organism) o).getEnergy() >= Options.reproductionEnergy) {
+                else if (((Organism) o).getEnergy() >= Options.reproductionEnergy()) {
                     Egg child = ((Organism) o).layEgg();
                     toBeAdded.add(child);
                     System.out.println("Added egg: " + child);

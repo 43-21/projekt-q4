@@ -29,6 +29,9 @@ public class Genes {
         for(int i = 0; i < Options.startingSynapses; i++){
             addSynapse();
         }
+        for(int i = 0; i < Options.startingMutations; i++){
+            addSynapse();
+        }
     }
 
     //copy
