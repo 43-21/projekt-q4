@@ -21,6 +21,8 @@ public class Brain {
         this.outputSize = outputSize;
         neurons = n;
         synapses = s;
+
+        this.outputs = new boolean[outputSize];
     }
 
     public void update() {
@@ -87,8 +89,8 @@ public class Brain {
 
             n.potential = n.potential * decay;
 
-            if (n.index >= inputSize && n.index < inputSize + outputSize) {
-                outputs[n.index - inputSize] = n.spike;
+            if (n.index >= inputSize + Options.amountOfPseudoInputs && n.index < inputSize + Options.amountOfPseudoInputs + outputSize) {
+                outputs[n.index - inputSize - Options.amountOfPseudoInputs] = n.spike;
             }
         }
     }
