@@ -261,9 +261,7 @@ public class Matrix implements Iterable<Positioned> {
         ArrayList<Positioned> relevant = new ArrayList<>();
 
         while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
-            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
             if(isPiOverFour == true){
                 if(firstIntersect == true){
                     distanceCounter += Math.sqrt(Math.pow((xPosInCell), 2) + Math.pow(yPosInCell, 2));
@@ -285,8 +283,8 @@ public class Matrix implements Iterable<Positioned> {
                 verticalBoundsCounter += angleCaseSwitchY;
             }else if(xyAngleSwitch == true){
                 if(firstIntersect == true){
-                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
-                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    distanceCounter += Math.sqrt(Math.pow((xPosInCell / Math.tan(angle)), 2) + Math.pow(xPosInCell, 2));
+                    distanceCounterXY += (xPosInCell / Math.tan(angle));
                     firstIntersect = false;
                 } else{
                     distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
@@ -299,8 +297,8 @@ public class Matrix implements Iterable<Positioned> {
                 verticalBoundsCounter += angleCaseSwitchY;
             } else{
                 if(firstIntersect == true){
-                    distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) + Math.pow(heightAtStart, 2));
-                    distanceCounterXY += (heightAtStart / Math.tan(angle));
+                    distanceCounter += Math.sqrt(Math.pow((yPosInCell / Math.tan(angle)), 2) + Math.pow(yPosInCell, 2));
+                    distanceCounterXY += (yPosInCell / Math.tan(angle));
                     firstIntersect = false;
                 } else{
                     distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
@@ -315,29 +313,19 @@ public class Matrix implements Iterable<Positioned> {
         }
 
         if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
         }
         if((horizontalBoundsCounter == -1 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            for(Positioned p : contents.get(horizontalBoundsCounter+1).get(verticalBoundsCounter)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter + 1).get(verticalBoundsCounter));
         }
         if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter == amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            for(Positioned p : contents.get(horizontalBoundsCounter-1).get(verticalBoundsCounter)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter - 1).get(verticalBoundsCounter));
         }
         if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter == -1 && verticalBoundsCounter < amountOfVerticalCells)){
-            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter+1)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter + 1));
         }
         if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter == amountOfVerticalCells)){
-            for(Positioned p : contents.get(horizontalBoundsCounter).get(verticalBoundsCounter-1)){
-                relevant.add(p);
-            }
+            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter - 1));
         }
         return relevant;
     }
