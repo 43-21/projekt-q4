@@ -2,12 +2,8 @@ package input;
 
 import java.awt.event.*;
 
-import overlay.Message;
-import overlay.Overlay;
 
 public class Input implements KeyListener, MouseListener, MouseWheelListener {
-    public Overlay overlay;
-
     private boolean[] pressed;
     private boolean[] typed;
     private boolean mousePressed;
@@ -51,7 +47,6 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        overlay.addAdvancedMessage(new Message("Taste gedrückt: " + e.getKeyCode(), 3000));
         pressed[e.getKeyCode()] = true;
     }
 
@@ -59,13 +54,11 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     public void keyReleased(KeyEvent e) {
         pressed[e.getKeyCode()] = false;
         typed[e.getKeyCode()] = true;
-        overlay.addAdvancedMessage(new Message("Taste losgelassen: " + e.getKeyCode(), 3000));
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         mouseClicked = true;
-        overlay.addAdvancedMessage(new Message("Mausklick!", 3000));
     }
 
     @Override

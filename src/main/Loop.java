@@ -28,7 +28,6 @@ public class Loop implements Runnable, State {
     public Loop(Input input) {
         this.world = new World(Options.width, Options.height);
         this.overlay = new Overlay();
-        input.overlay = overlay;
         world.overlay = overlay;
         this.display = new Display(Options.width, Options.height, input);
 
