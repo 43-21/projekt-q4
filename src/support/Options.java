@@ -8,11 +8,10 @@ public class Options {
     public static double addSynapseRate = 0.1;
     public static double mutateWeightsRate = 0.9;
     public static double multipleMutationsRate = 0.005;
-    public static final int numberOfPossibleMutations = 4;
     public static int mutationsOnReproduction = 2;
-    public static int startingSynapses = 38;
-    public static int startingMutations = 10;
-    public static final int amountOfPseudoInputs = 2;
+    public static int startingSynapses = 48;
+    public static int startingMutations = 0;
+    public static int amountOfPseudoInputs = 2;
     public static double tau = 30.0;
     public static double decay(){
         return Math.exp(-1.0 / tau);
@@ -21,7 +20,7 @@ public class Options {
     // Konstanten im Kontext der Energie
     public static double initialEnergy = 1.0;
     public static double requiredEnergy = 0.0;
-    public static double desiredEnergy = 3.0;
+    public static double desiredEnergy = 2.5;
     //energie für körper öÄ, wäre nach dem Tod als Essen verfügbar
     //public static double organismEnergy = 0.0;
     public static double reproductionEnergy(){ 
@@ -29,7 +28,7 @@ public class Options {
     }
     public static int deathAge = 70000;
     public static double energyConsumptionAtDeathAge = 0.07;
-    public static double energyInFood = 2.0;
+    public static double energyInFood = 2.5;
 
     // Konstanten für Organismen und andere Objekte
     public static double viewRange = 250.0;
@@ -41,8 +40,8 @@ public class Options {
     // Konstanten die durch die Einstellungen im GUI geregelt werden (Default Werte
     // hier)
     public static int amountOfOrganisms = 10;
-    public static int amountOfFood = 50;
-    public static double foodSpawnRate = 0.05;
+    public static int amountOfFood = 80;
+    public static double foodSpawnRate = 0.00006;
     public static double speed = 1.0;
 
     // Technische Konstanten
@@ -53,4 +52,18 @@ public class Options {
     public static final int amountOfHorizontalCells = 16;
     public static final int amountOfVerticalCells = 10;
     public static final int cellLength = width / amountOfHorizontalCells;
+
+
+    //Overlay
+    public static boolean showViewRange = true;
+    public static boolean showView = true;
+    public static boolean showCommunication = true;
+    public static boolean showSensesOnlyOnFocus = true;
+    
+    public static boolean showPossiblyInView = false;
+
+    public static boolean showLogs = false;
+    public static boolean showInformationOnFocus = true;
+
+    public static boolean showWorldInformation = true;
 }
