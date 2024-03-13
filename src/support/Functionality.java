@@ -89,7 +89,7 @@ public class Functionality {
         double apad = apx * adx + apy * ady;
         double adad = adx * adx + ady * ady;
 
-        return 0 < apab && apab < abab && 0 < apad && apad < adad;
+        return 0 <= apab && apab <= abab && 0 <= apad && apad <= adad;
     }
 
     //rechteck - linie
