@@ -134,13 +134,12 @@ public class Genes {
     }
 
     //durch alle synapsen durchgehen und gewichtungen ein bisschen verändern
-    //wenn performance probleme, eventuel einfach uniform statt normalverteilt
     private void mutateWeights() {
         double standardDeviation = 0.2;
         for(Synapse synapse : synapseGenes) {
             double mutation = ThreadLocalRandom.current().nextGaussian()*standardDeviation;
-            mutation = Math.min(Math.max(mutation, -1.0), 1.0);
             synapse.weight += mutation;
+            synapse.weight = Math.min(Math.max(synapse.weight, -1.0), 1.0);
         }
     }
 }
