@@ -105,10 +105,12 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     //für sicht erstmal
-    public ArrayList<Positioned> searchRay(Double position, double angle, double distance) {
+    public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
         double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
         double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
         double distanceCounter = 0;
+        double xPosInCell = 0; 
+        double yPosInCell = 0;
         int horizontalBoundsCounter = getHorizontalCell(position.x);
         int verticalBoundsCounter = getVerticalCell(position.y);
         boolean xyAngleSwitch = false; // true bedeutet delta x != 1 false bedeutet y != 1
@@ -138,6 +140,31 @@ public class Matrix implements Iterable<Positioned> {
                 heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
             }
         } 
+
+        
+        if(xyAngleSwitch){
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = heightAtStart;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = distanceCounterXY;
+            } 
+        } else{
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = distanceCounterXY;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = heightAtStart;
+            } 
+        }
         
         ArrayList<Positioned> relevant = new ArrayList<>();
 
@@ -147,7 +174,7 @@ public class Matrix implements Iterable<Positioned> {
             }
             if(isPiOverFour == true){
                 if(firstIntersect == true){
-                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength - distanceCounterXY), 2) + Math.pow(heightAtStart, 2));
+                    distanceCounter += Math.sqrt(Math.pow((xPosInCell), 2) + Math.pow(yPosInCell, 2));
                     firstIntersect = false;
                 } else{
                     distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
@@ -156,8 +183,8 @@ public class Matrix implements Iterable<Positioned> {
                 verticalBoundsCounter += angleCaseSwitchY;
             } else if(straightLine == true){
                 if(firstIntersect == true){
-                    distanceCounter += (Options.cellLength - distanceCounterXY) * Math.abs(angleCaseSwitchX);
-                    distanceCounter += (Options.cellLength - heightAtStart) * Math.abs(angleCaseSwitchY);
+                    distanceCounter += (xPosInCell) * Math.abs(angleCaseSwitchX);
+                    distanceCounter += (yPosInCell) * Math.abs(angleCaseSwitchY);
                     firstIntersect = false;
                 } else{
                     distanceCounter+= Options.cellLength;
