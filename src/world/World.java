@@ -49,13 +49,31 @@ public class World {
 
         for (Positioned o : objects) {
             if (o instanceof Organism) {
-                double length = 300.0;
+                boolean[] inputs = new boolean[8]; // 3 für farbe, 2 für entfernung, 3 für kommunikation
+
+                //KOMMUNIKATION
+                double radius = Options.communicationRadius;
+                ArrayList<Positioned> possiblyInRadius = objects.searchRect(o.position, radius, radius);
+                for(Positioned p : possiblyInRadius) {
+                    if(!(p instanceof Organism)) continue;
+                    if(p == o) continue;
+                    if(Functionality.squareDistance(p.position, o.position) > radius * radius) continue;
+                    boolean[] outputs = ((Organism)o).getOutputs();
+                    for(int i = 3; i < 6; i++) {
+                        if(outputs[i]) {
+                            inputs[i + 2] = true;
+                        }
+                    }
+                    overlay.addLine(new Line(p.position, o.position, Color.CYAN));
+                }
+                
+                //SICHT
+                double length = Options.viewRange;
                 Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation(), length);
 
                 // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(),
                 // ((Organism) o).getRotation(), length);
 
-                boolean[] inputs = new boolean[8]; // 3 für farbe, 2 für entfernung, 3 für kommunikation
                 overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
 
                 double currentDistanceSquared = java.lang.Double.POSITIVE_INFINITY;
@@ -148,6 +166,20 @@ public class World {
             }
 
             if (o instanceof Organism) {
+                boolean[] outputs = ((Organism)o).getOutputs();
+
+                /*
+                 * if output[0]: move
+                 * check for collision
+                 * if collision: move back
+                 */
+
+                if(outputs[0]) {
+                    o.position.x += Math.cos(((Organism) o).getRotation()) * Options.speed;
+                    o.position.y += -Math.sin(((Organism) o).getRotation()) * Options.speed;
+                }
+
+
                 ArrayList<Integer> indices = food.checkForCollision(o);
                 for (int index : indices) {
                     ((Organism) o).eat(food.removeEnergy(index));
