@@ -110,6 +110,55 @@ public class Matrix implements Iterable<Positioned> {
         }
     }
 
+    public ArrayList<Positioned> searchRay(Double position, double angle, double distance) {
+        ArrayList<Positioned> relevant = new ArrayList<>();
+
+        int x = getHorizontalCell(distance);
+        int y = getVerticalCell(distance);
+
+        int horizontal = getHorizontalCell(position.x);
+        int vertical = getVerticalCell(position.y);
+
+        if (angle > 0 && angle < Math.PI) {
+            if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
+                //oben links
+                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
+                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
+                        relevant.addAll(contents.get(i).get(j));
+                    }
+                }
+            }
+            else {
+                //oben rechts
+                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
+                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
+                        relevant.addAll(contents.get(i).get(j));
+                    }
+                }
+            }
+        }
+        else {
+            if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
+                //unten links
+                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
+                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
+                        relevant.addAll(contents.get(i).get(j));
+                    }
+                }
+            }
+            else {
+                //unten rechts
+                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
+                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
+                        relevant.addAll(contents.get(i).get(j));
+                    }
+                }
+            }
+        }
+        return relevant;
+    }
+
+
     //für sicht erstmal
     public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
         double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
