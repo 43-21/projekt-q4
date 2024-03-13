@@ -1,0 +1,8 @@
+- GUI: checkboxen
+- Dokumentation (mittwoch)
+    - mit javadocs alle öffentlichen Funktionen dokumentieren
+- schön machen (mittwoch)
+    - alle Warnungen entfernen
+    - unnötige Kommentare entfernen
+    - unnötigen code entfernen
+    - vielleicht sogar Variablennamen überprüfen

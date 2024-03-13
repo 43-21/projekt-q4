@@ -12,7 +12,10 @@ import overlay.Line;
 import overlay.Overlay;
 import support.*;
 
-// Die Welt der Simulation
+/**
+ * Die Welt der Simulation.
+ * Speichert Objekte in einer Matrix.
+ */
 public class World {
     public Overlay overlay;
 
@@ -25,12 +28,16 @@ public class World {
 
     int counter = 0;
 
-    // Die Welt wird erstellt und befüllt
+    /**
+     * Erstellt die Welt mit der gegebenen Höhe und Breite
+     * @param width
+     * @param height
+     */
     public World(int width, int height) {
         this.width = width;
         this.height = height;
 
-        this.food = new Food(Options.amountOfFood, 0);
+        this.food = new Food(Options.amountOfFood);
 
         objects = new Matrix(Options.amountOfHorizontalCells, Options.amountOfVerticalCells, width, height);
 
@@ -41,8 +48,11 @@ public class World {
         }
     }
 
+    /**
+     * Führt die Updates für alle Objekte der Welt aus und ermittelt davor und danach
+     * die notwendigen Informationen dafür. Bestimmt die Logik des Geschehens.
+     */
     public void update() {
-        objects.overlay = overlay;
         time++;
         // Abfolge:
         // 1. Inputs der Gehirne ermitteln
@@ -76,7 +86,7 @@ public class World {
                 double length = Options.viewRange;
                 Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation(), length);
 
-                ArrayList<Positioned> possible = objects.searchRayPrecise(o.getPosition(), ((Organism) o).getRotation(), length);
+                ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
 
                 if(Options.showViewRange) { 
                     if(!Options.showSensesOnlyOnFocus || hasFocus ) {
@@ -218,6 +228,10 @@ public class World {
         overlay.addMessage("Anzahl der Organismen: " + amountOfOrganisms);
     }
 
+    /**
+     * Gibt alle Objekte wieder, die Drawable implementieren
+     * @return
+     */
     public ArrayList<Drawable> getDrawables() {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(food);
@@ -231,6 +245,11 @@ public class World {
         return drawables;
     }
 
+    /**
+     * Stellt fest, ob sich bei der Mausposition ein Objekt befindet.
+     * @param mousePosition
+     * @return das Objekt oder null, wenn es keins gibt
+     */
     public Positioned getPositionedOnMouse(Point mousePosition) {
         Double position = new Double(mousePosition.x, mousePosition.y);
         if(Options.showLogs) overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);

@@ -12,12 +12,19 @@ import organism.Organism;
 import support.Options;
 import world.Positioned;
 
+/**
+ * Das Overlay wird als Bild über den sonstigen Inhalt des Displays gelegt
+ * und enthält Linien und Text als zusätzliche Information.
+ */
 public class Overlay {
     private ArrayList<Line> lines;
     private Positioned focus;
     private ArrayList<String> messages;
     private ArrayList<Message> advancedMessages;
 
+    /**
+     * Erstellt ein leeres Overlay.
+     */
     public Overlay() {
         this.lines = new ArrayList<>();
         this.messages = new ArrayList<>();
@@ -25,6 +32,10 @@ public class Overlay {
         this.advancedMessages = new ArrayList<>();
     }
 
+    /**
+     * Erstellt ein Image mit Breite und Höhe der Welt, wo der Inhalt des Overlays abgebildet ist.
+     * @return das Image
+     */
     public Image getOverlay() {
         BufferedImage image = new BufferedImage(Options.width, Options.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
@@ -73,6 +84,11 @@ public class Overlay {
         this.lines.add(line);
     }
 
+    /**
+     * Setzt den Fokus auf ein bestimmtes Objekt, sodass zusätzliche Informationen
+     * darüber angezeigt werden, sofern das in den Optionen so eingestellt ist
+     * @param object
+     */
     public void setFocus(Positioned object) {
         this.focus = object;
     }
@@ -89,10 +105,19 @@ public class Overlay {
         this.advancedMessages.add(message);
     }
 
+    /**
+     * Erstellt eine Message mit dem Inhalt und der Dauer und fügt sie dem Overlay hinzu.
+     * @param content
+     * @param duration
+     */
     public void addAdvancedMessage(String content, int duration) {
         this.advancedMessages.add(new Message(content, duration));
     }
 
+    /**
+     * Löscht Linien und normale Nachrichten; löscht die Messages
+     * wenn sie ihre Lebensdauer überschritten haben
+     */
     public void clear() {
         this.lines = new ArrayList<>();
         this.messages = new ArrayList<>();

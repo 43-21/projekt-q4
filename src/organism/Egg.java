@@ -10,16 +10,23 @@ import world.Dynamic;
 import world.Positioned;
 import world.Shape;
 
+/**
+ * Ein Ei speichert die Gene eines Organismus, der später schlüpfen wird.
+ */
 public class Egg extends Positioned implements Dynamic, Drawable {
     Shape shape;
     Genes genes;
     int timeToHatch;
 
     int time = 0;
-    boolean fertilised = true; //false
 
     final int scale = Options.eggScale;
 
+    /**
+     * Erstellt ein Ei mit bestimmten Genen und einer Zeit, bis der Organismus schlüpfen soll.
+     * @param genes
+     * @param timeToHatch
+     */
     public Egg(Genes genes, int timeToHatch) {
         this.genes = genes;
         this.timeToHatch = timeToHatch;
@@ -35,14 +42,25 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         shape.setPositionKind(Shape.CENTER);
     }
 
+    /**
+     * Zählt die Zeit hoch
+     */
     public void update() {
-        if(fertilised) time++;
+        time++;
     }
 
+    /**
+     * Gibt aus, ob der Organismus schlüpfen kann
+     * @return true, wenn die Zeit zum Schlüpfen verstrichen ist
+     */
     public boolean canHatch() {
         return time > timeToHatch;
     }
 
+    /**
+     * Lässt den Organismus schlüpfen
+     * @return den Organismus
+     */
     public Organism hatch() {
         Organism organism = new Organism(genes);
         organism.setPosition(position.x, position.y);
@@ -63,6 +81,7 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         return new Point((int) x, (int) y);
     }
 
+    @Override
     public Shape getShape() {
         return shape;
     }

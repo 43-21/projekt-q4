@@ -1,9 +1,11 @@
 package support;
 
-// Globale Konstanten sind hier gespeichert
+/**
+ * Speichert die globalen Konstanten.
+ */
 public class Options {
-
     // Konstanten im Kontext der Gehirne
+    public static double mutateWeightsStdDev = 0.1;
     public static double addNeuronRate = 0.06;
     public static double addSynapseRate = 0.1;
     public static double mutateWeightsRate = 0.9;
@@ -26,8 +28,8 @@ public class Options {
     public static double reproductionEnergy(){ 
         return desiredEnergy + initialEnergy; 
     }
-    public static int deathAge = 70000;
-    public static double energyConsumptionAtDeathAge = 0.07;
+    public static int deathAge = 30000;
+    public static double energyConsumptionAtDeathAge = 0.005;
     public static double energyInFood = 2.5;
 
     // Konstanten für Organismen und andere Objekte

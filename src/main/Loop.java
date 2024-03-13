@@ -8,7 +8,9 @@ import support.Options;
 import world.Positioned;
 import world.World;
 
-// Game Loop
+/**
+ * Die Schleife, in der die Simulation ausgeführt wird.
+ */
 public class Loop implements Runnable, State {
     private World world;
     private Display display;
@@ -26,6 +28,10 @@ public class Loop implements Runnable, State {
     private long nextStatTime;
     private long currentTime = System.currentTimeMillis();
 
+    /**
+     * Initiiert die Schleife mit einer Welt, einem Overlay, einem Display und einem Controller.
+     * @param input der Input für Tastatur und Maus
+     */
     public Loop(Input input) {
         this.world = new World(Options.width, Options.height);
         this.overlay = new Overlay();
@@ -35,7 +41,6 @@ public class Loop implements Runnable, State {
         this.controller = new Controller(input);
     }
 
-    // Eigentliche Loop
     @Override
     public void run() {
         double accumulator = 0;

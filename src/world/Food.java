@@ -12,6 +12,9 @@ import java.awt.image.BufferedImage;
 import support.Functionality;
 import support.Options;
 
+/**
+ * Speichert alles über das Essen - Position, Kollision, Sicht für Organismen, das Bild
+ */
 public class Food implements Dynamic, Drawable {
     ArrayList<Double> food = new ArrayList<>();
 
@@ -20,14 +23,18 @@ public class Food implements Dynamic, Drawable {
     Shape energyShape;
     final int scale = Options.foodScale;
 
-    public Food(int food, int amountOfFields) {
+    /**
+     * Erstellt ein neues Objekt mit der gegebenen Anzahl an Energie
+     * @param food die Anzahl an Energieteilchen
+     */
+    public Food(int food) {
         desiredAmountOfFood = food;
 
         for(int i = 0; i < food; i++) {
             addFood();
         }
 
-        energyShape = new Shape(3);
+        energyShape = new Shape(scale);
         energyShape.addSquare(1, 0, new boolean[]{true, true, true});
         energyShape.addSquare(0, 1, new boolean[]{true, true, true});
         energyShape.addSquare(2, 1, new boolean[]{true, true, true});
@@ -37,6 +44,9 @@ public class Food implements Dynamic, Drawable {
         energyShape.setPositionKind(Shape.CENTER);
     }
 
+    /*
+     * Regeneriert Energie wenn nötig
+     */
     public void update() {
         if(food.size() < desiredAmountOfFood) {
             accumulator += Options.foodSpawnRate;
@@ -46,7 +56,6 @@ public class Food implements Dynamic, Drawable {
         if(accumulator >= random && addFood()) accumulator -= random;
     }
 
-    //true wenn erfolgreich
     private boolean addFood() {
         double x = ThreadLocalRandom.current().nextDouble(Options.width);
         double y = ThreadLocalRandom.current().nextDouble(Options.height);
@@ -73,6 +82,11 @@ public class Food implements Dynamic, Drawable {
         return !collision;
     }
 
+    /**
+     * Überprüft, ob ein Objekt mit Essen kollidiert
+     * @param object das positionierte Objekt
+     * @return eine Liste mit den Indizes der Energieteilchen, die kollidieren
+     */
     public ArrayList<Integer> checkForCollision(Positioned object) {
         ArrayList<Integer> list = new ArrayList<>();
 
@@ -87,6 +101,12 @@ public class Food implements Dynamic, Drawable {
         return list;
     }
 
+    /**
+     * Überprüft, ob sich eine Strecke mit Energie schneidet.
+     * @param a der Anfangspunkt der Strecke
+     * @param b der Endpunkt der Strecke
+     * @return die Position des ersten Schnittpunkts, womit die Strecke sich schneidet.
+     */
     public Double checkForLineIntersection(Double a, Double b) {
         Double current = null;
         double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
@@ -102,6 +122,11 @@ public class Food implements Dynamic, Drawable {
         return current;
     }
 
+    /**
+     * Entfernt das Energieteilchen mit dem gegebenen Index
+     * @param index
+     * @return den Energiebetrag
+     */
     public double removeEnergy(int index) {
         food.remove(index);
         return Options.energyInFood;

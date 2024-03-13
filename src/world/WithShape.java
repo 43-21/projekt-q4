@@ -1,6 +1,8 @@
 package world;
 
-// Oblekten dieser Art ist eine Shape zugewiesen
+/**
+ * Interface für Objekte, die eine Shape (Form) haben.
+ */
 public interface WithShape {
     public Shape getShape();
 }
