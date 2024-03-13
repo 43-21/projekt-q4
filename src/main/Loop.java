@@ -107,7 +107,7 @@ public class Loop implements Runnable, State {
     }
 
     private void render() {
-        display.render(world, overlay);
+        display.render(world.getDrawables(), overlay);
         fps++;
     }
 }

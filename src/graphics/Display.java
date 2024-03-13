@@ -16,6 +16,12 @@ public class Display extends JFrame {
     int width;
     int height;
 
+    /**
+     * Initiiert das Display.
+     * @param width die Breite des Displays in Pixeln
+     * @param height die Höhe des Displays in Pixeln
+     * @param input der Input des Pixels für Maus und Tastatur
+     */
     public Display(int width, int height, Input input) {
         setTitle("Simulation");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,9 +46,12 @@ public class Display extends JFrame {
         this.height = height;
     }
 
-    public void render(World world, Overlay overlay) {
-        ArrayList<Drawable> objects = world.getDrawables();
-
+    /**
+     * Rendert das aktuelle Bild auf dem Display.
+     * @param objects Die Objekte der Welt, die gezeichnet werden sollen
+     * @param overlay Das Overlay, das gezeichnet werden soll
+     */
+    public void render(ArrayList<Drawable> objects, Overlay overlay) {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
 
@@ -72,6 +81,10 @@ public class Display extends JFrame {
         bufferStrategy.show();
     }
 
+    /**
+     * Gibt die Canvas des Displays aus, auf der gezeichnet wird.
+     * @return die Canvas
+     */
     public Canvas getCanvas() {
         return canvas;
     }
