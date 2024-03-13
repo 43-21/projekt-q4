@@ -54,11 +54,6 @@ public class Loop implements Runnable, State {
                     state = PAUSE;
                 }
             }
-    
-            if(controller.isRequestingSave()) {
-                //speicherung muss hier initiiert werden, wenn nicht schon gespeichert wird.
-                state = SAVING;
-            }
 
             if(controller.getMouseClicked()) {
                 Positioned object = world.getPositionedOnMouse(display.getCanvas().getMousePosition());

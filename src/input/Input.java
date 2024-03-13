@@ -47,10 +47,6 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
         return false;
     }
 
-    public int getMouseWheelRotation() {
-        return mouseWheelRotation;
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         // overlay.addAdvancedMessage(new Message("Taste getippt: " + e.getKeyCode(), 3000));

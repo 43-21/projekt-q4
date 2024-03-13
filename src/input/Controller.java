@@ -9,16 +9,8 @@ public class Controller {
         this.input = input;
     }
 
-    public boolean isRequestingSave() {
-        return input.isTyped(KeyEvent.VK_S);
-    }
-
     public boolean isRequestingPause() {
         return input.isTyped(KeyEvent.VK_SPACE);
-    }
-
-    public int getMouseWheelRotation() {
-        return input.getMouseWheelRotation();
     }
 
     public boolean getMouseClicked() {
