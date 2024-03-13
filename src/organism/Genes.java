@@ -30,7 +30,7 @@ public class Genes {
             addSynapse();
         }
         for(int i = 0; i < Options.startingMutations; i++){
-            addSynapse();
+            mutate();
         }
     }
 
@@ -63,9 +63,8 @@ public class Genes {
     }
 
     public void mutate() {
-        //sollte zu nem switch case gemacht werden
-        double[] ran = new double[Options.numberOfPossibleMutations];
-        for(int i = 0; i < Options.numberOfPossibleMutations; i++){
+        double[] ran = new double[4];
+        for(int i = 0; i < 4; i++){
             ran[i] = ThreadLocalRandom.current().nextDouble();
         }
         if(ran[0] < Options.addNeuronRate) {
@@ -79,9 +78,9 @@ public class Genes {
         if(ran[2] < Options.mutateWeightsRate) {
             mutateWeights();
         }
-        if(ran[3] < Options.multipleMutationsRate) {
-            mutate();
-        }
+        // if(ran[3] < Options.multipleMutationsRate) {
+        //     mutate();
+        // }
     }
 
     private void addNeuron() {
