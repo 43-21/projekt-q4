@@ -84,8 +84,6 @@ public class Matrix implements Iterable<Positioned> {
         }
 
         for(Positioned p : changed) {
-            System.out.print("Changed position: ");
-            System.out.println(p);
             add(p);
         }
     }

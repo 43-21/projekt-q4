@@ -14,7 +14,7 @@ import support.Options;
 
 public class Food implements Dynamic, Drawable {
     ArrayList<Double> food = new ArrayList<>();
-    // EnergyField[] fields;
+
     int desiredAmountOfFood;
     double accumulator = 0.0;
     Shape energyShape;
@@ -22,11 +22,6 @@ public class Food implements Dynamic, Drawable {
 
     public Food(int food, int amountOfFields) {
         desiredAmountOfFood = food;
-        // fields = new EnergyField[amountOfFields];
-        
-        // for(int i = 0; i < amountOfFields; i++) {
-        //     fields[i] = new EnergyField(125, 50);
-        // }
 
         for(int i = 0; i < food; i++) {
             addFood();
@@ -49,10 +44,6 @@ public class Food implements Dynamic, Drawable {
 
         double random = ThreadLocalRandom.current().nextDouble();
         if(accumulator >= random && addFood()) accumulator -= random;
-
-        // for(EnergyField field : fields) {
-        //     field.update();
-        // }
     }
 
     //true wenn erfolgreich

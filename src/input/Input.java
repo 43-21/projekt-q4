@@ -12,13 +12,11 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     private boolean[] typed;
     private boolean mousePressed;
     private boolean mouseClicked = false;
-    private int mouseWheelRotation;
 
     public Input() {
         pressed = new boolean[255];
         typed = new boolean[255];
         mousePressed = false;
-        mouseWheelRotation = 0;
         mouseClicked = false;
     }
 
@@ -49,8 +47,6 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // overlay.addAdvancedMessage(new Message("Taste getippt: " + e.getKeyCode(), 3000));
-        // typed[e.getKeyCode()] = true;
     }
 
     @Override
@@ -89,11 +85,9 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        mouseWheelRotation = e.getWheelRotation();
     }
 }

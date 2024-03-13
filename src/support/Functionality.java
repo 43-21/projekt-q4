@@ -9,22 +9,15 @@ import world.Shape;
 import world.Square;
 
 public class Functionality {
-    public static double distance(Double p1, Double p2) {
-        return p1.distance(p2);
-    }
-
     public static double squareDistance(Double p1, Double p2) {
         return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
     }
 
     //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
-    //funktioniert eigentlich aber evtl probleme mit 0 und vorzeichen
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
 
         if(denominator == 0) {
-            //überprüfen: parallel, nacheinander, oder überschneidend?
-            //provisorisch:
             return null;
         }
 
@@ -158,53 +151,11 @@ public class Functionality {
         return horizontalCollision && verticalCollision;
     }
 
-    //rechtecke
-    public static boolean checkForCollision(Double point1, double length1, double length2, Double point2, double length3, double length4) {
-        boolean horizontal = false;
-        boolean vertical = false;
-        
-        return horizontal && vertical;
-    }
-
-    //kreise
-    public static boolean checkForCircleCollision(Double point1, double radius1, Double point2, double radius2) {
-        double distanceX = (point1.x - point2.x);
-        double distanceY = (point1.y - point2.y);
-        double distanceSquared = distanceX * distanceX + distanceY * distanceY;
-        return distanceSquared <= (radius1 + radius2) * (radius1 + radius2);
-    }
-
-    //kreis - rechteck
-    public static boolean checkForCircleCollision(Double point1, double radius1, Double point2, double length1, double length2) {
-        return false;
-    }
-
-    //true wenn Punkt point auf Strecke AB ist, sonst false
-    public static boolean pointIsOnLine(Double a, Double b, Double point) {
-        double angle1 = getAngle(a, b) + Math.PI / 2.0;
-        double angle2 = getAngle(a, b) - Math.PI / 2.0;
-        Double d1 = getDestinationPoint(point, angle1, 10.0);
-        Double d2 = getDestinationPoint(point, angle2, 10.0);
-        Double intersection1 = getIntersectionPoint(a, b, point, d1);
-        Double intersection2 = getIntersectionPoint(a, b, point, d2);
-        return intersection1 != null && intersection2 != null;
-    }
-
     public static Double getDestinationPoint(Double startingPoint, double angle, double length) {
         return new Double(
             startingPoint.x + (length * Math.cos(angle)),
             startingPoint.y + (length * -Math.sin(angle))
         );
-    }
-
-    public static double getAngle(Double a, Double b) {
-        double x = b.x - a.x;
-        double y = b.y - a.y;
-        double scalar = x + y;
-        double length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        double angle = Math.acos(scalar / length);
-
-        return angle;
     }
 
     public static Color getDisplayColorFromEncoding(boolean[] color) {

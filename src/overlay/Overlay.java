@@ -11,14 +11,12 @@ import support.Options;
 import world.Positioned;
 
 public class Overlay {
-    private ArrayList<Rect> rects;
     private ArrayList<Line> lines;
     private Positioned focus;
     private ArrayList<String> messages;
     private ArrayList<Message> advancedMessages;
 
     public Overlay() {
-        this.rects = new ArrayList<>();
         this.lines = new ArrayList<>();
         this.messages = new ArrayList<>();
         this.focus = null;
@@ -31,26 +29,6 @@ public class Overlay {
 
         graphics.setColor(new Color(1f, 1f, 1f, 0f));
         graphics.fillRect(0, 0, Options.width, Options.height);
-
-        for(Rect rect : rects) {
-            graphics.setColor(rect.color);
-            int[] x = new int[4];
-            int[] y = new int[4];
-
-            x[0] = (int) rect.a.x;
-            y[0] = (int) rect.a.y;
-
-            x[1] = (int) rect.b.x;
-            y[1] = (int) rect.b.y;
-
-            x[2] = (int) rect.c.x;
-            y[2] = (int) rect.c.y;
-
-            x[3] = (int) rect.d.x;
-            y[3] = (int) rect.d.y;
-
-            graphics.drawPolygon(x, y, 4);
-        }
 
         for(Line line : lines) {
             graphics.setColor(line.color);
@@ -87,10 +65,6 @@ public class Overlay {
         this.lines.add(line);
     }
 
-    public void addRect(Rect rect) {
-        this.rects.add(rect);
-    }
-
     public void setFocus(Positioned object) {
         this.focus = object;
     }
@@ -112,7 +86,6 @@ public class Overlay {
     }
 
     public void clear() {
-        this.rects = new ArrayList<>();
         this.lines = new ArrayList<>();
         this.messages = new ArrayList<>();
 

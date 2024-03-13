@@ -9,7 +9,6 @@ public class Brain {
     HashMap<Integer, Neuron> neurons;
     HashSet<Synapse> synapses;
     final double decay = Options.decay();
-    final double decaySpikeTrace = Math.exp(-1.0 / 100.0);
 
     int inputSize;
     int outputSize;
@@ -39,37 +38,10 @@ public class Brain {
         for (Synapse s : synapses) {
             Neuron from = neurons.get(s.from);
             Neuron to = neurons.get(s.to);
-            // if(to == null || from == null) {
-            // System.out.println("from: " + from + "; to: " + to);
-            // System.out.println("from index: " + s.from + "; to index: " + s.to);
-            // System.out.println(neurons.values());
-            // }
 
             if (from.spike) {
                 to.potential += s.weight;
-
-                // stdp presynaptic spike
-                // from.preChange += 0.1f;
-                // s.weight += to.postChange;
             }
-
-            // else from.preChange *= decaySpikeTrace;
-
-            // stdp postsynaptic spike
-            // if(to.spike) {
-            // to.postChange -= 0.1f;
-            // s.weight += from.preChange;
-            // }
-
-            // else to.postChange *= decaySpikeTrace;
-
-            // if(s.weight > 1.0) {
-            // s.weight = 1.0f;
-            // }
-
-            // else if(s.weight < 0.0) {
-            // s.weight = 0.0f;
-            // }
         }
 
         // outputs & spiking

@@ -39,11 +39,6 @@ public class Egg extends Positioned implements Dynamic, Drawable {
         if(fertilised) time++;
     }
 
-    // public void fertilise(Genes partner) {
-    //     genes = genes.recombine(partner);
-    //     fertilised = true;
-    // }
-
     public boolean canHatch() {
         return time > timeToHatch;
     }
