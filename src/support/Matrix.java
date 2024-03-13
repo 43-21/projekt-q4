@@ -159,16 +159,16 @@ public class Matrix implements Iterable<Positioned> {
         if (angle > 0 && angle < Math.PI) {
             if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
                 //oben links
-                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
-                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
+                for(int i = horizontal; i >= horizontal - x && i >= 0; i--) {
+                    for(int j = vertical; j >= vertical - y && j >= 0; j--) {
                         relevant.addAll(contents.get(i).get(j));
                     }
                 }
             }
             else {
                 //oben rechts
-                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
-                    for(int j = vertical; j > vertical - y && j >= 0; j--) {
+                for(int i = horizontal; i <= horizontal + x && i < amountOfHorizontalCells; i++) {
+                    for(int j = vertical; j >= vertical - y && j >= 0; j--) {
                         relevant.addAll(contents.get(i).get(j));
                     }
                 }
@@ -177,16 +177,16 @@ public class Matrix implements Iterable<Positioned> {
         else {
             if (angle > Math.PI / 2.0 && angle < Math.PI / 2.0 * 3.0) {
                 //unten links
-                for(int i = horizontal; i > horizontal - x && i >= 0; i--) {
-                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
+                for(int i = horizontal; i >= horizontal - x && i >= 0; i--) {
+                    for(int j = vertical; j <= vertical + y && j < amountOfVerticalCells; j++) {
                         relevant.addAll(contents.get(i).get(j));
                     }
                 }
             }
             else {
                 //unten rechts
-                for(int i = horizontal; i < horizontal + x && i < amountOfHorizontalCells; i++) {
-                    for(int j = vertical; j < vertical + y && j < amountOfVerticalCells; j++) {
+                for(int i = horizontal; i <= horizontal + x && i < amountOfHorizontalCells; i++) {
+                    for(int j = vertical; j <= vertical + y && j < amountOfVerticalCells; j++) {
                         relevant.addAll(contents.get(i).get(j));
                     }
                 }
