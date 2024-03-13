@@ -78,7 +78,7 @@ public class World {
 
                 ArrayList<Positioned> possible = objects.searchRayPrecise(o.getPosition(), ((Organism) o).getRotation(), length);
 
-                if(Options.showViewRange) {
+                if(Options.showViewRange) { 
                     if(!Options.showSensesOnlyOnFocus || hasFocus ) {
                         overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
                     }
@@ -116,7 +116,7 @@ public class World {
 
                     if (currentDistanceSquared > squareDistance) {
                         color = new boolean[] { true, true, true };
-                        if(Options.showView) {
+                        if(Options.showView) {  
                             if(!Options.showSensesOnlyOnFocus || hasFocus) {
                                 overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
                             }

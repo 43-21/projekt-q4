@@ -175,7 +175,7 @@ public class Matrix implements Iterable<Positioned> {
         int angleCaseSwitchX = 0; // Regelt in welche Richtung sich die Sicht ausbreitet
         int angleCaseSwitchY = 0; // Regelt in welche Richtung sich die Sicht ausbreitet in Sonderfällen
 
-        if(Math.cos(angle) == 0 || Math.cos(angle) == 0){ // Regelt Vorzeichen der Rechnung
+        if(Math.cos(angle) == 0 || Math.sin(angle) == 0){ // Regelt Vorzeichen der Rechnung
             angleCaseSwitchX = (int) Math.cos(angle);
             angleCaseSwitchY = (int) Math.sin(angle);
             straightLine = true;
@@ -186,13 +186,13 @@ public class Matrix implements Iterable<Positioned> {
             if(Math.abs(Math.cos(angle)) == Math.abs(Math.sin(angle))){
                 isPiOverFour = true;
             } else if(Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))){
-                xyAngleSwitch = true;
-                distanceCounterXY = position.y - getVerticalCell(position.y) * Options.cellLength;
-                heightAtStart = position.x - getHorizontalCell(position.x) * Options.cellLength;
-            } else{
                 xyAngleSwitch = false;
                 distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
                 heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+            } else{
+                xyAngleSwitch = true;
+                distanceCounterXY = position.y - getVerticalCell(position.y) * Options.cellLength;
+                heightAtStart = position.x - getHorizontalCell(position.x) * Options.cellLength;
             }
         } 
 
@@ -520,11 +520,11 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     private int getHorizontalCell(double x) {
-        return (int) ((x / (double) width) * amountOfHorizontalCells);
+        return (int) Math.floor((x / (double) width) * amountOfHorizontalCells);
     }
 
     private int getVerticalCell(double y) {
-        return (int) ((y / (double) height) * amountOfVerticalCells);
+        return (int) Math.floor((y / (double) height) * amountOfVerticalCells);
     }
 }
 
