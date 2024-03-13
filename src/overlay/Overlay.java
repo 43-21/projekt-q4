@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import organism.Organism;
@@ -51,10 +53,15 @@ public class Overlay {
         graphics.setColor(Color.BLACK);
 
         if(focus != null && Options.showInformationOnFocus) {
-            graphics.drawString("Position: ( " + focus.getPosition().x + " | " + focus.getPosition().y + " )", 10, y);
+            y += 10;
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.HALF_UP);
+
+            graphics.drawString("Position: ( " + df.format(focus.getPosition().x) + " | " + df.format(focus.getPosition().y) + " )", 10, y);
             if(focus instanceof Organism) {
-                graphics.drawString("Rotation: " + ((Organism) focus).getRotation() / Math.PI * 180 + "°", 10, y + 10);
-                graphics.drawString("Energie: " + ((Organism) focus).getEnergy(), 10, y + 20);
+                graphics.drawString("Rotation: " + df.format(((Organism) focus).getRotation() / Math.PI * 180) + "°", 10, y + 10);
+                graphics.drawString("Energie: " + df.format(((Organism) focus).getEnergy()), 10, y + 20);
+                graphics.drawString("Alter: " + ((Organism) focus).getAge(), 10, y + 30);
             }
         }
 

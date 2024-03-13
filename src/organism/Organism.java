@@ -91,6 +91,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         return rotation;
     }
 
+    public int getAge() {
+        return age;
+    }
+    
     public boolean[] getColor() {
         return color;
     }
