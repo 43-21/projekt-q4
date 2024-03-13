@@ -174,10 +174,17 @@ public class World {
                  * if collision: move back
                  */
 
-                if(outputs[0]) {
-                    o.position.x += Math.cos(((Organism) o).getRotation()) * Options.speed;
-                    o.position.y += -Math.sin(((Organism) o).getRotation()) * Options.speed;
-                }
+                // if(outputs[0]) {
+                //     o.position.x += Math.cos(((Organism) o).getRotation()) * Options.speed;
+                //     o.position.y += -Math.sin(((Organism) o).getRotation()) * Options.speed;
+
+                //     for(Positioned p : objects.searchRect(o.position, Options.organismScale * 2, Options.organismScale * 2)) {
+                //         if(o.colliding(p)) {
+                //             o.position.x -= Math.cos(((Organism) o).getRotation()) * Options.speed;
+                //             o.position.y -= -Math.sin(((Organism) o).getRotation()) * Options.speed;
+                //         }
+                //     }
+                // }
 
 
                 ArrayList<Integer> indices = food.checkForCollision(o);

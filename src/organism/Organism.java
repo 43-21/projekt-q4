@@ -45,10 +45,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         brain.update();
         boolean[] outputs = brain.getOutputs();
 
-        // if(outputs[0]) {
-        //     position.x += Math.cos(rotation) * Options.speed;
-        //     position.y += -Math.sin(rotation) * Options.speed;
-        // }
+        if(outputs[0]) {
+            position.x += Math.cos(rotation) * Options.speed;
+            position.y += -Math.sin(rotation) * Options.speed;
+        }
 
         if(outputs[1]) {
             rotation += Math.PI / 90.0;
