@@ -80,7 +80,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
             copy.mutate();
         }
         Egg egg = new Egg(copy, 300);
-        egg.setPosition(position.x, position.y);
+        double translation = scale * 2 * 1.5;
+        double x = -translation * Math.cos(rotation);
+        double y = -translation * -Math.sin(rotation);
+        egg.setPosition(position.x + x, position.y + y);
         return egg;
     }
 
