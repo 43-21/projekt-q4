@@ -49,6 +49,8 @@ public class World {
 
         for (Positioned o : objects) {
             if (o instanceof Organism) {
+                boolean hasFocus = overlay.getFocus() == o;
+
                 boolean[] inputs = new boolean[8]; // 3 für farbe, 2 für entfernung, 3 für kommunikation
 
                 //KOMMUNIKATION
@@ -64,6 +66,8 @@ public class World {
                             inputs[i + 2] = true;
                         }
                     }
+                    if(!Options.showCommunication) continue;
+                    if(Options.showSensesOnlyOnFocus && !hasFocus) continue;
                     overlay.addLine(new Line(p.position, o.position, Color.CYAN));
                 }
                 
@@ -74,7 +78,11 @@ public class World {
                 // ArrayList<Positioned> possible = objects.searchRay(o.getPosition(),
                 // ((Organism) o).getRotation(), length);
 
-                overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
+                if(Options.showViewRange) {
+                    if(!Options.showSensesOnlyOnFocus || hasFocus ) {
+                        overlay.addLine(new Line(o.position, endPoint, Color.ORANGE));
+                    }
+                }
 
                 double currentDistanceSquared = java.lang.Double.POSITIVE_INFINITY;
                 Positioned closest = null;
@@ -91,7 +99,7 @@ public class World {
                         }
                     }
 
-                    if (overlay.getFocus() == o) {
+                    if (hasFocus && Options.showPossiblyInView) {
                         overlay.addLine(new Line(o.position, p.position));
                     }
                 }
@@ -108,7 +116,11 @@ public class World {
 
                     if (currentDistanceSquared > squareDistance) {
                         color = new boolean[] { true, true, true };
-                        overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
+                        if(Options.showView) {
+                            if(!Options.showSensesOnlyOnFocus || hasFocus) {
+                                overlay.addLine(new Line(o.position, intersection, Color.MAGENTA));
+                            }
+                        }
                     }
 
                     else {
@@ -120,7 +132,11 @@ public class World {
                 else {
                     Square square = closest.intersecting(o.position, endPoint);
                     color = square.getColor();
-                    overlay.addLine(new Line(o.position, closest.getIntersectionPoint(o.position, endPoint), Color.MAGENTA));
+                    if(Options.showView) {
+                        if(!Options.showSensesOnlyOnFocus || hasFocus) {
+                            overlay.addLine(new Line(o.position, closest.getIntersectionPoint(o.position, endPoint), Color.MAGENTA));
+                        }
+                    }
                 }
 
                 for (int i = 0; i < color.length; i++) {
@@ -160,8 +176,11 @@ public class World {
                     Organism child = ((Egg) o).hatch();
                     amountOfOrganisms++;
                     toBeAdded.add(child);
-                    System.out.println("Added child: " + child);
                     toBeRemoved.add(o);
+
+                    if(Options.showLogs) {
+                        overlay.addAdvancedMessage("Added child: " + child, 3000);
+                    }
                 }
             }
 
@@ -182,7 +201,9 @@ public class World {
                 else if (((Organism) o).getEnergy() >= Options.reproductionEnergy()) {
                     Egg child = ((Organism) o).layEgg();
                     toBeAdded.add(child);
-                    System.out.println("Added egg: " + child);
+                    if(Options.showLogs) {
+                        overlay.addAdvancedMessage("Added egg: " + child, 4000);
+                    }
                 }
             }
         }
@@ -191,6 +212,7 @@ public class World {
         objects.removeAll(toBeRemoved);
         objects.addAll(toBeAdded);
 
+        if(!Options.showWorldInformation) return;
         overlay.addMessage("Zeitpunkt: " + time);
         overlay.addMessage("Anzahl an Essen: " + food.getAmountOfFood());
         overlay.addMessage("Anzahl der Organismen: " + amountOfOrganisms);
@@ -211,8 +233,8 @@ public class World {
 
     public Positioned getPositionedOnMouse(Point mousePosition) {
         Double position = new Double(mousePosition.x, mousePosition.y);
-        overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);
-        for (Positioned object : objects.searchRect(position, Organism.scale, Organism.scale)) {
+        if(Options.showLogs) overlay.addAdvancedMessage(String.format("Maus bei x: %d, y: %d", mousePosition.x, mousePosition.y), 3000);
+        for (Positioned object : objects.searchRect(position, Organism.scale * 2, Organism.scale * 2)) {
             if (object.intersecting(position)) {
                 return object;
             }
