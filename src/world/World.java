@@ -86,7 +86,7 @@ public class World {
                 double length = Options.viewRange;
                 Double endPoint = Functionality.getDestinationPoint(o.position, ((Organism) o).getRotation(), length);
 
-                ArrayList<Positioned> possible = objects.searchRay(o.getPosition(), ((Organism) o).getRotation(), length);
+                ArrayList<Positioned> possible = objects.searchRayPrecise(o.getPosition(), ((Organism) o).getRotation(), length);
 
                 if(Options.showViewRange) { 
                     if(!Options.showSensesOnlyOnFocus || hasFocus ) {
@@ -109,7 +109,7 @@ public class World {
                         }
                     }
 
-                    if (hasFocus && Options.showPossiblyInView) {
+                    if ((hasFocus && Options.showPossiblyInView) || Options.showAllPossiblyInView) { 
                         overlay.addLine(new Line(o.position, p.position));
                     }
                 }

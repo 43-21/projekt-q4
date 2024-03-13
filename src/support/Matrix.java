@@ -205,7 +205,7 @@ public class Matrix implements Iterable<Positioned> {
         double yPosInCell = 0;
         int horizontalBoundsCounter = getHorizontalCell(position.x);
         int verticalBoundsCounter = getVerticalCell(position.y);
-        boolean xyAngleSwitch = false; // true bedeutet delta x != 1 false bedeutet y != 1
+        boolean xyAngleSwitch = false; // true bedeutet delta y != 1 false bedeutet x != 1
         boolean firstIntersect = true; // nach dem 1. Intersect bleibt die Distanz konstant, der Wert beim 1. Intersect ist Positionsabhängig
         boolean isPiOverFour = false; // 45 Grad?
         boolean straightLine = false; // Gerade Linie?
@@ -239,29 +239,33 @@ public class Matrix implements Iterable<Positioned> {
                 xPosInCell = Options.cellLength - heightAtStart;
             } else if(angleCaseSwitchX == -1){
                 xPosInCell = heightAtStart;
+                if(!xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
             } 
             if(angleCaseSwitchY == 1){
                 yPosInCell = Options.cellLength - distanceCounterXY;
             } else if(angleCaseSwitchY == -1){
                 yPosInCell = distanceCounterXY;
+                if(xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
             } 
         } else{
             if(angleCaseSwitchX == 1){
                 xPosInCell = Options.cellLength - distanceCounterXY;
             } else if(angleCaseSwitchX == -1){
                 xPosInCell = distanceCounterXY;
+                if(!xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
             } 
             if(angleCaseSwitchY == 1){
                 yPosInCell = Options.cellLength - heightAtStart;
             } else if(angleCaseSwitchY == -1){
                 yPosInCell = heightAtStart;
+                if(xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
             } 
         }
         
         ArrayList<Positioned> relevant = new ArrayList<>();
 
-        while(distanceCounter < distance && horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
-            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+        while((distanceCounter < distance) && (horizontalBoundsCounter >= 0) && (horizontalBoundsCounter < amountOfHorizontalCells) && (verticalBoundsCounter >= 0) && (verticalBoundsCounter < amountOfVerticalCells)){
+            if(distanceCounter >= distance) break;
             if(isPiOverFour == true){
                 if(firstIntersect == true){
                     distanceCounter += Math.sqrt(Math.pow((xPosInCell), 2) + Math.pow(yPosInCell, 2));
@@ -270,7 +274,13 @@ public class Matrix implements Iterable<Positioned> {
                     distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
                 }
                 horizontalBoundsCounter += angleCaseSwitchX;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
                 verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
             } else if(straightLine == true){
                 if(firstIntersect == true){
                     distanceCounter += (xPosInCell) * Math.abs(angleCaseSwitchX);
@@ -281,6 +291,9 @@ public class Matrix implements Iterable<Positioned> {
                 }
                 horizontalBoundsCounter += angleCaseSwitchX;
                 verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
             }else if(xyAngleSwitch == true){
                 if(firstIntersect == true){
                     distanceCounter += Math.sqrt(Math.pow((xPosInCell / Math.tan(angle)), 2) + Math.pow(xPosInCell, 2));
@@ -293,8 +306,14 @@ public class Matrix implements Iterable<Positioned> {
                 if(distanceCounterXY >= Options.cellLength){
                     distanceCounterXY-= Options.cellLength;
                     horizontalBoundsCounter += angleCaseSwitchX;
+                    if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                        relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                    }
                 }
                 verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
             } else{
                 if(firstIntersect == true){
                     distanceCounter += Math.sqrt(Math.pow((yPosInCell / Math.tan(angle)), 2) + Math.pow(yPosInCell, 2));
@@ -307,25 +326,15 @@ public class Matrix implements Iterable<Positioned> {
                 if(distanceCounterXY >= Options.cellLength){
                     distanceCounterXY-= Options.cellLength;
                     verticalBoundsCounter += angleCaseSwitchY;
+                    if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                        relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                    }
                 }
                 horizontalBoundsCounter += angleCaseSwitchX;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
             }
-        }
-
-        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
-        }
-        if((horizontalBoundsCounter == -1 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            relevant.addAll(contents.get(horizontalBoundsCounter + 1).get(verticalBoundsCounter));
-        }
-        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter == amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells)){
-            relevant.addAll(contents.get(horizontalBoundsCounter - 1).get(verticalBoundsCounter));
-        }
-        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter == -1 && verticalBoundsCounter < amountOfVerticalCells)){
-            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter + 1));
-        }
-        if((horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter == amountOfVerticalCells)){
-            relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter - 1));
         }
         return relevant;
     }

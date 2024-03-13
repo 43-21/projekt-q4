@@ -57,6 +57,7 @@ public class Options {
 
 
     //Overlay
+    public static boolean showAllPossiblyInView = false;
     public static boolean showViewRange = true;
     public static boolean showView = true;
     public static boolean showCommunication = true;

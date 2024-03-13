@@ -67,12 +67,39 @@ public class GUI{ // Graphic User Interface
     JTextField fpsInput = new JTextField(2);
     JLabel upsLabel = new JLabel("Set UPS:");
     JTextField upsInput = new JTextField(2);
-    JLabel checkboxLabel1 = new JLabel("Activate 1:");
-    JLabel checkboxLabel2 = new JLabel("Activate 2:");
-    JLabel checkboxLabel3 = new JLabel("Activate 3:");
-    JCheckBox checkbox1 = new JCheckBox();
-    JCheckBox checkbox2 = new JCheckBox();
-    JCheckBox checkbox3 = new JCheckBox();
+    JLabel viewRangeLabel = new JLabel("Set View Range:"); 
+    JTextField viewRangeInput = new JTextField(3); 
+    JLabel communicationRadiusLabel = new JLabel("Set Communication Radius:");
+    JTextField communicationRadiusInput = new JTextField(3); 
+    JLabel eggScaleLabel = new JLabel("Set Egg Scale:");
+    JTextField eggScaleInput = new JTextField(2);
+    JLabel organismScaleLabel = new JLabel("Set Organism Scale:");
+    JTextField organismScaleInput = new JTextField(2); 
+    JLabel foodScaleLabel = new JLabel("Set Food Scale:");
+    JTextField foodScaleInput = new JTextField(2);
+    JLabel showAllPossiblyInViewLabel = new JLabel("Show all possibly visible Objects");
+    JCheckBox showAllPossiblyInViewCheckbox = new JCheckBox();
+    JLabel showPossiblyInViewLabel = new JLabel("Show possibly visible Objects");
+    JCheckBox showPossiblyInViewCheckbox = new JCheckBox();
+    JLabel showViewRangeLabel = new JLabel("Show View Range");
+    JCheckBox showViewRangeCheckbox = new JCheckBox(); 
+    JLabel showViewLabel = new JLabel("Show View");
+    JCheckBox showViewCheckbox = new JCheckBox();
+    JLabel showCommunicationLabel = new JLabel("Show Communication");
+    JCheckBox showCommunicationCheckbox = new JCheckBox(); 
+    JLabel showSensesOnlyOnFocusLabel = new JLabel("Show Senses Only on Focus");
+    JCheckBox showSensesOnlyOnFocusCheckbox = new JCheckBox(); 
+    JLabel showLogsLabel = new JLabel("Show Logs");
+    JCheckBox showLogsCheckbox = new JCheckBox();
+    JLabel showInformationOnFocusLabel = new JLabel("Show Information on Focus");
+    JCheckBox showInformationOnFocusCheckbox = new JCheckBox(); 
+    JLabel showWorldInformationLabel = new JLabel("Show World Information");
+    JCheckBox showWorldInformationCheckbox = new JCheckBox(); 
+    JLabel updateRateLabel = new JLabel("Show Update Rate");
+    JCheckBox updateRateCheckbox = new JCheckBox();
+    
+    
+    
 
     // Das gesamte GUI wird hier erstellt
     public GUI(){
@@ -425,7 +452,7 @@ public class GUI{ // Graphic User Interface
             @Override
             public void actionPerformed(ActionEvent e){
                 // String wird zu double konvertiert
-                Options.speed = Double.parseDouble(tauInput.getText());
+                Options.tau = Double.parseDouble(tauInput.getText());
             }
         });
         panelTextFields.add(tauLabel);
@@ -474,33 +501,220 @@ public class GUI{ // Graphic User Interface
         upsInput.setText(Integer.toString(Options.ups));
         panelTextFields.add(upsInput);
 
-
-        checkbox1.addActionListener(new ActionListener() {
+        viewRangeInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen und Punkt können eingegeben werden, weil Speed ein double ist
+                if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyChar() == '.') || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    viewRangeInput.setEditable(true);
+                } else {
+                    viewRangeInput.setEditable(false);
+                }
+            }
+         });
+         viewRangeInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                // Aktion einfügen
+                // String wird zu double konvertiert
+                Options.viewRange = Double.parseDouble(viewRangeInput.getText());
             }
         });
-        panelCheckboxes.add(checkboxLabel1);
-        panelCheckboxes.add(checkbox1);
+        panelTextFields.add(viewRangeLabel);
+        viewRangeInput.setText(Double.toString(Options.viewRange));
+        panelTextFields.add(viewRangeInput);
 
-        checkbox2.addActionListener(new ActionListener() {
+        communicationRadiusInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen und Punkt können eingegeben werden, weil Speed ein double ist
+                if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyChar() == '.') || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    communicationRadiusInput.setEditable(true);
+                } else {
+                    communicationRadiusInput.setEditable(false);
+                }
+            }
+         });
+         communicationRadiusInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                // Aktion einfügen
+                // String wird zu double konvertiert
+                Options.communicationRadius = Double.parseDouble(communicationRadiusInput.getText());
             }
         });
-        panelCheckboxes.add(checkboxLabel2);
-        panelCheckboxes.add(checkbox2);
+        panelTextFields.add(communicationRadiusLabel);
+        communicationRadiusInput.setText(Double.toString(Options.communicationRadius));
+        panelTextFields.add(communicationRadiusInput);
 
-        checkbox3.addActionListener(new ActionListener() {
+        eggScaleInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen können eingegeben werden, weil amountOfFood ein int ist
+                if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9' || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    eggScaleInput.setEditable(true);
+                } else {
+                    eggScaleInput.setEditable(false);
+                }
+            }
+         });
+         eggScaleInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                // Aktion einfügen
+                // String wird zu int konvertiert
+                Options.eggScale = Integer.parseInt(eggScaleInput.getText());
             }
         });
-        panelCheckboxes.add(checkboxLabel3);
-        panelCheckboxes.add(checkbox3);
+        panelTextFields.add(eggScaleLabel);
+        eggScaleInput.setText(Integer.toString(Options.eggScale));
+        panelTextFields.add(eggScaleInput);
+
+        organismScaleInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen können eingegeben werden, weil amountOfFood ein int ist
+                if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9' || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    organismScaleInput.setEditable(true);
+                } else {
+                    organismScaleInput.setEditable(false);
+                }
+            }
+         });
+         organismScaleInput.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // String wird zu int konvertiert
+                Options.organismScale = Integer.parseInt(organismScaleInput.getText());
+            }
+        });
+        panelTextFields.add(organismScaleLabel);
+        organismScaleInput.setText(Integer.toString(Options.organismScale));
+        panelTextFields.add(organismScaleInput);
+
+        foodScaleInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen können eingegeben werden, weil amountOfFood ein int ist
+                if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9' || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    foodScaleInput.setEditable(true);
+                } else {
+                    foodScaleInput.setEditable(false);
+                }
+            }
+         });
+         foodScaleInput.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // String wird zu int konvertiert
+                Options.foodScale = Integer.parseInt(foodScaleInput.getText());
+            }
+        });
+        panelTextFields.add(foodScaleLabel);
+        foodScaleInput.setText(Integer.toString(Options.foodScale));
+        panelTextFields.add(foodScaleInput);
+
+
+        showAllPossiblyInViewCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showAllPossiblyInView = !Options.showAllPossiblyInView;
+            }
+        });
+        showAllPossiblyInViewCheckbox.setSelected(Options.showAllPossiblyInView);
+        panelCheckboxes.add(showAllPossiblyInViewLabel);
+        panelCheckboxes.add(showAllPossiblyInViewCheckbox);
+
+        showPossiblyInViewCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showPossiblyInView = !Options.showPossiblyInView;
+            }
+        });
+        showPossiblyInViewCheckbox.setSelected(Options.showPossiblyInView);
+        panelCheckboxes.add(showPossiblyInViewLabel);
+        panelCheckboxes.add(showPossiblyInViewCheckbox);
+
+        showViewRangeCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showViewRange = !Options.showViewRange;
+            }
+        });
+        showViewRangeCheckbox.setSelected(Options.showViewRange);
+        panelCheckboxes.add(showViewRangeLabel);
+        panelCheckboxes.add(showViewRangeCheckbox);
+
+        showViewCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showView = !Options.showView;
+            }
+        });
+        showViewCheckbox.setSelected(Options.showView);
+        panelCheckboxes.add(showViewLabel);
+        panelCheckboxes.add(showViewCheckbox);
+
+        showCommunicationCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showCommunication = !Options.showCommunication;
+            }
+        });
+        showCommunicationCheckbox.setSelected(Options.showCommunication);
+        panelCheckboxes.add(showCommunicationLabel);
+        panelCheckboxes.add(showCommunicationCheckbox);
+
+        showSensesOnlyOnFocusCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showSensesOnlyOnFocus = !Options.showSensesOnlyOnFocus;
+            }
+        });
+        showSensesOnlyOnFocusCheckbox.setSelected(Options.showSensesOnlyOnFocus);
+        panelCheckboxes.add(showSensesOnlyOnFocusLabel);
+        panelCheckboxes.add(showSensesOnlyOnFocusCheckbox);
+
+        showLogsCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showLogs = !Options.showLogs;
+            }
+        });
+        showLogsCheckbox.setSelected(Options.showLogs);
+        panelCheckboxes.add(showLogsLabel);
+        panelCheckboxes.add(showLogsCheckbox);
+
+        showInformationOnFocusCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showInformationOnFocus = !Options.showInformationOnFocus;
+            }
+        });
+        showInformationOnFocusCheckbox.setSelected(Options.showInformationOnFocus);
+        panelCheckboxes.add(showInformationOnFocusLabel);
+        panelCheckboxes.add(showInformationOnFocusCheckbox);
+
+        showWorldInformationCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.showWorldInformation = !Options.showWorldInformation;
+            }
+        });
+        showWorldInformationCheckbox.setSelected(Options.showWorldInformation);
+        panelCheckboxes.add(showWorldInformationLabel);
+        panelCheckboxes.add(showWorldInformationCheckbox);
+
+        updateRateCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Options.updateRate = !Options.updateRate;
+            }
+        });
+        updateRateCheckbox.setSelected(Options.updateRate);
+        panelCheckboxes.add(updateRateLabel);
+        panelCheckboxes.add(updateRateCheckbox);
+
+        
+
+
+
+
+        
+
+
         
 
         // Ein Button zum Start der Simulation wird hinzugefügt
