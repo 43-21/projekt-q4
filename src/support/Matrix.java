@@ -4,19 +4,27 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import overlay.Overlay;
 import world.Positioned;
 
+/**
+ * Eine Matrix, in der die Objekte der Welt gespeichert werden können.
+ */
 public class Matrix implements Iterable<Positioned> {
     int amountOfHorizontalCells;
     int amountOfVerticalCells;
     int width;
     int height;
 
-    public Overlay overlay;
-
     ArrayList<ArrayList<ArrayList<Positioned>>> contents;
 
+    /**
+     * Erstellt eine leere Matrix, mit einer bestimmten Anzahl an Zellen
+     * und einer bestimmten Höhe und Breite
+     * @param amountOfHorizontalCells
+     * @param amountOfVerticalCells
+     * @param width
+     * @param height
+     */
     public Matrix(int amountOfHorizontalCells, int amountOfVerticalCells, int width, int height) {
         this.amountOfHorizontalCells = amountOfHorizontalCells;
         this.amountOfVerticalCells = amountOfVerticalCells;
@@ -38,6 +46,10 @@ public class Matrix implements Iterable<Positioned> {
         return new MatrixIterator(this);
     }
 
+    /**
+     * Fügt der Matrix ein neues Objekt (Positioned) hinzu.
+     * @param content das hinzuzufügende Objekt
+     */
     public void add(Positioned content) {
         double x = content.getPosition().x;
         double y = content.getPosition().y;
@@ -52,6 +64,12 @@ public class Matrix implements Iterable<Positioned> {
         contents.get(horizontalCell).get(verticalCell).add(content);
     }
 
+    /**
+     * Ermittelt die Zelle, in der das Objekt gespeichert werden sollte
+     * und versucht es zu entfernen
+     * @param content das zu entfernende Objekt
+     * @return true, wenn das Objekt erfolgreich entfernt wurde
+     */
     public boolean remove(Positioned content) {
         double x = content.getPosition().x;
         double y = content.getPosition().y;
@@ -66,6 +84,10 @@ public class Matrix implements Iterable<Positioned> {
         return contents.get(horizontalCell).get(verticalCell).remove(content);
     }
 
+    /**
+     * Überprüft für alle Objekte, ob deren Zelle wegen ihrer Position geändert werden muss
+     * und setzt dies ggf. durch.
+     */
     public void update() {
         int i = 0;
         ArrayList<Positioned> changed = new ArrayList<>();
@@ -96,6 +118,10 @@ public class Matrix implements Iterable<Positioned> {
         }
     }
 
+    /**
+     * Versucht eine Liste von Objekten einzeln zu entfernen.
+     * @param objects
+     */
     public void removeAll(ArrayList<Positioned> objects) {
         for (ArrayList<ArrayList<Positioned>> row : contents) {
             for (ArrayList<Positioned> cell : row) {
@@ -104,12 +130,23 @@ public class Matrix implements Iterable<Positioned> {
         }
     }
 
+    /**
+     * Fügt eine Liste von Objekten einzeln hinzu.
+     * @param objects
+     */
     public void addAll(ArrayList<Positioned> objects) {
         for (Positioned p : objects) {
             add(p);
         }
     }
 
+    /**
+     * Ermittelt die Zellen, die eine Strecke durchquert.
+     * @param position der Anfangspunkt der Strecke
+     * @param angle der Winkel der Strecke
+     * @param distance die Länge der Strecke
+     * @return eine Liste mit den Objekten dieser Zellen.
+     */
     public ArrayList<Positioned> searchRay(Double position, double angle, double distance) {
         ArrayList<Positioned> relevant = new ArrayList<>();
 
@@ -302,195 +339,16 @@ public class Matrix implements Iterable<Positioned> {
                 relevant.add(p);
             }
         }
-
-        /*PositionDistanceTuple currentInRay = null;
-        //schauen was sich schneidet
-        for(PositionDistanceTuple p : relevant) {
-            if(p.getInSquare().getPosition() == position) continue;
-            Shape shape = p.getInSquare().getShape();
-
-            for(Square s : shape.getSquares()) {
-                Point[][] lines = s.getLines(shape.getScale());
-                for(int i = 0; i < 4; i++) {
-                    double xa = lines[i][0].x + position.x;
-                    double ya = lines[i][0].y + position.y;
-                    double xb = lines[i][1].x + position.x;
-                    double yb = lines[i][1].y + position.y;
-                    Double a = new Double(xa, ya);
-                    Double b = new Double(xb, yb);
-                    Double intersectionPoint = Functionality.getIntersectionPoint(a, b, position, destination);
-                    if(intersectionPoint != null){
-                        if(currentInRay == null) {
-                            currentInRay = p;
-                            continue;
-                        }
-                        if(p.getDistance() < currentInRay.getDistance()){
-                            currentInRay = p;
-                            continue;
-                        }
-                    }
-                }
-            }
-        } */
         return relevant;
     }
 
-    // //für sicht erstmal
-    // public ArrayList<Positioned> searchRay(Double position, double angle, double
-    // distance) {
-    // double heightAtStart = position.y - getVerticalCell(position.y) *
-    // Options.cellLength;
-    // double distanceCounterXY = position.x - getHorizontalCell(position.x) *
-    // Options.cellLength;
-    // double distanceCounter = 0;
-    // int horizontalBoundsCounter = getHorizontalCell(position.x);
-    // int verticalBoundsCounter = getVerticalCell(position.y);
-    // boolean xyAngleSwitch = false; // true bedeutet delta x != 1 false bedeutet y
-    // != 1
-    // boolean firstIntersect = true; // nach dem 1. Intersect bleibt die Distanz
-    // konstant, der Wert beim 1. Intersect ist Positionsabhängig
-    // boolean isPiOverFour = false; // 45 Grad?
-    // boolean straightLine = false; // Gerade Linie?
-    // int angleCaseSwitchX = 0; // Regelt in welche Richtung sich die Sicht
-    // ausbreitet
-    // int angleCaseSwitchY = 0; // Regelt in welche Richtung sich die Sicht
-    // ausbreitet in Sonderfällen
-
-    // if(Math.cos(angle) == 0 || Math.cos(angle) == 0){ // Regelt Vorzeichen der
-    // Rechnung
-    // angleCaseSwitchX = (int) Math.cos(angle);
-    // angleCaseSwitchY = (int) Math.sin(angle);
-    // straightLine = true;
-
-    // } else{
-    // angleCaseSwitchX = (int) (Math.cos(angle) / Math.abs(Math.cos(angle)));
-    // angleCaseSwitchY = (int) (Math.sin(angle) / Math.abs(Math.sin(angle)));
-    // if(Math.abs(Math.cos(angle)) == Math.abs(Math.sin(angle))){
-    // isPiOverFour = true;
-    // } else if(Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))){
-    // xyAngleSwitch = true;
-    // distanceCounterXY = position.y - getVerticalCell(position.y) *
-    // Options.cellLength;
-    // heightAtStart = position.x - getHorizontalCell(position.x) *
-    // Options.cellLength;
-    // } else{
-    // xyAngleSwitch = false;
-    // distanceCounterXY = position.x - getHorizontalCell(position.x) *
-    // Options.cellLength;
-    // heightAtStart = position.y - getVerticalCell(position.y) *
-    // Options.cellLength;
-    // }
-    // }
-
-    // ArrayList<Positioned> relevant = new ArrayList<>();
-
-    // while(distanceCounter < distance && horizontalBoundsCounter >= 0 &&
-    // horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >=
-    // 0 && verticalBoundsCounter < amountOfVerticalCells){
-    // for(Positioned p :
-    // contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-    // relevant.add(p);
-    // }
-    // if(isPiOverFour == true){
-    // if(firstIntersect == true){
-    // distanceCounter += Math.sqrt(Math.pow((Options.cellLength -
-    // distanceCounterXY), 2) + Math.pow(heightAtStart, 2));
-    // firstIntersect = false;
-    // } else{
-    // distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
-    // }
-    // horizontalBoundsCounter += angleCaseSwitchX;
-    // verticalBoundsCounter += angleCaseSwitchY;
-    // } else if(straightLine == true){
-    // if(firstIntersect == true){
-    // distanceCounter += (Options.cellLength - distanceCounterXY) *
-    // Math.abs(angleCaseSwitchX);
-    // distanceCounter += (Options.cellLength - heightAtStart) *
-    // Math.abs(angleCaseSwitchY);
-    // firstIntersect = false;
-    // } else{
-    // distanceCounter+= Options.cellLength;
-    // }
-    // horizontalBoundsCounter += angleCaseSwitchX;
-    // verticalBoundsCounter += angleCaseSwitchY;
-    // }else if(xyAngleSwitch == true){
-    // if(firstIntersect == true){
-    // distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) +
-    // Math.pow(heightAtStart, 2));
-    // distanceCounterXY += (heightAtStart / Math.tan(angle));
-    // firstIntersect = false;
-    // } else{
-    // distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)),
-    // 2) + Options.cellLength);
-    // distanceCounterXY += Options.cellLength / Math.tan(angle);
-    // }
-    // if(distanceCounterXY >= Options.cellLength){
-    // distanceCounterXY-= Options.cellLength;
-    // horizontalBoundsCounter += angleCaseSwitchX;
-    // }
-    // verticalBoundsCounter += angleCaseSwitchY;
-    // } else{
-    // if(firstIntersect == true){
-    // distanceCounter += Math.sqrt(Math.pow((heightAtStart / Math.tan(angle)), 2) +
-    // Math.pow(heightAtStart, 2));
-    // distanceCounterXY += (heightAtStart / Math.tan(angle));
-    // firstIntersect = false;
-    // } else{
-    // distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)),
-    // 2) + Options.cellLength);
-    // distanceCounterXY += Options.cellLength / Math.tan(angle);
-    // }
-    // if(distanceCounterXY >= Options.cellLength){
-    // distanceCounterXY-= Options.cellLength;
-    // verticalBoundsCounter += angleCaseSwitchY;
-    // }
-    // horizontalBoundsCounter += angleCaseSwitchX;
-    // }
-    // }
-
-    // if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter <
-    // amountOfHorizontalCells && verticalBoundsCounter >= 0 &&
-    // verticalBoundsCounter < amountOfVerticalCells){
-    // for(Positioned p :
-    // contents.get(horizontalBoundsCounter).get(verticalBoundsCounter)){
-    // relevant.add(p);
-    // }
-    // }
-
-    // /*PositionDistanceTuple currentInRay = null;
-    // //schauen was sich schneidet
-    // for(PositionDistanceTuple p : relevant) {
-    // if(p.getInSquare().getPosition() == position) continue;
-    // Shape shape = p.getInSquare().getShape();
-
-    // for(Square s : shape.getSquares()) {
-    // Point[][] lines = s.getLines(shape.getScale());
-    // for(int i = 0; i < 4; i++) {
-    // double xa = lines[i][0].x + position.x;
-    // double ya = lines[i][0].y + position.y;
-    // double xb = lines[i][1].x + position.x;
-    // double yb = lines[i][1].y + position.y;
-    // Double a = new Double(xa, ya);
-    // Double b = new Double(xb, yb);
-    // Double intersectionPoint = Functionality.getIntersectionPoint(a, b, position,
-    // destination);
-    // if(intersectionPoint != null){
-    // if(currentInRay == null) {
-    // currentInRay = p;
-    // continue;
-    // }
-    // if(p.getDistance() < currentInRay.getDistance()){
-    // currentInRay = p;
-    // continue;
-    // }
-    // }
-    // }
-    // }
-    // } */
-    // return relevant;
-    // }
-
-    // für kollision oÄ
+    /**
+     * Ermittelt alle Zellen, durch das das Rechteck geht.
+     * @param position der Mittelpunkt des Rechtecks
+     * @param x die horizontale Distanz zwischen Mittelpunkt und Seiten (halbe Seitenlänge).
+     * @param y die vertikale Distanz zwischen Mittelpunkt und Seiten (halbe Seitenlänge).
+     * @return den Inhalt dieser Zellen
+     */
     public ArrayList<Positioned> searchRect(Double position, double x, double y) {
         ArrayList<Positioned> list = new ArrayList<>();
 
@@ -524,6 +382,11 @@ public class Matrix implements Iterable<Positioned> {
         return list;
     }
 
+    /**
+     * Ermittelt die Zelle an einer bestimmten Position
+     * @param position
+     * @return deren Inhalt
+     */
     public ArrayList<Positioned> getCellContents(Double position) {
         int horizontal = getHorizontalCell(position.x);
         int vertical = getVerticalCell(position.y);

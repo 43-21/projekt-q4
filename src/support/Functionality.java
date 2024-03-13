@@ -9,11 +9,25 @@ import world.Shape;
 import world.Square;
 
 public class Functionality {
+    /**
+     * Berechnet die Distanz zwischen zwei Punkten im Quadrat. Nützlich für effiziente Distanzvergleiche
+     * @param p1 der erste Punkt
+     * @param p2 der zweite Punkt
+     * @return die Distanz im Quadrat
+     */
     public static double squareDistance(Double p1, Double p2) {
         return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
     }
 
-    //Schnittpunkt zwischen zwei Strecken AB und CD oder null wenn kein Schnittpunkt
+    /**
+     * Berechnet den Schnittpunkt zwischen zwei Strcken. Gibt null zurück, wenn
+     * es keinen Schnittpunkt gibt oder die Strecken linear abhängig sind.
+     * @param a gehört zur ersten Strecke
+     * @param b gehört zur ersten Strecke
+     * @param c gehört zur zweiten Strecke
+     * @param d gehört zur zweiten Strecke
+     * @return den Schnittpunkt oder null
+     */
     public static Double getIntersectionPoint(Double a, Double b, Double c, Double d) {
         double denominator = (d.x - c.x) * (b.y - a.y) - (b.x - a.x) * (d.y - c.y);
 
@@ -31,7 +45,19 @@ public class Functionality {
         );
     }
 
-    //ggf rotierte rechtecke
+    /**
+     * Überprüft, ob zwei Rechtecke kollidieren.
+     * Die Punkte müssen im oder gegen den Uhrzeigersinn angeordnet sein.
+     * @param a gehört zum ersten Rechteck
+     * @param b gehört zum ersten Rechteck
+     * @param c gehört zum ersten Rechteck
+     * @param d gehört zum ersten Rechteck
+     * @param e gehört zum zweiten Rechteck
+     * @param f gehört zum zweiten Rechteck
+     * @param g gehört zum zweiten Rechteck
+     * @param h gehört zum zweiten Rechteck
+     * @return true, wenn die Rechtecke kollidieren
+     */
     public static boolean rectsColliding(Double a, Double b, Double c, Double d, Double e, Double f, Double g, Double h) {
         if(allNegativeOrAllGreater(a, b, e, f, g, h)) return false;
         if(allNegativeOrAllGreater(a, d, e, f, g, h)) return false;
@@ -72,7 +98,16 @@ public class Functionality {
         double s = (t.x * r.x + t.y * r.y);
         return s;
     }
-    //rechteck - punkt
+    
+    /**
+     * Bestimmt, ob sich ein Punkt in einem Rechteck befindet.
+     * @param p der Punkt
+     * @param a gehört zum Rechteck
+     * @param b gehört zum Rechteck
+     * @param c gehört zum Rechteck
+     * @param d gehört zum Rechteck
+     * @return true, wenn der Punkt sich im Rechteck befindet.
+     */
     public static boolean pointInRect(Double p, Double a, Double b, Double c, Double d) {
         //vektoren
         double apx = p.x - a.x;
@@ -95,6 +130,16 @@ public class Functionality {
     //rechteck - linie
     // abcd:  Rechteck
     // ef: Linie
+    /**
+     * Bestimmt alle Schnittpunkte zwischen einer Strecke und einem Rechteck
+     * @param a gehört zum Rechteck
+     * @param b gehört zum Rechteck
+     * @param c gehört zum Rechteck
+     * @param d gehört zum Rechteck
+     * @param e gehört zur Strecke
+     * @param f gehört zur Strecke
+     * @return eine Liste mit allen Schnittpunkten
+     */
     public static ArrayList<Double> getIntersectionPoints(Double a, Double b, Double c, Double d, Double e, Double f) {
         ArrayList<Double> intersections = new ArrayList<>();
         Double p1 = getIntersectionPoint(a, b, e, f);
@@ -110,6 +155,14 @@ public class Functionality {
         return intersections;
     }
 
+    /**
+     * Bestimmt den nächsten Schnittpunkt zwischen einer Shape mit Position und einer Strecke.
+     * @param shape
+     * @param position
+     * @param a
+     * @param b
+     * @return den nächsten Schnittpunkt oder null, wenn es keinen gibt.
+     */
     public static Double getClosestIntersection(Shape shape, Double position, Double a, Double b) {
         int scale = shape.getScale();
         Double translation = shape.getRelativePosition();
@@ -140,6 +193,14 @@ public class Functionality {
     }
 
     //quadrate
+    /**
+     * Überprüft zwei unrotierte Quadrate auf Kollision.
+     * @param point1 der Mittelpunkt des ersten Quadrats
+     * @param length1 die Seitenlänge des ersten Quadrats
+     * @param point2 der Mittelpunkt des zweiten Quadrats
+     * @param length2 die Seitenlänge des zweiten Quadrats
+     * @return
+     */
     public static boolean checkForCollision(Double point1, double length1, Double point2, double length2) {
         boolean horizontalCollision = false;
         boolean verticalCollision = false;
@@ -151,6 +212,13 @@ public class Functionality {
         return horizontalCollision && verticalCollision;
     }
 
+    /**
+     * Berechnet aus dem Anfangspunkt, dem Winkel und der Länge den Punkt, an dem eine Strecke endet
+     * @param startingPoint
+     * @param angle
+     * @param length
+     * @return den Endpunkt
+     */
     public static Double getDestinationPoint(Double startingPoint, double angle, double length) {
         return new Double(
             startingPoint.x + (length * Math.cos(angle)),
@@ -158,6 +226,12 @@ public class Functionality {
         );
     }
 
+    /**
+     * Ordnet einem Array aus 3 booleans [der Repräsentation von Farben in der Welt]
+     * eine RGB-Farbe zu.
+     * @param color der Array aus 3 booleans
+     * @return die RGB-Farbe
+     */
     public static Color getDisplayColorFromEncoding(boolean[] color) {
         int switchValue = 0;
         for(int i = 0; i < color.length; i++) {

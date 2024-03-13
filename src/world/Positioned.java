@@ -7,7 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import support.Functionality;
 
-// Objekte dieser Art haben eine Position
+/**
+ * Klasse für Objekte, die eine Position und eine Form haben.
+ */
 public abstract class Positioned implements WithShape {
     protected Double position = new Double();
 
@@ -19,7 +21,9 @@ public abstract class Positioned implements WithShape {
         position.setLocation(x, y);
     }
 
-    // Objekt wird auf eine zufällige Position gesetzt
+    /**
+     * Setzt die Position auf einen zufälligen stetigen Punkt zwischen (0|0) und der gegebenen Breite und Höhe
+     */
     public void setRandomPosition(int width, int height) {
         double x = ThreadLocalRandom.current().nextDouble(width);
         double y = ThreadLocalRandom.current().nextDouble(height);
@@ -27,6 +31,12 @@ public abstract class Positioned implements WithShape {
         position.setLocation(x, y);
     }
 
+    /**
+     * Überprüft, ob eine Kollision mit einem Körper besteht
+     * @param shape die Form des Körpers
+     * @param otherPosition die Position des Körpes
+     * @return true, wenn sie kollidieren
+     */
     public boolean colliding(Shape shape, Double otherPosition) {
         //großen test mit rechtecken ausführen
         Double a = new Double(getPosition().x + getShape().getRelativePosition().x, getPosition().y + getShape().getRelativePosition().y);
@@ -70,8 +80,11 @@ public abstract class Positioned implements WithShape {
         return false;
     }
 
-    //intersection
-    //punkt
+    /**
+     * Überprüft, ob das Objekt sich mit einem Punkt schneidet
+     * @param p der Punkt
+     * @return true, wenn sie sich schneiden
+     */
     public boolean intersecting(Double p) {
         int scale = getShape().getScale();
         Double translation = getShape().getRelativePosition();
@@ -92,7 +105,12 @@ public abstract class Positioned implements WithShape {
         return false;
     }
 
-    //linie
+    /**
+     * Überprüft, ob das Objekt sich mit einer Strecke schneidet.
+     * @param a der Anfangspunkt der Strecke
+     * @param b der Endpunkt der Strecke
+     * @return das nächste Square, in dem sie sich schneiden, oder null
+     */
     public Square intersecting(Double a, Double b) {
         int scale = getShape().getScale();
         Double translation = getShape().getRelativePosition();
@@ -122,7 +140,12 @@ public abstract class Positioned implements WithShape {
         return current;
     }
 
-    //schnittpunkt mit linie
+    /**
+     * Überprüft, ob das Objekt sich mit einer Strecke schneidet.
+     * @param a der Anfangspunkt der Strecke
+     * @param b der Endpunkt der Strecke
+     * @return den nächste Punkt, an dem sie sich schneiden, oder null
+     */
     public Double getIntersectionPoint(Double a, Double b) {
         return Functionality.getClosestIntersection(getShape(), position, a, b);
     }

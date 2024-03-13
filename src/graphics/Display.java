@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import input.Input;
 import overlay.Overlay;
 import world.Drawable;
-import world.World;
 
 public class Display extends JFrame {
     private Canvas canvas;
@@ -33,7 +32,6 @@ public class Display extends JFrame {
         add(canvas);
         canvas.addMouseListener(input);
         addKeyListener(input);  
-        addMouseWheelListener(input);
 
         pack();
         

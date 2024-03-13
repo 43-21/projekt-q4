@@ -2,7 +2,7 @@ package main;
 
 import gui.GUI;
 
-class Main { //startet GUI
+class Main {
     public static void main(String[] args) {
         new GUI();
     }

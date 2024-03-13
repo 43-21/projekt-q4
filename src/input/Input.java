@@ -2,24 +2,37 @@ package input;
 
 import java.awt.event.*;
 
-
-public class Input implements KeyListener, MouseListener, MouseWheelListener {
+/**
+ * Der Input dient als KeyListener und MouseListener und soll somit Input von Maus und Tastatur erkennen können.
+ */
+public class Input implements KeyListener, MouseListener {
     private boolean[] pressed;
     private boolean[] typed;
-    private boolean mousePressed;
     private boolean mouseClicked = false;
 
+    /**
+     * Erstellt einen neuen Input.
+     */
     public Input() {
         pressed = new boolean[255];
         typed = new boolean[255];
-        mousePressed = false;
         mouseClicked = false;
     }
 
+    /**
+     * Bestimmt, ob eine Taste gedrückt ist
+     * @param keyCode der Key Code der Taste
+     * @return true, wenn die Taste gedrückt ist
+     */
     public boolean isPressed(int keyCode) {
         return pressed[keyCode];
     }
 
+    /**
+     * Bestimmt, ob eine Taste getippt wurde
+     * @param keyCode der Key Code der Taste
+     * @return true, wenn die Taste getippt wurde
+     */
     public boolean isTyped(int keyCode) {
         if(typed[keyCode]) {
             typed[keyCode] = false;
@@ -29,10 +42,10 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
         return false;
     }
 
-    public boolean getMousePressed() {
-        return mousePressed;
-    }
-
+    /**
+     * Bestimmt, ob die Maus geklickt wurde
+     * @return true, wenn die Maus geklickt wurde
+     */
     public boolean getMouseClicked() {
         if(mouseClicked) {
             mouseClicked = false;
@@ -63,12 +76,10 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mousePressed = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mousePressed = false;
     }
 
     @Override
@@ -78,9 +89,5 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
     }
 }

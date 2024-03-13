@@ -7,6 +7,9 @@ import java.awt.geom.Point2D.Double;
 import support.Options;
 import world.*;
 
+/**
+ * Diese Klasse bestimmt das Verhalten eines einzelnen Organismus.
+ */
 public class Organism extends Positioned implements Dynamic, Drawable {
     private Brain brain;
     private Genes genes;
@@ -21,6 +24,10 @@ public class Organism extends Positioned implements Dynamic, Drawable {
 
     public static final int scale = Options.organismScale;
 
+    /**
+     * Erstellt einen Organismus aus den Genen.
+     * @param genes die Gene
+     */
     public Organism(Genes genes) {
         this.position = new Double();
         this.genes = genes;
@@ -34,13 +41,21 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         shape.setCenter(1, 1);
         shape.setPositionKind(Shape.CORNER);
 
-        rotation = 0.0; //Math.PI / (4.0) * 3.0;
+        rotation = 0.0;
     }
 
+    /**
+     * Bestimmt die Werte der Input-Neuronen
+     * @param inputs ein Array von booleans, dessen Werte die Input-Neuronen annehmen sollen
+     */
     public void setInputs(boolean[] inputs) {
         brain.setInputs(inputs);
     }
 
+    /**
+     * Führt ein Update auf dem Gehirn durch und ermittelt die Outputs;
+     * führt die entsprechenden Bewegungen aus und verringert die Energie gemäß des Alters.
+     */
     public void update() {
         brain.update();
         boolean[] outputs = brain.getOutputs();
@@ -69,10 +84,18 @@ public class Organism extends Positioned implements Dynamic, Drawable {
         age++;
     }
 
+    /**
+     * Gibt die Outputs aus
+     * @return die Werte der Output-Neuronen
+     */
     public boolean[] getOutputs() {
         return brain.getOutputs();
     }
 
+    /**
+     * lässt den Organismus etwas hinter ihm ein Ei mit mutierten Genen legen.
+     * @return das Ei
+     */
     public Egg layEgg() {
         energy -= Options.reproductionEnergy();
         Genes copy = new Genes(genes);
@@ -94,7 +117,7 @@ public class Organism extends Positioned implements Dynamic, Drawable {
     public int getAge() {
         return age;
     }
-    
+
     public boolean[] getColor() {
         return color;
     }
