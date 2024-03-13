@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
+
+/**
+ * GUI wird vollständig geregelt, erstellt und zugehörige Variablen bearbeitet.
+ */
 public class GUI{ // Graphic User Interface
 
     // für Swing relevante Instanzen werden erstellt
@@ -102,6 +106,11 @@ public class GUI{ // Graphic User Interface
     
 
     // Das gesamte GUI wird hier erstellt
+
+    /**
+     * Erstellt das GUI und bearbeitet mittels ActionListener nach Eingabe die zugehörigen Werte aus Options. 
+     * Lasst den Nutzer mit einem Button die Simulation starten.
+     */
     public GUI(){
 
         // Setup

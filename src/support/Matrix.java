@@ -197,7 +197,7 @@ public class Matrix implements Iterable<Positioned> {
 
 
     //für sicht erstmal
-    public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
+    /*public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
         double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
         double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
         double distanceCounter = 0;
@@ -337,7 +337,7 @@ public class Matrix implements Iterable<Positioned> {
             }
         }
         return relevant;
-    }
+    }*/
 
     /**
      * Ermittelt alle Zellen, durch das das Rechteck geht.
