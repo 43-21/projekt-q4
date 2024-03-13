@@ -4,7 +4,6 @@ import input.Input;
 import main.Loop;
 import support.Options;
 
-import javax.net.ssl.KeyManager;
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -20,7 +19,7 @@ public class GUI{ // Graphic User Interface
     JPanel panelCheckboxes = new JPanel();
 
 
-    JButton buttonSimulation = new JButton("Start Simulation");
+    JButton buttonSimulation = new JButton("Simulation starten");
     /*JButton buttonDesign11 = new JButton("");
     JButton buttonDesign12 = new JButton("");
     JButton buttonDesign13 = new JButton("");

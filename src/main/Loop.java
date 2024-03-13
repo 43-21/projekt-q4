@@ -35,7 +35,7 @@ public class Loop implements Runnable, State {
         this.controller = new Controller(input);
     }
 
-    // Eigentlicher Loop
+    // Eigentliche Loop
     @Override
     public void run() {
         double accumulator = 0;
