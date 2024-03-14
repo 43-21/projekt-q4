@@ -392,11 +392,11 @@ public class Matrix implements Iterable<Positioned> {
     }
 
     private int getHorizontalCell(double x) {
-        return (int) Math.floor((x / (double) width) * amountOfHorizontalCells);
+        return (int) ((x / (double) width) * amountOfHorizontalCells);
     }
 
     private int getVerticalCell(double y) {
-        return (int) Math.floor((y / (double) height) * amountOfVerticalCells);
+        return (int) ((y / (double) height) * amountOfVerticalCells);
     }
 }
 

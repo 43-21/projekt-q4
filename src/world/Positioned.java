@@ -1,6 +1,7 @@
 package world;
 
-import java.awt.Point;
+
+
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,41 +39,39 @@ public abstract class Positioned implements WithShape {
      * @return true, wenn sie kollidieren
      */
     public boolean colliding(Shape shape, Double otherPosition) {
-        //großen test mit rechtecken ausführen
-        Double a = new Double(getPosition().x + getShape().getRelativePosition().x, getPosition().y + getShape().getRelativePosition().y);
-        Double b = new Double(a.x + getShape().getWidth(), a.y);
-        Double c = new Double(a.x + getShape().getWidth(), a.y + getShape().getHeight());
-        Double d = new Double(a.x, a.y + getShape().getHeight());
+        //großen test mit Kreisen ausführen (der Radius wird höchstens zweimal zu groß sein,
+        // das ist verkraftbar, vor allem bei kleineren Objekten wie es standardmäßig der Fall ist)        
+        double width = getShape().getWidth();
+        double height = getShape().getHeight();
+        double oWidth = shape.getWidth();
+        double oHeight = shape.getHeight();
 
-        Double e = new Double(otherPosition.x + shape.getRelativePosition().x, otherPosition.y + shape.getRelativePosition().y);
-        Double f = new Double(e.x + shape.getWidth(), e.y);
-        Double g = new Double(e.x + shape.getWidth(), e.y + shape.getHeight());
-        Double h = new Double(e.x, e.y + shape.getHeight());
+        double radius = width > height ? width : height;
+        double otherRadius = oWidth > oHeight ? oWidth : oHeight;
+        if(!Functionality.circleCollision(this.position, radius, otherPosition, otherRadius)) return false;
 
-        if(!Functionality.rectsColliding(a, b, c, d, e, f, g, h)) return false;
-
-        //dann für alle squares wie ein volidiot überprüfen ob sie kollidieren, aufwand ist ja nur n2...
+        //dann alle Squares auf Kollision überprüfen (...)
         int scale = getShape().getScale();
         Double translation = getShape().getRelativePosition();
+
         int otherScale = shape.getScale();
         Double otherTranslation = shape.getRelativePosition();
-        for(Square square : getShape().getSquares()) {
-            double x = square.x * scale + translation.x + getPosition().x;
-            double y = square.y * scale + translation.y + getPosition().y;
 
-            Double first = new Double(x, y);
-            Double second = new Double(x + scale - 1, y);
-            Double third = new Double(x + scale - 1, y + scale - 1);
-            Double fourth = new Double(x, y + scale - 1);
+        for(Square square : getShape().getSquares()) {
+            Double[] points = square.getLinesGlobal(scale, translation, position);
+
+            Double first = points[0];
+            Double second = points[1];
+            Double third = points[2];
+            Double fourth = points[3];
 
             for(Square otherSquare : shape.getSquares()) {
-                double otherX = otherSquare.x * otherScale + otherTranslation.x + otherPosition.x;
-                double otherY = otherSquare.y * otherScale + otherTranslation.y + otherPosition.y;
+                Double[] otherPoints = otherSquare.getLinesGlobal(otherScale, otherTranslation, otherPosition);
 
-                Double otherFirst = new Double(otherX, otherY);
-                Double otherSecond = new Double(otherX + otherScale - 1, otherY);
-                Double otherThird = new Double(otherX + otherScale - 1, otherY + otherScale - 1);
-                Double otherFourth = new Double(otherX, otherY + otherScale - 1);
+                Double otherFirst = otherPoints[0];
+                Double otherSecond = otherPoints[1];
+                Double otherThird = otherPoints[2];
+                Double otherFourth = otherPoints[3];
 
                 if(Functionality.rectsColliding(first, second, third, fourth, otherFirst, otherSecond, otherThird, otherFourth)) return true;
             }
@@ -88,15 +87,13 @@ public abstract class Positioned implements WithShape {
     public boolean intersecting(Double p) {
         int scale = getShape().getScale();
         Double translation = getShape().getRelativePosition();
-        for(Square square : getShape().getSquares()) {
-            Point squarePos = square.getPosition();
-            double x = position.x + squarePos.x * scale + translation.x;
-            double y = position.y + squarePos.y * scale + translation.y;
 
-            Double a = new Double(x, y);
-            Double b = new Double(x + scale, y);
-            Double c = new Double(x + scale, y + scale);
-            Double d = new Double(x, y + scale);
+        for(Square square : getShape().getSquares()) {
+            Double[] points = square.getLinesGlobal(scale, translation, position);
+            Double a = points[0];
+            Double b = points[1];
+            Double c = points[2];
+            Double d = points[3];
 
             if(Functionality.pointInRect(p, a, b, c, d)) {
                 return true;
@@ -118,15 +115,12 @@ public abstract class Positioned implements WithShape {
         Square current = null;
         double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
 
-        for(Square square : getShape().getSquares()) {
-            Point squarePos = square.getPosition();
-            double x = position.x + squarePos.x * scale + translation.x;
-            double y = position.y + squarePos.y * scale + translation.y;
-            
-            Double c = new Double(x, y);
-            Double d = new Double(x + scale - 1, y);
-            Double e = new Double(x + scale - 1, y + scale - 1);
-            Double f = new Double(x, y + scale - 1);
+        for(Square square : getShape().getSquares()) {                        
+            Double[] points = square.getLinesGlobal(scale, translation, position);
+            Double c = points[0];
+            Double d = points[1];
+            Double e = points[2];
+            Double f = points[3];
 
             ArrayList<Double> intersections = Functionality.getIntersectionPoints(c, d, e, f, a, b);
             for(Double intersection : intersections) {
