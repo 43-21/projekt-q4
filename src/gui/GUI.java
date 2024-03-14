@@ -35,71 +35,73 @@ public class GUI{ // Graphic User Interface
     JButton buttonDesign33 = new JButton("");*/
 
     //
-    JLabel speedLabel = new JLabel("Set Organism Speed:");
+    JLabel speedLabel = new JLabel("Geschwindigkeit der Organismen");
     JTextField speedInput = new JTextField(2);
-    JLabel amountOfOrganismsLabel = new JLabel("Set Amount of Organisms:");
+    JLabel amountOfOrganismsLabel = new JLabel("Anzahl der Organismen");
     JTextField amountOfOrganismsInput = new JTextField(2);
-    JLabel amountOfFoodLabel = new JLabel("Set Amount of Food:");
+    JLabel amountOfFoodLabel = new JLabel("Anzahl an Energie");
     JTextField amountOfFoodInput = new JTextField(2);
-    JLabel foodSpawnRateLabel = new JLabel("Set Food Spawn Rate:");
+    JLabel foodSpawnRateLabel = new JLabel("Beschleuniger für die Essenserscheinung");
     JTextField foodSpawnRateInput = new JTextField(3);
-    JLabel initialEnergyLabel = new JLabel("Set Initial Energy:");
+    JLabel initialEnergyLabel = new JLabel("Startenergie");
     JTextField initialEnergyInput = new JTextField(2); 
-    JLabel desiredEnergyLabel = new JLabel("Set Desired Energy:");
+    JLabel desiredEnergyLabel = new JLabel("Angestrebte Energie");
     JTextField desiredEnergyInput = new JTextField(2);
-    JLabel energyConsumptionAtDeathAgeLabel = new JLabel("Set Energy Consumption:");
+    JLabel energyConsumptionAtDeathAgeLabel = new JLabel("Energieverbrauch im Todesalter");
     JTextField energyConsumptionAtDeathAgeInput = new JTextField(3); 
-    JLabel deathAgeLabel = new JLabel("Set Death Age:");
+    JLabel deathAgeLabel = new JLabel("Todesalter");
     JTextField deathAgeInput = new JTextField(4);
-    JLabel addNeuronRateLabel = new JLabel("Set Neuron Mutation Rate:");
+    JLabel addNeuronRateLabel = new JLabel("Neuron-Mutationsrate");
     JTextField addNeuronRateInput = new JTextField(3);
-    JLabel addSynapseRateLabel = new JLabel("Set Synapse Mutation Rate:");
+    JLabel addSynapseRateLabel = new JLabel("Synapsen-Mutationsrate");
     JTextField addSynapseRateInput = new JTextField(3); 
-    JLabel mutateWeightsRateLabel = new JLabel("Set Synapse Weight Mutation Rate:");
+    JLabel mutateWeightsRateLabel = new JLabel("Gewichtungs-Mutationsrate");
     JTextField mutateWeightsRateInput = new JTextField(3); 
-    JLabel multipleMutationsRateLabel = new JLabel("Set Multiple Mutation Rate:");
-    JTextField multipleMutationsRateInput = new JTextField(3); 
-    JLabel mutationsOnReproductionLabel = new JLabel("Set Mutations on Reproduction:");
+    // JLabel multipleMutationsRateLabel = new JLabel("Set Multiple Mutation Rate:");
+    // JTextField multipleMutationsRateInput = new JTextField(3); 
+    JLabel mutationsOnReproductionLabel = new JLabel("Mutationen bei der Fortpflanzung");
     JTextField mutationsOnReproductionInput = new JTextField(2);
-    JLabel startingSynapsesLabel = new JLabel("Set Starting Synapses:");
+    JLabel startingSynapsesLabel = new JLabel("Anzahl an Synapsen in Startorganismen");
     JTextField startingSynapsesInput = new JTextField(2);
-    JLabel startingMutationsLabel = new JLabel("Set Starting Mutations:");
+    JLabel startingMutationsLabel = new JLabel("Anzahl an Mutationen in Startorganismen");
     JTextField startingMutationsInput = new JTextField(2);
-    JLabel tauLabel = new JLabel("Set Neuron Charge Decay Constant:");
+    JLabel tauLabel = new JLabel("tau (Aktionspotenzial = Aktionspotenzial * e^(-1 / tau))");
     JTextField tauInput = new JTextField(3);
-    JLabel fpsLabel = new JLabel("Set FPS:");
+    JLabel fpsLabel = new JLabel("FPS");
     JTextField fpsInput = new JTextField(2);
-    JLabel upsLabel = new JLabel("Set UPS:");
+    JLabel upsLabel = new JLabel("UPS");
     JTextField upsInput = new JTextField(2);
-    JLabel viewRangeLabel = new JLabel("Set View Range:"); 
+    JLabel viewRangeLabel = new JLabel("Sichtweite"); 
     JTextField viewRangeInput = new JTextField(3); 
-    JLabel communicationRadiusLabel = new JLabel("Set Communication Radius:");
+    JLabel communicationRadiusLabel = new JLabel("Kommunikationsradius");
     JTextField communicationRadiusInput = new JTextField(3); 
-    JLabel eggScaleLabel = new JLabel("Set Egg Scale:");
+    JLabel eggScaleLabel = new JLabel("Eiergröße");
     JTextField eggScaleInput = new JTextField(2);
-    JLabel organismScaleLabel = new JLabel("Set Organism Scale:");
+    JLabel organismScaleLabel = new JLabel("Organismengröße");
     JTextField organismScaleInput = new JTextField(2); 
-    JLabel foodScaleLabel = new JLabel("Set Food Scale:");
+    JLabel foodScaleLabel = new JLabel("Essensgröße");
     JTextField foodScaleInput = new JTextField(2);
-    JLabel showAllPossiblyInViewLabel = new JLabel("Show all possibly visible Objects");
+    JLabel energyInFoodLabel = new JLabel("Energiegehalt im Essen");
+    JTextField energyInFoodInput = new JTextField(2); 
+    JLabel showAllPossiblyInViewLabel = new JLabel("Alle Objekte anzeigen, die für die Sicht überprüft werden");
     JCheckBox showAllPossiblyInViewCheckbox = new JCheckBox();
-    JLabel showPossiblyInViewLabel = new JLabel("Show possibly visible Objects");
+    JLabel showPossiblyInViewLabel = new JLabel("Objekte anzeigen, die der Organsmus im Fokus möglicherweise sieht");
     JCheckBox showPossiblyInViewCheckbox = new JCheckBox();
-    JLabel showViewRangeLabel = new JLabel("Show View Range");
+    JLabel showViewRangeLabel = new JLabel("Sichtweite anzeigen");
     JCheckBox showViewRangeCheckbox = new JCheckBox(); 
-    JLabel showViewLabel = new JLabel("Show View");
+    JLabel showViewLabel = new JLabel("Sicht anzeigen");
     JCheckBox showViewCheckbox = new JCheckBox();
-    JLabel showCommunicationLabel = new JLabel("Show Communication");
+    JLabel showCommunicationLabel = new JLabel("Kommunikation anzeigen");
     JCheckBox showCommunicationCheckbox = new JCheckBox(); 
-    JLabel showSensesOnlyOnFocusLabel = new JLabel("Show Senses Only on Focus");
+    JLabel showSensesOnlyOnFocusLabel = new JLabel("Sinne nur anzeigen, wenn Organismus im Fokus ist");
     JCheckBox showSensesOnlyOnFocusCheckbox = new JCheckBox(); 
-    JLabel showLogsLabel = new JLabel("Show Logs");
+    JLabel showLogsLabel = new JLabel("Logs anzeigen");
     JCheckBox showLogsCheckbox = new JCheckBox();
-    JLabel showInformationOnFocusLabel = new JLabel("Show Information on Focus");
+    JLabel showInformationOnFocusLabel = new JLabel("Informationen über Fokus");
     JCheckBox showInformationOnFocusCheckbox = new JCheckBox(); 
-    JLabel showWorldInformationLabel = new JLabel("Show World Information");
+    JLabel showWorldInformationLabel = new JLabel("Informationen über Welt");
     JCheckBox showWorldInformationCheckbox = new JCheckBox(); 
-    JLabel updateRateLabel = new JLabel("Show Update Rate");
+    JLabel updateRateLabel = new JLabel("FPS und UPS anzeigen");
     JCheckBox updateRateCheckbox = new JCheckBox();
     
     
@@ -116,7 +118,7 @@ public class GUI{ // Graphic User Interface
         // Setup
         //panel.setBorder(BorderFactory.createEmptyBorder(Options.width, Options.width, Options.height, Options.width));
         panelTextFields.setBorder(BorderFactory.createEmptyBorder(25, 80, 25, 80));
-        frame.setPreferredSize(new Dimension(Options.width / 2, Options.height / 3));
+        frame.setPreferredSize(new Dimension(Options.width, Options.height / 3));
         //panelCharakterDesign.setLayout(new GridLayout(3, 2, 10, 10));
         //panelButton.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
         panelCheckboxes.setBorder(BorderFactory.createEmptyBorder(25, 100, 25, 100));
@@ -363,26 +365,26 @@ public class GUI{ // Graphic User Interface
         mutateWeightsRateInput.setText(Double.toString(Options.mutateWeightsRate));
         panelTextFields.add(mutateWeightsRateInput);
 
-        multipleMutationsRateInput.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                // Nur Zahlen können eingegeben werden, weil amountOfFood ein int ist
-                if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyChar() == '.') || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-                    multipleMutationsRateInput.setEditable(true);
-                } else {
-                    multipleMutationsRateInput.setEditable(false);
-                }
-            }
-         });
-         multipleMutationsRateInput.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                // String wird zu int konvertiert
-                Options.multipleMutationsRate = Double.parseDouble(multipleMutationsRateInput.getText());
-            }
-        });
-        panelTextFields.add(multipleMutationsRateLabel);
-        multipleMutationsRateInput.setText(Double.toString(Options.multipleMutationsRate));
-        panelTextFields.add(multipleMutationsRateInput);
+        // multipleMutationsRateInput.addKeyListener(new KeyAdapter() {
+        //     public void keyPressed(KeyEvent ke) {
+        //         // Nur Zahlen können eingegeben werden, weil amountOfFood ein int ist
+        //         if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyChar() == '.') || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+        //             multipleMutationsRateInput.setEditable(true);
+        //         } else {
+        //             multipleMutationsRateInput.setEditable(false);
+        //         }
+        //     }
+        //  });
+        //  multipleMutationsRateInput.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e){
+        //         // String wird zu int konvertiert
+        //         Options.multipleMutationsRate = Double.parseDouble(multipleMutationsRateInput.getText());
+        //     }
+        // });
+        // panelTextFields.add(multipleMutationsRateLabel);
+        // multipleMutationsRateInput.setText(Double.toString(Options.multipleMutationsRate));
+        // panelTextFields.add(multipleMutationsRateInput);
 
         mutationsOnReproductionInput.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {
@@ -614,6 +616,27 @@ public class GUI{ // Graphic User Interface
         panelTextFields.add(foodScaleLabel);
         foodScaleInput.setText(Integer.toString(Options.foodScale));
         panelTextFields.add(foodScaleInput);
+
+        energyInFoodInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                // Nur Zahlen und Punkt können eingegeben werden, weil Speed ein double ist
+                if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyChar() == '.') || (ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                    energyInFoodInput.setEditable(true);
+                } else {
+                    energyInFoodInput.setEditable(false);
+                }
+            }
+         });
+         energyInFoodInput.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // String wird zu double konvertiert
+                Options.energyInFood = Double.parseDouble(energyInFoodInput.getText());
+            }
+        });
+        panelTextFields.add(energyInFoodLabel);
+        energyInFoodInput.setText(Double.toString(Options.energyInFood));
+        panelTextFields.add(energyInFoodInput);
 
 
         showAllPossiblyInViewCheckbox.addActionListener(new ActionListener() {

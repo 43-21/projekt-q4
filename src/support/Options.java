@@ -9,7 +9,7 @@ public class Options {
     public static double addNeuronRate = 0.06;
     public static double addSynapseRate = 0.1;
     public static double mutateWeightsRate = 0.9;
-    public static double multipleMutationsRate = 0.005;
+    // public static double multipleMutationsRate = 0.005;
     public static int mutationsOnReproduction = 2;
     public static int startingSynapses = 48;
     public static int startingMutations = 0;
@@ -61,9 +61,10 @@ public class Options {
     public static boolean showViewRange = true;
     public static boolean showView = true;
     public static boolean showCommunication = true;
+    public static boolean showCommunicationSignal = true;
     public static boolean showSensesOnlyOnFocus = true;
     
-    public static boolean showPossiblyInView = true;
+    public static boolean showPossiblyInView = false;
 
     public static boolean showLogs = false;
     public static boolean showInformationOnFocus = true;
