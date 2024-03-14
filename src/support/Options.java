@@ -43,7 +43,7 @@ public class Options {
     // hier)
     public static int amountOfOrganisms = 10;
     public static int amountOfFood = 80;
-    public static double foodSpawnRate = 0.00006;
+    public static double foodSpawnRate = 0.0005;
     public static double speed = 1.0;
 
     // Technische Konstanten
