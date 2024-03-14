@@ -2,7 +2,6 @@ package world;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class Shape {
      * Erstellt das Bild der Form
      * @return das Bild
      */
-    public Image getSprite() {
+    public BufferedImage getSprite() {
         BufferedImage image = new BufferedImage(width * scale, height * scale, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
         
@@ -91,6 +90,7 @@ public class Shape {
 
     /**
      * Gibt die Position des Quadrats bei (0|0) wieder im Vergleich zum Mittelpunkt
+     *  - dieser ist dann also bei (0|0)
      * @return die Verschiebung in Pixel
      */
     public Double getRelativePosition() {

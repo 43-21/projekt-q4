@@ -1,7 +1,6 @@
 package support;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
@@ -171,14 +170,11 @@ public class Functionality {
         double currentSquareDistance = java.lang.Double.POSITIVE_INFINITY;
 
         for(Square square : shape.getSquares()) {
-            Point squarePos = square.getPosition();
-            double x = position.x + squarePos.x * scale + translation.x;
-            double y = position.y + squarePos.y * scale + translation.y;
-            
-            Double c = new Double(x, y);
-            Double d = new Double(x + scale - 1, y);
-            Double e = new Double(x + scale - 1, y + scale - 1);
-            Double f = new Double(x, y + scale - 1);
+            Double[] points = square.getLinesGlobal(scale, translation, position);          
+            Double c = points[0];
+            Double d = points[1];
+            Double e = points[2];
+            Double f = points[3];
 
             ArrayList<Double> intersections = Functionality.getIntersectionPoints(c, d, e, f, a, b);
             for(Double intersection : intersections) {
@@ -190,6 +186,18 @@ public class Functionality {
             }
         }
         return current;
+    }
+
+    /**
+     * Berechnet, ob sich zwei Kreise schneiden.
+     * @param p1 der Mittelpunkt des ersten Kreises
+     * @param r1 der Radius des ersten Kreises
+     * @param p2 der Mittelpunkt des zweiten Kreises
+     * @param r2 der Radius des zweiten Kreises
+     * @return true, wenn die Kreise sich schneiden
+     */
+    public static boolean circleCollision(Double p1, double r1, Double p2, double r2) {
+        return (r1 + r2) * (r1 + r2) >= squareDistance(p1, p2);
     }
 
     //quadrate
