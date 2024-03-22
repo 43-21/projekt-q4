@@ -72,14 +72,21 @@ public class World {
                     if(p == o) continue;
                     if(Functionality.squareDistance(p.position, o.position) > radius * radius) continue;
                     boolean[] outputs = ((Organism)o).getOutputs();
+                    boolean signal = false;
                     for(int i = 3; i < 6; i++) {
                         if(outputs[i]) {
                             inputs[i + 2] = true;
+                            signal = true;
                         }
                     }
-                    if(!Options.showCommunication) continue;
+                    if(!Options.showCommunication && !Options.showCommunicationSignal) continue;
                     if(Options.showSensesOnlyOnFocus && !hasFocus) continue;
-                    overlay.addLine(new Line(p.position, o.position, Color.CYAN));
+                    if(Options.showCommunication) {
+                        overlay.addLine(new Line(p.position, o.position, Color.CYAN));
+                    }
+                    if(Options.showCommunicationSignal && signal) {
+                        overlay.addLine(new Line(p.position, o.position, Color.GREEN));
+                    }
                 }
                 
                 //SICHT

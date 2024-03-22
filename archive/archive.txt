@@ -46,3 +46,152 @@
     |
     |
     Für Positioned. War unnötig da es sich als zu kompliziert und auch unnötig herausgestellt hat, mit den Kollisionen irgendwas anzufangen
+
+
+        //für sicht erstmal
+    public ArrayList<Positioned> searchRayPrecise(Double position, double angle, double distance) {
+        double heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+        double distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
+        double distanceCounter = 0;
+        double xPosInCell = 0; 
+        double yPosInCell = 0;
+        int horizontalBoundsCounter = getHorizontalCell(position.x);
+        int verticalBoundsCounter = getVerticalCell(position.y);
+        boolean xyAngleSwitch = false; // true bedeutet delta y != 1 false bedeutet x != 1
+        boolean firstIntersect = true; // nach dem 1. Intersect bleibt die Distanz konstant, der Wert beim 1. Intersect ist Positionsabhängig
+        boolean isPiOverFour = false; // 45 Grad?
+        boolean straightLine = false; // Gerade Linie?
+        int angleCaseSwitchX = 0; // Regelt in welche Richtung sich die Sicht ausbreitet
+        int angleCaseSwitchY = 0; // Regelt in welche Richtung sich die Sicht ausbreitet in Sonderfällen
+
+        if(Math.cos(angle) == 0 || Math.sin(angle) == 0){ // Regelt Vorzeichen der Rechnung
+            angleCaseSwitchX = (int) Math.cos(angle);
+            angleCaseSwitchY = (int) Math.sin(angle);
+            straightLine = true;
+
+        } else{
+            angleCaseSwitchX = (int) (Math.cos(angle) / Math.abs(Math.cos(angle)));
+            angleCaseSwitchY = (int) (Math.sin(angle) / Math.abs(Math.sin(angle)));
+            if(Math.abs(Math.cos(angle)) == Math.abs(Math.sin(angle))){
+                isPiOverFour = true;
+            } else if(Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))){
+                xyAngleSwitch = false;
+                distanceCounterXY = position.x - getHorizontalCell(position.x) * Options.cellLength;
+                heightAtStart = position.y - getVerticalCell(position.y) * Options.cellLength;
+            } else{
+                xyAngleSwitch = true;
+                distanceCounterXY = position.y - getVerticalCell(position.y) * Options.cellLength;
+                heightAtStart = position.x - getHorizontalCell(position.x) * Options.cellLength;
+            }
+        } 
+
+        
+        if(xyAngleSwitch){
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = heightAtStart;
+                if(!xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = distanceCounterXY;
+                if(xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
+            } 
+        } else{
+            if(angleCaseSwitchX == 1){
+                xPosInCell = Options.cellLength - distanceCounterXY;
+            } else if(angleCaseSwitchX == -1){
+                xPosInCell = distanceCounterXY;
+                if(!xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
+            } 
+            if(angleCaseSwitchY == 1){
+                yPosInCell = Options.cellLength - heightAtStart;
+            } else if(angleCaseSwitchY == -1){
+                yPosInCell = heightAtStart;
+                if(xyAngleSwitch) distanceCounterXY = Options.cellLength - distanceCounterXY;
+            } 
+        }
+        
+        ArrayList<Positioned> relevant = new ArrayList<>();
+
+        while((distanceCounter < distance) && (horizontalBoundsCounter >= 0) && (horizontalBoundsCounter < amountOfHorizontalCells) && (verticalBoundsCounter >= 0) && (verticalBoundsCounter < amountOfVerticalCells)){
+            if(distanceCounter >= distance) break;
+            if(isPiOverFour == true){
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((xPosInCell), 2) + Math.pow(yPosInCell, 2));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow(Options.cellLength, 2) * 2);
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
+                verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
+            } else if(straightLine == true){
+                if(firstIntersect == true){
+                    distanceCounter += (xPosInCell) * Math.abs(angleCaseSwitchX);
+                    distanceCounter += (yPosInCell) * Math.abs(angleCaseSwitchY);
+                    firstIntersect = false;
+                } else{
+                    distanceCounter+= Options.cellLength;
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
+                verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
+            }else if(xyAngleSwitch == true){
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((xPosInCell / Math.tan(angle)), 2) + Math.pow(xPosInCell, 2));
+                    distanceCounterXY += (xPosInCell / Math.tan(angle));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
+                }
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
+                    horizontalBoundsCounter += angleCaseSwitchX;
+                    if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                        relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                    }
+                }
+                verticalBoundsCounter += angleCaseSwitchY;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
+            } else{
+                if(firstIntersect == true){
+                    distanceCounter += Math.sqrt(Math.pow((yPosInCell / Math.tan(angle)), 2) + Math.pow(yPosInCell, 2));
+                    distanceCounterXY += (yPosInCell / Math.tan(angle));
+                    firstIntersect = false;
+                } else{
+                    distanceCounter += Math.sqrt(Math.pow((Options.cellLength / Math.tan(angle)), 2) + Options.cellLength);
+                    distanceCounterXY += Options.cellLength / Math.tan(angle);
+                }
+                if(distanceCounterXY >= Options.cellLength){
+                    distanceCounterXY-= Options.cellLength;
+                    verticalBoundsCounter += angleCaseSwitchY;
+                    if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                        relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                    }
+                }
+                horizontalBoundsCounter += angleCaseSwitchX;
+                if(horizontalBoundsCounter >= 0 && horizontalBoundsCounter < amountOfHorizontalCells && verticalBoundsCounter >= 0 && verticalBoundsCounter < amountOfVerticalCells){
+                    relevant.addAll(contents.get(horizontalBoundsCounter).get(verticalBoundsCounter));
+                }
+            }
+        }
+        return relevant;
+    }
+
+    ^
+    |
+    |
+    präzisere Methode, um Zellen mit einem Strahl zu durchsuchen. Hat aber nicht funktioniert
